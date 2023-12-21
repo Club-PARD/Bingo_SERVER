@@ -38,3 +38,5 @@ out/
 
 #Config
 /src/main/resources/application.properties
+
+application-oauth.properties

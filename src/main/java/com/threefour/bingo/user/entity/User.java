@@ -14,7 +14,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int auth; //1: 팀장, 2: 팀원
+    private Integer auth; //1: 팀장, 2: 팀원
     private String name;
     private String email;
     private String key;

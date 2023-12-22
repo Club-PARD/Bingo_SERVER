@@ -1,4 +1,4 @@
-package com.threefour.bingo.user.entity;
+package com.threefour.bingo.appUser.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,12 +20,12 @@ public class User {
     private String key;
 
     @Builder
-    public User(String name, String email) {
+    public AppUser(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
-    public User update(String name) {
+    public AppUser update(String name) {
         this.name = name;
 
         return this;

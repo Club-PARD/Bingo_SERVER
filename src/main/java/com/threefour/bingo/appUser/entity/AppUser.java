@@ -17,17 +17,12 @@ public class AppUser {
     private Integer auth; //1: 팀장, 2: 팀원
     private String name;
     private String email;
-    private String key;
+    private String groupKey;
 
     @Builder
-    public AppUser(String name, String email) {
+    public AppUser(String name, String email, String key) {
         this.name = name;
         this.email = email;
-    }
-
-    public AppUser update(String name) {
-        this.name = name;
-
-        return this;
+        this.groupKey = key;
     }
 }

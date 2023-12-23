@@ -1,6 +1,7 @@
 package com.threefour.bingo.auth.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
+@Slf4j
 public class LoginService {
 
     private final Environment env;
@@ -41,6 +43,11 @@ public class LoginService {
         String clientSecret = env.getProperty("oauth2." + registrationId + ".client-secret");
         String redirectUri = env.getProperty("oauth2." + registrationId + ".redirect-uri");
         String tokenUri = env.getProperty("oauth2." + registrationId + ".token-uri");
+        log.info("client-id: " + clientId);
+        log.info("client-secret: " + clientSecret);
+        log.info("redirectUri: " + redirectUri);
+        log.info("tokenUri: " + tokenUri);
+
 
         String accessToken = webClient.post()
                 .uri(tokenUri)
@@ -55,12 +62,15 @@ public class LoginService {
                 .map(jsonNode -> jsonNode.get("access_token").asText())
                 .block();
 
+        log.info("accessToken: " + accessToken);
+
         return accessToken;
     }
 
     private Mono<JsonNode> getUserResource(String accessToken, String registrationId) {
         String resourceUri = env.getProperty("oauth2." + registrationId + ".resource-uri");
 
+        log.info("accessToken: " + accessToken);
         return webClient.get()
                 .uri(resourceUri)
                 .header("Authorization", "Bearer " + accessToken)

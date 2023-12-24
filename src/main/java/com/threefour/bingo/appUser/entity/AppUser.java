@@ -14,15 +14,12 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer auth; //1: 팀장, 2: 팀원
     private String name;
     private String email;
-    private String groupKey;
 
     @Builder
-    public AppUser(String name, String email, String key) {
+    public AppUser(String name, String email) {
         this.name = name;
         this.email = email;
-        this.groupKey = key;
     }
 }

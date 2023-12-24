@@ -37,4 +37,6 @@ out/
 .vscode/
 
 #Config
-#/src/main/resources/application.yml
+/src/main/resources/application-db.properties
+/src/main/resources/application-oauth2.properties
+/src/main/resources/application-jwt.properties

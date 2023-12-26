@@ -15,5 +15,5 @@ public class WorkspaceResponse {
     private Long id;
     private String name;
     private String description;
-    private List<Enrollment> enrollmentList = new ArrayList<>();
+    private String code;
 }

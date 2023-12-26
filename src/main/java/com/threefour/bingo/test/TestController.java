@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/test")
 @RequiredArgsConstructor
@@ -20,6 +22,14 @@ public class TestController {
         ResponseDto<TestPostDto> dtoResponseDto = testService.addTest(dto);
 
         return dtoResponseDto;
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<Test>> getAllTest() {
+        List<Test> testList = testService.getAllTest();
+
+        return ResponseEntity.ok()
+                .body(testList);
     }
 
     @GetMapping("/{id}")
@@ -37,5 +47,13 @@ public class TestController {
 
         return ResponseEntity.ok()
                 .body(test);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTest(@PathVariable Long id) {
+        testService.deleteTest(id);
+
+        return ResponseEntity.ok()
+                .body(null);
     }
 }

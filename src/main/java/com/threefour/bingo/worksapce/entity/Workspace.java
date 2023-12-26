@@ -16,10 +16,14 @@ public class Workspace {
     private Long id;
     private String name;
     private String description;
+    private String code;
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollmentList = new ArrayList<>();
 
     @Builder
-    public Workspace(String name, String description) {
+    public Workspace(String name, String description, String code) {
         this.name = name;
         this.description = description;
+        this.code = code;
     }
 }

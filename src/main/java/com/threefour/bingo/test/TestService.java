@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.List;
+
 @Service
 @Data
 @AllArgsConstructor
@@ -29,6 +31,10 @@ public class TestService {
 
             return ResponseDto.setFailed("db 오류");
         }
+    }
+
+    public List<Test> getAllTest() {
+        return testRepository.findAll();
     }
 
     public Test getTest(Long id) {
@@ -54,5 +60,9 @@ public class TestService {
         log.info("new test: " + test);
 
         return test1;
+    }
+
+    public void deleteTest(Long id) {
+        testRepository.deleteById(id);
     }
 }

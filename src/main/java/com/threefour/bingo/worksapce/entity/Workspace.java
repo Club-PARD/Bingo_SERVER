@@ -1,10 +1,11 @@
 package com.threefour.bingo.worksapce.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.threefour.bingo.enrollment.entity.Enrollment;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,6 +16,8 @@ public class Workspace {
     private Long id;
     private String name;
     private String description;
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollmentList = new ArrayList<>();
 
     @Builder
     public Workspace(String name, String description) {

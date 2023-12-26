@@ -22,7 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private TokenProvider tokenProvider;
 
     @Autowired
-    public JwtAuthenticationFilter(TokenProvider tokenProvider){
+    public JwtAuthenticationFilter(TokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;
     }
 
@@ -30,8 +30,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String token = parseBearerToken(request);
-        try{
-            if(token != null && !token.equalsIgnoreCase("null")){
+        try {
+            if (token != null && !token.equalsIgnoreCase("null")) {
                 String userEmail = tokenProvider.validate(token);
                 AbstractAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userEmail, null, AuthorityUtils.NO_AUTHORITIES);
@@ -39,16 +39,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 securityContext.setAuthentication(authenticationToken);
                 SecurityContextHolder.setContext(securityContext);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         filterChain.doFilter(request, response);
     }
 
-    private String parseBearerToken(HttpServletRequest request){
+    private String parseBearerToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
 
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer "))
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer "))
             return bearerToken.substring(7);
         return null;
     }

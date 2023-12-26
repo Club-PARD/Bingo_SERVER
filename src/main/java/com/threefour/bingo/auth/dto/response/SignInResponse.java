@@ -1,4 +1,4 @@
-package com.threefour.bingo.auth.dto;
+package com.threefour.bingo.auth.dto.response;
 
 import com.threefour.bingo.appUser.entity.AppUser;
 import lombok.AllArgsConstructor;

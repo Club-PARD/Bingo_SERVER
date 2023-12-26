@@ -34,14 +34,15 @@ public class WebSecurityConfig {
 
 //        // 요청 URL에 따른 접근 권한 설정: "/swagger-ui/index.html", "/signUp", "/signIn" 경로로 들어오는 요청은 허용하고, 그 외의 요청은 인증을 필요로 함
 //        httpSecurity.authorizeHttpRequests(authorizeHttpRequests ->
-//                authorizeHttpRequests.requestMatchers("/v3/api-docs/**", "/swagger-ui/*", "/api/v1/auth/*", "/login/oauth2/*")
+////                authorizeHttpRequests.requestMatchers("/v3/api-docs/**", "/swagger-ui/*", "/api/v1/auth/*", "/login/oauth2/*", "/")
+//                authorizeHttpRequests.requestMatchers("/*")
 //                        .permitAll()
 //                        .anyRequest()
 //                        .authenticated());
         httpSecurity.authorizeHttpRequests(authorizeHttpRequests ->
-                authorizeHttpRequests
-                        .anyRequest()
-                        .permitAll());
+                authorizeHttpRequests.anyRequest().permitAll()
+        );
+
 
         // JWT를 이용한 인증 처리를 수행하는 필터를 추가
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

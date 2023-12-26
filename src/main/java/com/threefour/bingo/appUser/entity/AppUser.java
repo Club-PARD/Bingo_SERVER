@@ -20,8 +20,7 @@ public class AppUser {
     private Long id;
     private String name;
     private String email;
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
-    private List<Enrollment> enrollmentList = new ArrayList<>();
+    private String token;
 
     @Builder
     public AppUser(String name, String email) {

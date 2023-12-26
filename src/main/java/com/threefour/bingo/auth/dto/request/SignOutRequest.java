@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInRequest {
-    private String name;
+public class SignOutRequest {
     private String email;
-    private boolean emailVerified;
 }

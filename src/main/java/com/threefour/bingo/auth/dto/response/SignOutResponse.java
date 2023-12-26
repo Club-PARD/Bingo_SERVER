@@ -1,4 +1,4 @@
-package com.threefour.bingo.auth.dto.request;
+package com.threefour.bingo.auth.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInRequest {
-    private String name;
+public class SignOutResponse {
     private String email;
-    private boolean emailVerified;
 }

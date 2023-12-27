@@ -1,8 +1,8 @@
 package com.threefour.bingo.worksapce.controller;
 
-import com.threefour.bingo.test.ResponseDto;
+import com.threefour.bingo.worksapce.dto.request.WorkspaceCreateRequest;
 import com.threefour.bingo.worksapce.dto.request.WorkspaceRequest;
-import com.threefour.bingo.worksapce.dto.response.WorkspaceResponse;
+import com.threefour.bingo.worksapce.dto.response.WorkspaceInfoResponse;
 import com.threefour.bingo.worksapce.entity.Workspace;
 import com.threefour.bingo.worksapce.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
@@ -18,26 +18,26 @@ public class WorkspaceController {
     private final WorkspaceService workspaceService;
 
     @PostMapping("")
-    public ResponseEntity<Workspace> createWorkspace(@RequestBody WorkspaceRequest request) {
+    public ResponseEntity<Workspace> createWorkspace(@RequestBody final WorkspaceCreateRequest request) {
         Workspace workspace = workspaceService.createWorkspace(request);
 
         return ResponseEntity.ok()
                 .body(workspace);
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<Workspace>> getAllWorkspaces() {
-        List<Workspace> workspaceList = workspaceService.getAllWorkspaces();
+    @GetMapping("/{id}")
+    public ResponseEntity<List<WorkspaceInfoResponse>> getAllWorkspacesByUser(@PathVariable final Long id) {
+        List<WorkspaceInfoResponse> workspaceResponseList = workspaceService.getAllWorkspacesByUser(id);
 
         return ResponseEntity.ok()
-                .body(workspaceList);
+                .body(workspaceResponseList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Workspace> getWorkspace(@PathVariable Long id) {
-        Workspace workspace = workspaceService.getWorkspace(id);
+    @GetMapping("")
+    public ResponseEntity<WorkspaceInfoResponse> getWorkspace(@RequestBody final WorkspaceRequest request) {
+        WorkspaceInfoResponse response = workspaceService.getWorkspace(request);
 
         return ResponseEntity.ok()
-                .body(workspace);
+                .body(response);
     }
 }

@@ -1,19 +1,20 @@
 package com.threefour.bingo.worksapce.dto.response;
 
-import com.threefour.bingo.enrollment.entity.Enrollment;
+import com.threefour.bingo.appUser.entity.AppUser;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
 public class WorkspaceResponse {
+
     private Long id;
+
     private String name;
+
     private String description;
-    private String code;
+
+    private List<AppUser> appUserList;
 }

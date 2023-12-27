@@ -15,12 +15,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppUser {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String email;
+
     private String token;
+
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     private List<Enrollment> enrollmentList = new ArrayList<>();
 

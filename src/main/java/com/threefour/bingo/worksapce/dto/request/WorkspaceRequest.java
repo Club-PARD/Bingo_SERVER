@@ -1,23 +1,11 @@
 package com.threefour.bingo.worksapce.dto.request;
 
-import com.threefour.bingo.worksapce.entity.Workspace;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
 public class WorkspaceRequest {
-    private String name;
-    private String description;
-    private String code;
 
-    public Workspace toEntity() {
-        return Workspace.builder()
-                .name(name)
-                .description(description)
-                .code(code)
-                .build();
-    }
+    private Long userId;
+
+    private Long workspaceId;
 }

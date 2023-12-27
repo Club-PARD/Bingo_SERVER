@@ -11,12 +11,17 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Workspace {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String description;
+
     private String code;
+
     @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
     private List<Enrollment> enrollmentList = new ArrayList<>();
 

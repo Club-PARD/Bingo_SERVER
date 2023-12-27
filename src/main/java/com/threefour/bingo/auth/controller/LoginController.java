@@ -32,10 +32,10 @@ public class LoginController {
         return response;
     }
 
-    @PostMapping("/signOut")
-    public ResponseDto<SignOutResponse> signOut(@RequestBody final SignOutRequest request) {
+    @PostMapping("/signOut/{id}")
+    public ResponseDto<SignOutResponse> signOut(@PathVariable final Long id) {
 
-        ResponseDto<SignOutResponse> response = authService.signOut(request);
+        ResponseDto<SignOutResponse> response = authService.signOut(id);
 
         return response;
     }

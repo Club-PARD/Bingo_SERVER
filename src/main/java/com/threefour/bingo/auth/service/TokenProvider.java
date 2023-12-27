@@ -17,12 +17,12 @@ import java.util.Date;
 public class TokenProvider {
     private static final Key SECURITY_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
-    public String create(String accessToken) {
-        Date exprTime = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
+    public String create(String email) {
+        Date exprTime = Date.from(Instant.now().plus(10, ChronoUnit.SECONDS));
 
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, SECURITY_KEY)
-                .setSubject(accessToken).setIssuedAt((new Date())).setExpiration(exprTime)
+                .setSubject(email).setIssuedAt((new Date())).setExpiration(exprTime)
                 .compact();
     }
 

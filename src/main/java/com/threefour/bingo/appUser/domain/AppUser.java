@@ -35,4 +35,14 @@ public class AppUser {
 
         this.token = token;
     }
+
+    @Builder
+    public AppUser(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public void update(String token) {
+        this.token = token;
+    }
 }

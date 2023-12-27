@@ -14,51 +14,59 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-
 public class AuthService {
+
     @Autowired
     private TokenProvider tokenProvider;
     @Autowired
     private AppUserRepository appUserRepository;
 
+    //왜 토큰 값이 똑같지
     @Transactional
     public ResponseDto<SignInResponse> signIn(SignInRequest request) {
 
+        log.info("Email: " + request.getEmail());
         AppUser appUser = appUserRepository.findByEmail(request.getEmail());
-
-        if (appUser == null) { // 유저가 존재하지 않는 경우
-            return ResponseDto.setFailed("User NotFound");
-        }
 
         if (!request.isEmailVerified()) { // 이메일이 인증되지 않은 경우
             return ResponseDto.setFailed("Unverified Account");
         }
 
-        int exprTime = 1000 * 3600;
         String token = tokenProvider.create(request.getEmail());
-        AppUser newUser = new AppUser(request.getName(), request.getEmail(), request.getToken());
+        int exprTime = 1000 * 10;
 
-        appUserRepository.save(newUser);
+        if (appUser == null) {
+            log.info("new user");
+            AppUser newUser = new AppUser(request.getName(), request.getEmail(), token);
+            appUser = newUser;
+        }
 
-        SignInResponse response = new SignInResponse(token, exprTime, newUser);
+        appUser.update(token);
+
+        appUserRepository.save(appUser);
+
+        log.info("existing user");
+        SignInResponse response = new SignInResponse(token, exprTime, appUser);
 
         return ResponseDto.setSuccess("SignIn Success", response);
     }
 
     @Transactional
-    public ResponseDto<SignOutResponse> signOut(SignOutRequest request) {
+    public ResponseDto<SignOutResponse> signOut(Long id) {
 
-        AppUser appUser = appUserRepository.findByEmail(request.getEmail());
+        AppUser appUser = appUserRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
-        if (appUser == null) { // 사용자가 없는 경우
-            return ResponseDto.setFailed("User Notfound");
-        }
 
         if (appUser.getToken() == null) { // 토큰이 null 인 경우
             return ResponseDto.setFailed("Token Expired");
         }
 
-        SignOutResponse response = new SignOutResponse(request.getEmail());
+        appUser.update(null);
+
+        appUserRepository.save(appUser);
+
+        SignOutResponse response = new SignOutResponse(appUser.getEmail());
 
         return ResponseDto.setSuccess("Success SignOut", response);
     }

@@ -15,6 +15,4 @@ public class SignInRequest {
     private String email;
 
     private boolean emailVerified;
-
-    private String token;
 }

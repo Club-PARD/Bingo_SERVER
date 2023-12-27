@@ -1,5 +1,7 @@
 package com.threefour.bingo.worksapce.dto.response;
 
+import com.threefour.bingo.Role;
+import com.threefour.bingo.enrollment.entity.Enrollment;
 import com.threefour.bingo.worksapce.entity.Workspace;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +17,8 @@ public class WorkspaceInfoResponse {
     private String name;
 
     private String description;
+
+    private Role role;
 
     public WorkspaceInfoResponse(Workspace workspace) {
     }

@@ -21,7 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class TemplateServer {
+public class TemplateService {
 
     private final TemplateRepository templateRepository;
     private final AppUserRepository appUserRepository;

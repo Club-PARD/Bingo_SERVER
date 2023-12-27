@@ -8,6 +8,7 @@ import com.threefour.bingo.project.dto.request.ProjectRequest;
 import com.threefour.bingo.project.dto.response.ProjectInfoResponse;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
+import com.threefour.bingo.test.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,17 +24,38 @@ public class ProjectService {
     private final EnrollmentRepository enrollmentRepository;
 
     @Transactional
-    public Project createProject(ProjectCreateRequest request) {
+    public ResponseDto<Project> createProject(ProjectCreateRequest request) {
 
-        return projectRepository.save(request.toEntity());
+        // 이름이 없는 경우
+        if (request.getName() == null || request.getName().isEmpty()) {
+            ResponseDto.setFailed("Name can not be empty");
+        }
+
+        //설명이 없는 경우
+        if (request.getDescription() == null || request.getDescription().isEmpty()) {
+            ResponseDto.setFailed("Description can not be empty");
+        }
+
+        //코드가 없는 경우
+        if (request.getCode() == null || request.getCode().isEmpty()) {
+            ResponseDto.setFailed("Code can not be empty");
+        }
+
+        projectRepository.save(request.toEntity());
+
+        return ResponseDto.setSuccess("Project created", request.toEntity());
     }
 
     @Transactional
-    public List<ProjectInfoResponse> getAllProjectsByUser(Long id) {
+    public ResponseDto<List<ProjectInfoResponse>> getAllProjectsByUser(Long id) {
+
+        List<ProjectInfoResponse> projectInfoResponses = new ArrayList<>();
 
         List<Enrollment> enrollmentList = enrollmentRepository.findByAppUserId(id);
 
-        List<ProjectInfoResponse> projectInfoResponses = new ArrayList<>();
+        if (enrollmentList.isEmpty()) {
+            return ResponseDto.setFailed("No Workspaces");
+        }
 
         for (Enrollment enrollment : enrollmentList) {
             Long projectId = enrollment.getProject().getId();
@@ -45,16 +67,19 @@ public class ProjectService {
             projectInfoResponses.add(temp);
         }
 
-        return projectInfoResponses;
+        return ResponseDto.setSuccess("Project List", projectInfoResponses);
     }
 
     @Transactional
-    public ProjectInfoResponse getProject(ProjectRequest request) {
+    public ResponseDto<ProjectInfoResponse> getProject(ProjectRequest request) {
 
         Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId
                 (request.getUserId(), request.getProjectId());
 
-        Project project = enrollment.getProject();
+        //검색한 프로젝트가 없는 경우
+        if (enrollment == null) {
+            return ResponseDto.setFailed("Workspace Not Found");
+        }
 
         Long projectId = enrollment.getProject().getId();
         String name = enrollment.getProject().getName();
@@ -63,6 +88,6 @@ public class ProjectService {
 
         ProjectInfoResponse response = new ProjectInfoResponse(projectId, name, description, role);
 
-        return response;
+        return ResponseDto.setSuccess("Project", response);
     }
 }

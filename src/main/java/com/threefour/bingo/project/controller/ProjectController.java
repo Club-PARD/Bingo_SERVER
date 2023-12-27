@@ -5,6 +5,7 @@ import com.threefour.bingo.project.dto.request.ProjectRequest;
 import com.threefour.bingo.project.dto.response.ProjectInfoResponse;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.service.ProjectService;
+import com.threefour.bingo.test.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,29 +20,26 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping("")
-    public ResponseEntity<Project> createProject(@RequestBody final ProjectCreateRequest request) {
+    public ResponseDto<Project> createProject(@RequestBody final ProjectCreateRequest request) {
 
-        Project project = projectService.createProject(request);
+        ResponseDto<Project> response = projectService.createProject(request);
 
-        return ResponseEntity.ok()
-                .body(project);
+        return response;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<ProjectInfoResponse>> getAllProjectsByUser(@PathVariable final Long id) {
+    public ResponseDto<List<ProjectInfoResponse>> getAllProjectsByUser(@PathVariable final Long id) {
 
-        List<ProjectInfoResponse> projectInfoResponseList = projectService.getAllProjectsByUser(id);
+        ResponseDto<List<ProjectInfoResponse>> projectInfoResponseList = projectService.getAllProjectsByUser(id);
 
-        return ResponseEntity.ok()
-                .body(projectInfoResponseList);
+        return projectInfoResponseList;
     }
 
     @GetMapping("")
-    public ResponseEntity<ProjectInfoResponse> getProject(@RequestBody final ProjectRequest request) {
+    public ResponseDto<ProjectInfoResponse> getProject(@RequestBody final ProjectRequest request) {
 
-        ProjectInfoResponse response = projectService.getProject(request);
+        ResponseDto<ProjectInfoResponse> response = projectService.getProject(request);
 
-        return ResponseEntity.ok()
-                .body(response);
+        return response;
     }
 }

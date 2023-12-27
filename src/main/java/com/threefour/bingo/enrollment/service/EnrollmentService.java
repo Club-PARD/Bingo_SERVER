@@ -7,6 +7,7 @@ import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.enrollment.domain.EnrollmentRepository;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
+import com.threefour.bingo.test.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,22 +23,24 @@ public class EnrollmentService {
     private final ProjectRepository projectRepository;
 
     @Transactional
-    public Enrollment joinProject(EnrollmentRequest request) {
+    public ResponseDto<Enrollment> joinProject(EnrollmentRequest request) {
 
         AppUser appUser = appUserRepository.findById(request.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));
+                .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
         Project project = projectRepository.findById(request.getProjectId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 워크스페이스"));
+                .orElseThrow(() -> new IllegalArgumentException("Project Not Found"));
 
-        if (request.getCode().equals(project.getCode())) {
-            Enrollment enrollment = new Enrollment(appUser, project, request.getRole());
-            log.info("코드 맞음!");
-
-            return enrollmentRepository.save(enrollment);
+        //코드 틀린 경우
+        if (!(request.getCode().equals(project.getCode()))) {
+            return ResponseDto.setFailed("wrong code");
         }
 
-        log.info("코드 틀림!");
-        return null;
+        Enrollment enrollment = new Enrollment(appUser, project, request.getRole());
+
+        enrollmentRepository.save(enrollment);
+
+        return ResponseDto.setSuccess("join group", enrollment);
+
     }
 }

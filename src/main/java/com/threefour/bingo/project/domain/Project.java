@@ -1,4 +1,4 @@
-package com.threefour.bingo.worksapce.domain;
+package com.threefour.bingo.project.domain;
 
 import com.threefour.bingo.enrollment.domain.Enrollment;
 import jakarta.persistence.*;
@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Workspace {
+public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +22,11 @@ public class Workspace {
 
     private String code;
 
-    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Enrollment> enrollmentList = new ArrayList<>();
 
     @Builder
-    public Workspace(String name, String description, String code) {
+    public Project(String name, String description, String code) {
         this.name = name;
         this.description = description;
         this.code = code;

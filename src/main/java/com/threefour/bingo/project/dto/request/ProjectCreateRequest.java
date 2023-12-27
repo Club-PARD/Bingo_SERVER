@@ -1,6 +1,6 @@
-package com.threefour.bingo.worksapce.dto.request;
+package com.threefour.bingo.project.dto.request;
 
-import com.threefour.bingo.worksapce.domain.Workspace;
+import com.threefour.bingo.project.domain.Project;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkspaceCreateRequest {
+public class ProjectCreateRequest {
 
     private String name;
 
@@ -16,8 +16,8 @@ public class WorkspaceCreateRequest {
 
     private String code;
 
-    public Workspace toEntity() {
-        return Workspace.builder()
+    public Project toEntity() {
+        return Project.builder()
                 .name(name)
                 .description(description)
                 .code(code)

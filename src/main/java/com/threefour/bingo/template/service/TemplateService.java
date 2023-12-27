@@ -12,8 +12,8 @@ import com.threefour.bingo.template.domain.TemplateRepository;
 import com.threefour.bingo.template.dto.request.TemplateCreateRequest;
 import com.threefour.bingo.template.dto.response.TemplateResponse;
 import com.threefour.bingo.test.ResponseDto;
-import com.threefour.bingo.worksapce.domain.Workspace;
-import com.threefour.bingo.worksapce.domain.WorkspaceRepository;
+import com.threefour.bingo.project.domain.Project;
+import com.threefour.bingo.project.domain.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +25,17 @@ public class TemplateService {
 
     private final TemplateRepository templateRepository;
     private final AppUserRepository appUserRepository;
-    private final WorkspaceRepository workspaceRepository;
+    private final ProjectRepository projectRepository;
     private final EnrollmentRepository enrollmentRepository;
 
     public ResponseDto<TemplateResponse> createTemplate(TemplateCreateRequest request) {
         AppUser appUser = appUserRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
-        Workspace workspace = workspaceRepository.findById(request.getWorkspaceId())
-                .orElseThrow(() -> new IllegalArgumentException("Workspace Not Found"));
+        Project project = projectRepository.findById(request.getProjectId())
+                .orElseThrow(() -> new IllegalArgumentException("Project Not Found"));
 
-        Enrollment enrollment = enrollmentRepository.findByAppUserIdAndWorkspaceId(request.getUserId(), request.getWorkspaceId());
+        Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId(request.getUserId(), request.getProjectId());
         Role role = enrollment.getRole();
 
         TemplateEnum templateEnum = request.getTemplateEnum();
@@ -47,16 +47,16 @@ public class TemplateService {
             return ResponseDto.setFailed("Team member can not make template");
         }
 
-        Template template = new Template(appUser, workspace, templateEnum, questionList);
+        Template template = new Template(appUser, project, templateEnum, questionList);
 
-        TemplateResponse response = new TemplateResponse(appUser, workspace, templateEnum, questionList);
+        TemplateResponse response = new TemplateResponse(appUser, project, templateEnum, questionList);
 
         templateRepository.save(template);
 
         return ResponseDto.setSuccess("Template created", response);
     }
 
-    public ResponseDto<List<Template>> getAllTemplates(Long workspaceId) {
+    public ResponseDto<List<Template>> getAllTemplates(Long projectId) {
         List<Template> templateList = templateRepository.findAll();
 
         return ResponseDto.setSuccess("All Templates", templateList);

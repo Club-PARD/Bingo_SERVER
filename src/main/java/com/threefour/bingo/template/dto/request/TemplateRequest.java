@@ -4,7 +4,7 @@ import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.template.TemplateEnum;
 import com.threefour.bingo.template.domain.Template;
-import com.threefour.bingo.worksapce.domain.Workspace;
+import com.threefour.bingo.project.domain.Project;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +16,7 @@ public class TemplateRequest {
 
     private AppUser appUser;
 
-    private Workspace workspace;
+    private Project project;
 
     private TemplateEnum templateEnum;
 
@@ -25,7 +25,7 @@ public class TemplateRequest {
     public Template toEntity() {
         return Template.builder()
                 .appUser(appUser)
-                .workspace(workspace)
+                .project(project)
                 .templateEnum(templateEnum)
                 .questionList(questionList)
                 .build();

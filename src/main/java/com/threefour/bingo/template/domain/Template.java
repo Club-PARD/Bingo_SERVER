@@ -3,7 +3,7 @@ package com.threefour.bingo.template.domain;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.template.TemplateEnum;
-import com.threefour.bingo.worksapce.domain.Workspace;
+import com.threefour.bingo.project.domain.Project;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -23,20 +23,20 @@ public class Template {
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workspace_id")
-    private Workspace workspace;
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     private TemplateEnum templateEnum;
 
-    @OneToMany(mappedBy = "questionAnswer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
     private List<Question> questionList = new ArrayList<>();
 
     @Builder
-    public Template(AppUser appUser, Workspace workspace,
+    public Template(AppUser appUser, Project project,
                     TemplateEnum templateEnum, List<Question> questionList) {
 
         this.appUser = appUser;
-        this.workspace = workspace;
+        this.project = project;
         this.templateEnum = templateEnum;
         this.questionList = questionList;
     }

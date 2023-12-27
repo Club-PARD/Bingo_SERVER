@@ -8,7 +8,7 @@ public class EnrollmentRequest {
 
     private Long userId;
 
-    private Long workspaceId;
+    private Long projectId;
 
     private String code;
 

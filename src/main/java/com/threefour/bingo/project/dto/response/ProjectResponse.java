@@ -1,4 +1,4 @@
-package com.threefour.bingo.worksapce.dto.response;
+package com.threefour.bingo.project.dto.response;
 
 import com.threefour.bingo.appUser.domain.AppUser;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class WorkspaceResponse {
+public class ProjectResponse {
 
     private Long id;
 

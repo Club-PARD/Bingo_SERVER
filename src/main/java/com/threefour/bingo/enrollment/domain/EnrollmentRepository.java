@@ -8,7 +8,7 @@ import java.util.List;
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     List<Enrollment> findByAppUserId(Long userId);
 
-    List<Enrollment> findByWorkspaceId(Long workspaceId);
+    List<Enrollment> findByProjectId(Long projectId);
 
-    Enrollment findByAppUserIdAndWorkspaceId(Long userId, Long workspaceId);
+    Enrollment findByAppUserIdAndProjectId(Long userId, Long projectId);
 }

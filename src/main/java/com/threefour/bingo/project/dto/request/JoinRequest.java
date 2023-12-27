@@ -1,11 +1,11 @@
-package com.threefour.bingo.worksapce.dto.request;
+package com.threefour.bingo.project.dto.request;
 
 import lombok.Getter;
 
 @Getter
 public class JoinRequest {
 
-    private Long workspaceId;
+    private Long projectId;
 
     private String code;
 }

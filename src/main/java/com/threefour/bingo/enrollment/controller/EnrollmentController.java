@@ -17,8 +17,8 @@ public class EnrollmentController {
     public final EnrollmentService enrollmentService;
 
     @PostMapping("")
-    public ResponseEntity<Enrollment> joinWorkspace(@RequestBody EnrollmentRequest request) {
-        Enrollment enrollment = enrollmentService.joinWorkspace(request);
+    public ResponseEntity<Enrollment> joinProject(@RequestBody EnrollmentRequest request) {
+        Enrollment enrollment = enrollmentService.joinProject(request);
 
         return ResponseEntity.ok()
                 .body(enrollment);

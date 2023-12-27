@@ -1,7 +1,7 @@
 package com.threefour.bingo.enrollment.domain;
 
 import com.threefour.bingo.appUser.domain.AppUser;
-import com.threefour.bingo.worksapce.domain.Workspace;
+import com.threefour.bingo.project.domain.Project;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,15 +20,15 @@ public class Enrollment {
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workspace_id")
-    private Workspace workspace;
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     private Role role;
 
     @Builder
-    public Enrollment(AppUser appUser, Workspace workspace, Role role) {
+    public Enrollment(AppUser appUser, Project project, Role role) {
         this.appUser = appUser;
-        this.workspace = workspace;
+        this.project = project;
         this.role = role;
     }
 }

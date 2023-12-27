@@ -4,7 +4,7 @@ import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.template.TemplateEnum;
-import com.threefour.bingo.worksapce.domain.Workspace;
+import com.threefour.bingo.project.domain.Project;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -28,12 +28,12 @@ public class Retrospect {
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workspace_id")
-    private Workspace workspace;
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Enrollment enrollment;
 
-    @OneToMany(mappedBy = "questionAnswer", cascade = CascadeType.ALL)
-    private List<Question> questionAnswerList = new ArrayList<>();
+    @OneToMany(mappedBy = "retrospect")
+    private List<Question> questionList = new ArrayList<>();
 }

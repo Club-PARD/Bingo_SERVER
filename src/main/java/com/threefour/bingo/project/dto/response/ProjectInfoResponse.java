@@ -1,7 +1,7 @@
-package com.threefour.bingo.worksapce.dto.response;
+package com.threefour.bingo.project.dto.response;
 
 import com.threefour.bingo.enrollment.domain.Role;
-import com.threefour.bingo.worksapce.domain.Workspace;
+import com.threefour.bingo.project.domain.Project;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkspaceInfoResponse {
+public class ProjectInfoResponse {
 
     private Long id;
 
@@ -19,6 +19,6 @@ public class WorkspaceInfoResponse {
 
     private Role role;
 
-    public WorkspaceInfoResponse(Workspace workspace) {
+    public ProjectInfoResponse(Project project) {
     }
 }

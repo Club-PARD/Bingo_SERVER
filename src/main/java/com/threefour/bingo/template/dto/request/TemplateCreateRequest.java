@@ -12,7 +12,7 @@ public class TemplateCreateRequest {
 
     private Long userId;
 
-    private Long workspaceId;
+    private Long projectId;
 
     private TemplateEnum templateEnum;
 

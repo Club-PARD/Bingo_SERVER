@@ -1,7 +1,7 @@
 package com.threefour.bingo.enrollment.controller;
 
 import com.threefour.bingo.enrollment.dto.request.EnrollmentRequest;
-import com.threefour.bingo.enrollment.entity.Enrollment;
+import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.enrollment.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class EnrollmentController {
 
     @PostMapping("")
     public ResponseEntity<Enrollment> joinWorkspace(@RequestBody EnrollmentRequest request) {
-        Enrollment enrollment = enrollmentService.createEnrollment(request);
+        Enrollment enrollment = enrollmentService.joinWorkspace(request);
 
         return ResponseEntity.ok()
                 .body(enrollment);

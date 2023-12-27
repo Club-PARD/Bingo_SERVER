@@ -1,11 +1,11 @@
 package com.threefour.bingo.worksapce.dto.request;
 
-import com.threefour.bingo.worksapce.entity.Workspace;
+import com.threefour.bingo.worksapce.domain.Workspace;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class WorkspaceCreateRequest {

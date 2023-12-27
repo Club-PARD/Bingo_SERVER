@@ -1,13 +1,12 @@
 package com.threefour.bingo.enrollment.service;
 
-import com.threefour.bingo.appUser.entity.AppUser;
-import com.threefour.bingo.appUser.repository.AppUserRepository;
+import com.threefour.bingo.appUser.domain.AppUser;
+import com.threefour.bingo.appUser.domain.AppUserRepository;
 import com.threefour.bingo.enrollment.dto.request.EnrollmentRequest;
-import com.threefour.bingo.enrollment.dto.response.EnrollmentResponse;
-import com.threefour.bingo.enrollment.entity.Enrollment;
-import com.threefour.bingo.enrollment.repository.EnrollmentRepository;
-import com.threefour.bingo.worksapce.entity.Workspace;
-import com.threefour.bingo.worksapce.repository.WorkspaceRepository;
+import com.threefour.bingo.enrollment.domain.Enrollment;
+import com.threefour.bingo.enrollment.domain.EnrollmentRepository;
+import com.threefour.bingo.worksapce.domain.Workspace;
+import com.threefour.bingo.worksapce.domain.WorkspaceRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,7 @@ public class EnrollmentService {
     private final WorkspaceRepository workspaceRepository;
 
     @Transactional
-    public Enrollment createEnrollment(EnrollmentRequest request) {
+    public Enrollment joinWorkspace(EnrollmentRequest request) {
 
         AppUser appUser = appUserRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));

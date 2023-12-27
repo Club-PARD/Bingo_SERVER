@@ -1,4 +1,4 @@
-package com.threefour.bingo;
+package com.threefour.bingo.enrollment.domain;
 
 import lombok.Getter;
 

@@ -1,8 +1,7 @@
-package com.threefour.bingo.enrollment.entity;
+package com.threefour.bingo.enrollment.domain;
 
-import com.threefour.bingo.Role;
-import com.threefour.bingo.appUser.entity.AppUser;
-import com.threefour.bingo.worksapce.entity.Workspace;
+import com.threefour.bingo.appUser.domain.AppUser;
+import com.threefour.bingo.worksapce.domain.Workspace;
 import jakarta.persistence.*;
 import lombok.*;
 

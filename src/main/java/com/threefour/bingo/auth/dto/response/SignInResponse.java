@@ -1,15 +1,18 @@
 package com.threefour.bingo.auth.dto.response;
 
-import com.threefour.bingo.appUser.entity.AppUser;
+import com.threefour.bingo.appUser.domain.AppUser;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignInResponse {
+
     private String jwtToken;
+
     private Integer exprTime;
+
     private AppUser appUser;
 }

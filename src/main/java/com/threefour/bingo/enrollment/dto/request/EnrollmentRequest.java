@@ -1,6 +1,6 @@
 package com.threefour.bingo.enrollment.dto.request;
 
-import com.threefour.bingo.Role;
+import com.threefour.bingo.enrollment.domain.Role;
 import lombok.Getter;
 
 @Getter

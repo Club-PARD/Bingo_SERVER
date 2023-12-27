@@ -1,6 +1,6 @@
-package com.threefour.bingo.worksapce.entity;
+package com.threefour.bingo.worksapce.domain;
 
-import com.threefour.bingo.enrollment.entity.Enrollment;
+import com.threefour.bingo.enrollment.domain.Enrollment;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 public class Workspace {
 

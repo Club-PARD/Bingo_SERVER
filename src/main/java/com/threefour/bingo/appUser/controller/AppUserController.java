@@ -2,6 +2,7 @@ package com.threefour.bingo.appUser.controller;
 
 import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
 import com.threefour.bingo.appUser.service.AppUserService;
+import com.threefour.bingo.test.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/appUser")
 public class AppUserController {
+
     private final AppUserService appUserService;
 
-    public ResponseEntity<AppUserInfoResponse> getUserInfo(@PathVariable Long id) {
-        AppUserInfoResponse response = appUserService.getUserInfo(id);
+    public ResponseDto<AppUserInfoResponse> getUserInfo(@PathVariable final Long id) {
 
-        return ResponseEntity.ok()
-                .body(response);
+        ResponseDto<AppUserInfoResponse> response = appUserService.getUserInfo(id);
+
+        return response;
     }
 }

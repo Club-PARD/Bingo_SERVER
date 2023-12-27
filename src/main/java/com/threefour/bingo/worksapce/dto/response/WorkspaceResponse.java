@@ -1,6 +1,6 @@
 package com.threefour.bingo.worksapce.dto.response;
 
-import com.threefour.bingo.appUser.entity.AppUser;
+import com.threefour.bingo.appUser.domain.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

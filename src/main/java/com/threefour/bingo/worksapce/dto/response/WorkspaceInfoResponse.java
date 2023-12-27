@@ -1,8 +1,7 @@
 package com.threefour.bingo.worksapce.dto.response;
 
-import com.threefour.bingo.Role;
-import com.threefour.bingo.enrollment.entity.Enrollment;
-import com.threefour.bingo.worksapce.entity.Workspace;
+import com.threefour.bingo.enrollment.domain.Role;
+import com.threefour.bingo.worksapce.domain.Workspace;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

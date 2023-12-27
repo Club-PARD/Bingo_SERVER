@@ -1,11 +1,12 @@
 package com.threefour.bingo.auth.service;
 
-import com.threefour.bingo.appUser.entity.AppUser;
-import com.threefour.bingo.appUser.repository.AppUserRepository;
+import com.threefour.bingo.appUser.domain.AppUser;
+import com.threefour.bingo.appUser.domain.AppUserRepository;
 import com.threefour.bingo.auth.dto.request.SignInRequest;
 import com.threefour.bingo.auth.dto.request.SignOutRequest;
 import com.threefour.bingo.auth.dto.response.SignInResponse;
 import com.threefour.bingo.auth.dto.response.SignOutResponse;
+import com.threefour.bingo.test.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,37 +22,44 @@ public class AuthService {
     private AppUserRepository appUserRepository;
 
     @Transactional
-    public SignInResponse signIn(SignInRequest request) {
+    public ResponseDto<SignInResponse> signIn(SignInRequest request) {
+
         AppUser appUser = appUserRepository.findByEmail(request.getEmail());
 
-        if (appUser == null) {
-            AppUser newUser = new AppUser(request.getName(), request.getEmail());
-            appUser = newUser;
+        if (appUser == null) { // 유저가 존재하지 않는 경우
+            return ResponseDto.setFailed("User NotFound");
+        }
+
+        if (!request.isEmailVerified()) { // 이메일이 인증되지 않은 경우
+            return ResponseDto.setFailed("Unverified Account");
         }
 
         int exprTime = 1000 * 3600;
         String token = tokenProvider.create(request.getEmail());
-        appUser.setToken(token);
+        AppUser newUser = new AppUser(request.getName(), request.getEmail(), request.getToken());
 
-        appUserRepository.save(appUser);
+        appUserRepository.save(newUser);
 
-        SignInResponse response = new SignInResponse(token, exprTime, appUser);
+        SignInResponse response = new SignInResponse(token, exprTime, newUser);
 
-        return response;
+        return ResponseDto.setSuccess("SignIn Success", response);
     }
 
     @Transactional
-    public SignOutResponse signOut(SignOutRequest request) {
+    public ResponseDto<SignOutResponse> signOut(SignOutRequest request) {
+
         AppUser appUser = appUserRepository.findByEmail(request.getEmail());
 
-        if (appUser == null) {
-            log.info("등록되지 않은 사용자입니다.");
+        if (appUser == null) { // 사용자가 없는 경우
+            return ResponseDto.setFailed("User Notfound");
         }
 
-        appUser.setToken(null);
+        if (appUser.getToken() == null) { // 토큰이 null 인 경우
+            return ResponseDto.setFailed("Token Expired");
+        }
 
         SignOutResponse response = new SignOutResponse(request.getEmail());
 
-        return response;
+        return ResponseDto.setSuccess("Success SignOut", response);
     }
 }

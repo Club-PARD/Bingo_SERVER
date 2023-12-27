@@ -1,17 +1,14 @@
-package com.threefour.bingo.appUser.entity;
+package com.threefour.bingo.appUser.domain;
 
-import com.threefour.bingo.enrollment.entity.Enrollment;
+import com.threefour.bingo.enrollment.domain.Enrollment;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppUser {
@@ -30,8 +27,12 @@ public class AppUser {
     private List<Enrollment> enrollmentList = new ArrayList<>();
 
     @Builder
-    public AppUser(String name, String email) {
+    public AppUser(String name, String email, String token) {
+
         this.name = name;
+
         this.email = email;
+
+        this.token = token;
     }
 }

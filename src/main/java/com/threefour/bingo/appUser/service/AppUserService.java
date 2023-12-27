@@ -1,22 +1,30 @@
 package com.threefour.bingo.appUser.service;
 
 import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
-import com.threefour.bingo.appUser.entity.AppUser;
-import com.threefour.bingo.appUser.repository.AppUserRepository;
+import com.threefour.bingo.appUser.domain.AppUser;
+import com.threefour.bingo.appUser.domain.AppUserRepository;
+import com.threefour.bingo.test.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AppUserService {
+
     private final AppUserRepository appUserRepository;
 
-    public AppUserInfoResponse getUserInfo(Long id) {
-        AppUser appUser = appUserRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+    public ResponseDto<AppUserInfoResponse> getUserInfo(Long id) {
 
-        AppUserInfoResponse response = new AppUserInfoResponse(appUser.getName(), appUser.getEmail());
+        Optional<AppUser> appUser = appUserRepository.findById(id);
 
-        return response;
+        if (appUser.isEmpty()) {
+            return ResponseDto.setFailed("User Not Found");
+        }
+
+        AppUserInfoResponse response = new AppUserInfoResponse(appUser.get().getName(), appUser.get().getEmail());
+
+        return ResponseDto.setSuccess("User Info: ", response);
     }
 }

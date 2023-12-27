@@ -19,6 +19,7 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private TokenProvider tokenProvider;
 
     @Autowired
@@ -29,10 +30,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
         String token = parseBearerToken(request);
+
         try {
             if (token != null && !token.equalsIgnoreCase("null")) {
+
                 String userEmail = tokenProvider.validate(token);
+
                 AbstractAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userEmail, null, AuthorityUtils.NO_AUTHORITIES);
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
@@ -46,10 +51,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String parseBearerToken(HttpServletRequest request) {
+
         String bearerToken = request.getHeader("Authorization");
 
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer "))
             return bearerToken.substring(7);
+
         return null;
     }
 }

@@ -7,6 +7,7 @@ import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.enrollment.domain.EnrollmentRepository;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.dto.QuestionDto;
+import com.threefour.bingo.question.dto.request.QuestionGetRequest;
 import com.threefour.bingo.question.service.QuestionService;
 import com.threefour.bingo.template.domain.TemplateType;
 import com.threefour.bingo.template.domain.Template;
@@ -35,13 +36,6 @@ public class TemplateService {
     private final EnrollmentRepository enrollmentRepository;
     private final QuestionService questionService;
 
-    /*
-    회고 템플릿 생성 함수의 작동 순서는 서브 질문 생성 -> 메인 질문 생성 -> 템플릿 생성 순서이다.
-    왜 역순으로 하는가?
-    => 템플릿 생성에 필요한 데이터들이 메인 질문,ㅋ 서브 질문이기 때문에 아래 것들이 모두 완성되어야 템플릿 완성이 가능해지기 때문이다.
-    그러나 서브 질문은 메인 질문 아이디를, 메인 질문은 템플릿 아이디를 필요로 한다.
-    => 템플릿과 메인 질문이 db에 저장되기 전 모든 동작이 실행 되는데 어떻게 해결해야 할까?
-    */
     @Transactional
     public ResponseDto<Template> createTemplate(TemplatePostRequest request) {
 
@@ -69,26 +63,35 @@ public class TemplateService {
         templateRepository.save(newTemplate);
 
         return ResponseDto.setSuccess("Template created", newTemplate);
+
     }
 
     @Transactional
     public ResponseDto<List<TemplateDto>> getTemplate(TemplateGetRequest request) {
+
         List<Template> templateList = templateRepository.findByAppUserIdAndProjectId(request.getAppUserId(), request.getProjectId());
 
         if (templateList == null || templateList.isEmpty()) {
             return ResponseDto.setFailed("Template Not Found");
         }
 
+//        List<TemplateDto> templateDtoList = templateList.stream().map(template -> {
+//            List<QuestionDto> questionDtoList = template.getQuestionList()
+//                    .stream()
+//                    .map(QuestionDto::new)
+//                    .collect(Collectors.toList());
+//
+//            return new TemplateDto(template.getId(), template.getTemplateType(), questionDtoList);
+//        }).collect(Collectors.toList());
+
         List<TemplateDto> templateDtoList = templateList.stream().map(template -> {
-            List<QuestionDto> questionDtoList = template.getQuestionList()
-                    .stream()
-                    .map(QuestionDto::new)
-                    .collect(Collectors.toList());
+            List<QuestionDto> questionDtoList = questionService.getAllQuestion(request.getTemplateId());
 
             return new TemplateDto(template.getId(), template.getTemplateType(), questionDtoList);
         }).collect(Collectors.toList());
 
         return ResponseDto.setSuccess("Template", templateDtoList);
+
     }
 
 }

@@ -12,4 +12,6 @@ public class TemplateGetRequest {
     private Long appUserId;
 
     private Long projectId;
+
+    private Long templateId;
 }

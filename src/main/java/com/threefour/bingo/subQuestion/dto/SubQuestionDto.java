@@ -14,8 +14,12 @@ public class SubQuestionDto {
     private String answer;
 
     public SubQuestionDto(SubQuestion subQuestion) {
+
         this.id = subQuestion.getId();
+
         this.subQuestion = subQuestion.getSubQuestion();
+
         this.answer = subQuestion.getAnswer();
+
     }
 }

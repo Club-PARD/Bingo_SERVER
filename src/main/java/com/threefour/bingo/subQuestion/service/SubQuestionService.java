@@ -54,4 +54,19 @@ public class SubQuestionService {
 
         return newSubQuestions;
     }
+
+    public List<SubQuestionDto> getAllSubQuestion(Long questionId) {
+
+        List<SubQuestion> subQuestionList = subQuestionRepository.findByQuestionId(questionId);
+
+        if (subQuestionList == null || subQuestionList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<SubQuestionDto> subQuestionDtoList = subQuestionList.stream()
+                .map(SubQuestionDto::new)
+                .collect(Collectors.toList());
+
+        return subQuestionDtoList;
+    }
 }

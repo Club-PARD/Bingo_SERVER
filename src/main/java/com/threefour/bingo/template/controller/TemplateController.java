@@ -1,5 +1,8 @@
 package com.threefour.bingo.template.controller;
 
+import com.threefour.bingo.question.dto.QuestionDto;
+import com.threefour.bingo.question.dto.request.QuestionGetRequest;
+import com.threefour.bingo.question.service.QuestionService;
 import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.dto.TemplateDto;
 import com.threefour.bingo.template.dto.request.TemplateGetRequest;
@@ -18,6 +21,7 @@ import java.util.List;
 public class TemplateController {
 
     private final TemplateService templateService;
+    private final QuestionService questionService;
 
     @PostMapping("")
     public ResponseDto<Template> createTemplate(@RequestBody final TemplatePostRequest request) {

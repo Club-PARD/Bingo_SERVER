@@ -55,21 +55,28 @@ public class QuestionService {
         return questionList;
     }
 
-    public List<QuestionDto> getAllQuestion(QuestionGetRequest request) {
-        List<Question> questionList = questionRepository.findByTemplateId(request.getTemplateId());
+    public List<QuestionDto> getAllQuestion(Long templateId) {
+        List<Question> questionList = questionRepository.findByTemplateId(templateId);
 
         if (questionList == null || questionList.isEmpty()) {
             return new ArrayList<>();
         }
 
-        List<QuestionDto> questionDtoList = questionList.stream().map(question -> {
-            List<SubQuestionDto> subQuestionDtoList = question.getSubQuestionList()
-                    .stream()
-                    .map(SubQuestionDto::new)
-                    .collect(Collectors.toList());
+//        List<QuestionDto> questionDtoList =
+//                questionList.stream().map(question -> {
+//                    List<SubQuestionDto> subQuestionDtoList = question.getSubQuestionList()
+//                            .stream()
+//                            .map(SubQuestionDto::new)
+//                            .collect(Collectors.toList());
+//
+//                    return new QuestionDto(question.getId(), question.getMainQuestion(), subQuestionDtoList);
+//                }).collect(Collectors.toList());
+        List<QuestionDto> questionDtoList =
+                questionList.stream().map(question -> {
+                    List<SubQuestionDto> subQuestionDtoList = subQuestionService.getAllSubQuestion(question.getId());
 
-            return new QuestionDto(question.getId(), question.getMainQuestion(), subQuestionDtoList);
-        }).collect(Collectors.toList());
+                    return new QuestionDto(question.getId(), question.getMainQuestion(), subQuestionDtoList);
+                }).collect(Collectors.toList());
 
         return questionDtoList;
     }

@@ -1,9 +1,8 @@
 package com.threefour.bingo.template.dto.request;
 
 import com.threefour.bingo.appUser.domain.AppUser;
-import com.threefour.bingo.question.domain.Question;
-import com.threefour.bingo.template.TemplateEnum;
-import com.threefour.bingo.template.domain.Template;
+import com.threefour.bingo.question.dto.QuestionDto;
+import com.threefour.bingo.template.domain.TemplateType;
 import com.threefour.bingo.project.domain.Project;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,16 +17,8 @@ public class TemplateRequest {
 
     private Project project;
 
-    private TemplateEnum templateEnum;
+    private TemplateType templateType;
 
-    private List<Question> questionList;
+    private List<QuestionDto> questionList;
 
-    public Template toEntity() {
-        return Template.builder()
-                .appUser(appUser)
-                .project(project)
-                .templateEnum(templateEnum)
-                .questionList(questionList)
-                .build();
-    }
 }

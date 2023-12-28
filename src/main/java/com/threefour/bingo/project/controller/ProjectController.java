@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/project")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProjectController {
 
     private final ProjectService projectService;

@@ -2,8 +2,7 @@ package com.threefour.bingo.retrospect.domain;
 
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.enrollment.domain.Enrollment;
-import com.threefour.bingo.question.domain.Question;
-import com.threefour.bingo.template.TemplateEnum;
+
 import com.threefour.bingo.project.domain.Project;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class Retrospect {
 
     private String title;
 
-    private TemplateEnum template;
+//    private TemplateEnum template;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appUser_id")
@@ -34,6 +33,6 @@ public class Retrospect {
     @ManyToOne(fetch = FetchType.LAZY)
     private Enrollment enrollment;
 
-    @OneToMany(mappedBy = "retrospect")
-    private List<Question> questionList = new ArrayList<>();
+//    @OneToMany(mappedBy = "retrospect")
+//    private List<Question> questionList = new ArrayList<>();
 }

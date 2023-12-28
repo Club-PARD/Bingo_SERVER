@@ -1,0 +1,41 @@
+Example Value
+Schema
+{
+  "userId": 0,
+  "projectId": 0,
+  "templateType": "KPT",
+  "questionRequestList": [
+    {
+      "templateId": 0,
+      "mainQuestion": "string",
+      "subQuestionRequest": {
+        "questionId": 0,
+        "subQuestions": [
+          "string"
+        ]
+      }
+    }
+  ]
+}
+
+Example Value
+Schema
+{
+  "userId": 0,
+  "projectId": 0,
+  "templateType": "KPT",
+  "questionRequestList": [
+    {
+      "templateId": 0,
+      "mainQuestion": "string",
+      "subQuestionRequest": {
+        "questionId": 0,
+        "subQnA": {
+          "additionalProp1": "string",
+          "additionalProp2": "string",
+          "additionalProp3": "string"
+        }
+      }
+    }
+  ]
+}

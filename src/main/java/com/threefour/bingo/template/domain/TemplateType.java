@@ -1,6 +1,6 @@
-package com.threefour.bingo.template;
+package com.threefour.bingo.template.domain;
 
-public enum TemplateEnum {
+public enum TemplateType {
 
     KPT(1, "KPT"),
     Ls4(2, "4Ls"),
@@ -9,7 +9,7 @@ public enum TemplateEnum {
     private final int templateId;
     private final String TemplateName;
 
-    TemplateEnum(int templateId, String templateName) {
+    TemplateType(int templateId, String templateName) {
         this.templateId = templateId;
         this.TemplateName = templateName;
     }

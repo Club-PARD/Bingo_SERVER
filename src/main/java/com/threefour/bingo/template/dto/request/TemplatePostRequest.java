@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 public class TemplatePostRequest {
 
-    private Long templateId;
+//    private Long templateId;
 
     private Long userId;
 

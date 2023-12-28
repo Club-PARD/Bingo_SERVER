@@ -15,6 +15,7 @@ import com.threefour.bingo.template.domain.TemplateRepository;
 import com.threefour.bingo.test.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
@@ -36,13 +38,19 @@ public class QuestionService {
         List<Question> questionList = new ArrayList<>();
 
         for (QuestionRequest questionRequest : questionRequestList) {
+
+            log.info("템플릿 아이디: " + questionRequest.getTemplateId());
+
             Template template = templateRepository.findById(questionRequest.getTemplateId())
                     .orElseThrow(() -> new IllegalArgumentException("Template Not Found"));
 
             String mainQuestion = questionRequest.getMainQuestion();
 
             Question newQuestion = new Question(mainQuestion, template, new ArrayList<>());
-            questionRepository.save(newQuestion);
+            questionRepository.saveAndFlush(newQuestion);
+            log.info("새 질문 아이디: " + newQuestion.getId());
+
+            questionRequest.getSubQuestionRequest().setQuestionId(newQuestion.getId()); // 새로운 질문의 ID를 설정
 
             List<SubQuestion> subQuestionList = subQuestionService.createSubQuestions(questionRequest.getSubQuestionRequest());
 

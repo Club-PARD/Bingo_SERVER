@@ -21,7 +21,7 @@ public class SubQuestion {
     private String subQuestion;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "main_xquestion_id")
+    @JoinColumn(name = "main_question_id")
     private Question question;
 
     private String answer;

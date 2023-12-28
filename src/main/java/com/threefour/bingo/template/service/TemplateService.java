@@ -8,6 +8,7 @@ import com.threefour.bingo.enrollment.domain.EnrollmentRepository;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.dto.QuestionDto;
 import com.threefour.bingo.question.dto.request.QuestionGetRequest;
+import com.threefour.bingo.question.dto.request.QuestionRequest;
 import com.threefour.bingo.question.service.QuestionService;
 import com.threefour.bingo.template.domain.TemplateType;
 import com.threefour.bingo.template.domain.Template;
@@ -20,6 +21,7 @@ import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TemplateService {
 
     private final TemplateRepository templateRepository;
@@ -55,9 +58,15 @@ public class TemplateService {
         TemplateType templateType = request.getTemplateType();
 
         Template newTemplate = new Template(appUser, project, templateType, new ArrayList<>());
-        templateRepository.save(newTemplate);
+        templateRepository.saveAndFlush(newTemplate);
+        log.info("새 템플릿 아이디: " + newTemplate.getId());
 
-        List<Question> questionList = questionService.createQuestion(request.getQuestionRequestList());
+        List<QuestionRequest> questionRequestList = request.getQuestionRequestList();
+        for (QuestionRequest questionRequest : questionRequestList) {
+            questionRequest.setTemplateId(newTemplate.getId()); // 새로운 템플릿의 ID를 설정
+        }
+
+        List<Question> questionList = questionService.createQuestion(questionRequestList);
         newTemplate.updateQuestionList(questionList);
 
         templateRepository.save(newTemplate);
@@ -65,6 +74,7 @@ public class TemplateService {
         return ResponseDto.setSuccess("Template created", newTemplate);
 
     }
+
 
     @Transactional
     public ResponseDto<List<TemplateDto>> getTemplate(TemplateGetRequest request) {
@@ -85,7 +95,7 @@ public class TemplateService {
 //        }).collect(Collectors.toList());
 
         List<TemplateDto> templateDtoList = templateList.stream().map(template -> {
-            List<QuestionDto> questionDtoList = questionService.getAllQuestion(request.getTemplateId());
+            List<QuestionDto> questionDtoList = questionService.getAllQuestion(template.getId());
 
             return new TemplateDto(template.getId(), template.getTemplateType(), questionDtoList);
         }).collect(Collectors.toList());

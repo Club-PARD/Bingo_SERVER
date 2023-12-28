@@ -13,5 +13,5 @@ public class TemplateGetRequest {
 
     private Long projectId;
 
-    private Long templateId;
+//    private Long templateId;
 }

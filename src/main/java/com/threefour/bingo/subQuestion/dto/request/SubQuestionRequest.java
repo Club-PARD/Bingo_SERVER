@@ -12,10 +12,6 @@ public class SubQuestionRequest {
 
     private Long questionId;
 
-    //요놈 사용
-//    private List<String> subQuestions;
-
     private Map<String, String> subQnA;
 
-//    private List<SubQuestionRequest> subQuestionRequestList;
 }

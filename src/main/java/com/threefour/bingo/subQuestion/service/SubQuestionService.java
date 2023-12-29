@@ -2,14 +2,10 @@ package com.threefour.bingo.subQuestion.service;
 
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.domain.QuestionRepository;
-import com.threefour.bingo.question.dto.QuestionDto;
-import com.threefour.bingo.question.dto.request.QuestionGetRequest;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import com.threefour.bingo.subQuestion.domain.SubQuestionRepository;
-import com.threefour.bingo.subQuestion.dto.SubQuestionDto;
+import com.threefour.bingo.subQuestion.dto.SubQuestionDTO;
 import com.threefour.bingo.subQuestion.dto.request.SubQuestionRequest;
-import com.threefour.bingo.template.domain.Template;
-import com.threefour.bingo.template.domain.TemplateRepository;
 import com.threefour.bingo.test.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +51,7 @@ public class SubQuestionService {
         return newSubQuestions;
     }
 
-    public List<SubQuestionDto> getAllSubQuestion(Long questionId) {
+    public List<SubQuestionDTO> getAllSubQuestion(Long questionId) {
 
         List<SubQuestion> subQuestionList = subQuestionRepository.findByQuestionId(questionId);
 
@@ -63,10 +59,10 @@ public class SubQuestionService {
             return new ArrayList<>();
         }
 
-        List<SubQuestionDto> subQuestionDtoList = subQuestionList.stream()
-                .map(SubQuestionDto::new)
+        List<SubQuestionDTO> subQuestionDTOList = subQuestionList.stream()
+                .map(SubQuestionDTO::new)
                 .collect(Collectors.toList());
 
-        return subQuestionDtoList;
+        return subQuestionDTOList;
     }
 }

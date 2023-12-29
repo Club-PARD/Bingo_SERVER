@@ -7,4 +7,6 @@ import java.util.List;
 public interface TemplateRepository extends JpaRepository<Template, Long> {
 
     List<Template> findByAppUserIdAndProjectId(Long appUserId, Long projectId);
+
+    Template findByAppUserIdAndProjectIdAndId(Long appUserId, Long projectId, Long templateId);
 }

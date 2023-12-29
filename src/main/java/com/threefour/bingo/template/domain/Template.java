@@ -3,6 +3,7 @@ package com.threefour.bingo.template.domain;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.project.domain.Project;
+import com.threefour.bingo.retrospect.domain.Retrospect;
 import jakarta.annotation.security.DenyAll;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,8 @@ public class Template {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appUser_id")
     private AppUser appUser;
@@ -35,10 +38,15 @@ public class Template {
     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
     private List<Question> questionList = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "retrospect_id")
+    private Retrospect retrospect;
+
     @Builder
-    public Template(AppUser appUser, Project project,
+    public Template(String name, AppUser appUser, Project project,
                     TemplateType templateType, List<Question> questionList) {
 
+        this.name = name;
         this.appUser = appUser;
         this.project = project;
         this.templateType = templateType;

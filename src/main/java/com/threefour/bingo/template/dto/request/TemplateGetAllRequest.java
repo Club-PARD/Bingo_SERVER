@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class TemplateGetRequest {
+@NoArgsConstructor
+public class TemplateGetAllRequest {
 
     private Long appUserId;
 
     private Long projectId;
-
-    private Long templateId;
 
 }

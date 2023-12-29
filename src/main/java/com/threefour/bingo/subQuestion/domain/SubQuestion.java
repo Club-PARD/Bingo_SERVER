@@ -1,5 +1,6 @@
 package com.threefour.bingo.subQuestion.domain;
 
+import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.template.domain.Template;
 import jakarta.persistence.*;
@@ -21,16 +22,23 @@ public class SubQuestion {
     private String subQuestion;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "main_question_id")
+    @JoinColumn(name = "main_xquestion_id")
     private Question question;
 
     private String answer;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "appUser_id")
+    private AppUser appUser;
 
     @Builder
     public SubQuestion(String subQuestion, String answer, Question question) {
         this.subQuestion = subQuestion;
         this.answer = answer;
         this.question = question;
+    }
+
+    public void update(String answer) {
+        this.answer = answer;
     }
 }

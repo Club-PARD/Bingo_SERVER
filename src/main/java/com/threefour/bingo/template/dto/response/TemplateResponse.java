@@ -17,6 +17,8 @@ public class TemplateResponse {
 
     private Long id;
 
+    private String name;
+
     private AppUser appUser;
 
     private Project project;
@@ -25,12 +27,4 @@ public class TemplateResponse {
 
     private List<Question> questionList;
 
-    public TemplateResponse(AppUser appUser, Project project, TemplateType templateType,
-                            List<Question> questionList) {
-
-        this.appUser = this.getAppUser();
-        this.project = this.getProject();
-        this.templateType = this.getTemplateType();
-        this.questionList = this.getQuestionList();
-    }
 }

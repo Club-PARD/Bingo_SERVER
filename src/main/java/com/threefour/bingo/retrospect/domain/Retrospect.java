@@ -4,6 +4,8 @@ import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.enrollment.domain.Enrollment;
 
 import com.threefour.bingo.project.domain.Project;
+import com.threefour.bingo.template.domain.Template;
+import io.github.classgraph.PackageInfo;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -18,10 +20,6 @@ public class Retrospect {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-
-//    private TemplateEnum template;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appUser_id")
     private AppUser appUser;
@@ -33,6 +31,6 @@ public class Retrospect {
     @ManyToOne(fetch = FetchType.LAZY)
     private Enrollment enrollment;
 
-//    @OneToMany(mappedBy = "retrospect")
-//    private List<Question> questionList = new ArrayList<>();
+    @OneToOne(mappedBy = "retrospect", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Template template;
 }

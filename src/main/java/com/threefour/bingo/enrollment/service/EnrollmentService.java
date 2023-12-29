@@ -24,17 +24,12 @@ public class EnrollmentService {
 
     @Transactional
     public ResponseDto<Enrollment> joinProject(EnrollmentRequest request) {
-        System.out.println("조인 프로젝트 실행 됨?");
 
         AppUser appUser = appUserRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
-        log.info("유저 찾았따 : " + appUser.getEmail());
-
         Project project = projectRepository.findById(request.getProjectId())
                 .orElseThrow(() -> new IllegalArgumentException("Project Not Found"));
-
-        log.info("프로젝트 찾았따 : " + project.getName());
 
         //코드 틀린 경우
         if (!(request.getCode().equals(project.getCode()))) {

@@ -1,6 +1,5 @@
 package com.threefour.bingo.enrollment.domain;
 
-import com.threefour.bingo.enrollment.domain.Enrollment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

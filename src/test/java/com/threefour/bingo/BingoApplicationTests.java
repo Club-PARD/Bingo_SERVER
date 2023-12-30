@@ -1,4 +1,4 @@
-package com4.bingo;
+package com.threefour.bingo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

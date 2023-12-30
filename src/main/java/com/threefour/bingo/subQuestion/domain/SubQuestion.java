@@ -2,7 +2,6 @@ package com.threefour.bingo.subQuestion.domain;
 
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.question.domain.Question;
-import com.threefour.bingo.template.domain.Template;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

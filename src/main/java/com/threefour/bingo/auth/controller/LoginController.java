@@ -6,14 +6,12 @@ import com.threefour.bingo.auth.dto.response.SignInResponse;
 import com.threefour.bingo.auth.dto.response.SignOutResponse;
 import com.threefour.bingo.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/auth")
 @CrossOrigin(origins = "http://localhost:3000")
-@Slf4j
 public class LoginController {
 
     private final AuthService authService;

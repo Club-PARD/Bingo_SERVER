@@ -1,6 +1,5 @@
 package com.threefour.bingo.question.domain;
 
-import com.threefour.bingo.retrospect.domain.Retrospect;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import com.threefour.bingo.template.domain.Template;
 import jakarta.persistence.*;

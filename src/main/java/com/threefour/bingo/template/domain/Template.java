@@ -4,7 +4,6 @@ import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.retrospect.domain.Retrospect;
-import jakarta.annotation.security.DenyAll;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

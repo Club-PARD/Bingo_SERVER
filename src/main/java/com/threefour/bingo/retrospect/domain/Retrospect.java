@@ -28,9 +28,9 @@ public class Retrospect {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Enrollment enrollment;
-
     @OneToOne(mappedBy = "retrospect", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Template template;
+
+    @Enumerated(EnumType.STRING)
+    private TeamEvaluation teamEvaluation;
 }

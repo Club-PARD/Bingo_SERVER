@@ -1,12 +1,11 @@
 package com.threefour.bingo.auth.service;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
 import com.threefour.bingo.auth.dto.request.SignInRequest;
-import com.threefour.bingo.auth.dto.request.SignOutRequest;
 import com.threefour.bingo.auth.dto.response.SignInResponse;
 import com.threefour.bingo.auth.dto.response.SignOutResponse;
-import com.threefour.bingo.test.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

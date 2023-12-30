@@ -1,10 +1,12 @@
 package com.threefour.bingo.retrospect.service;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
 import com.threefour.bingo.question.dto.QuestionDTO;
 import com.threefour.bingo.retrospect.domain.Retrospect;
 import com.threefour.bingo.retrospect.domain.RetrospectRepository;
+import com.threefour.bingo.retrospect.domain.TeamEvaluation;
 import com.threefour.bingo.retrospect.dto.request.RetrospectPostRequest;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import com.threefour.bingo.subQuestion.domain.SubQuestionRepository;
@@ -16,13 +18,14 @@ import com.threefour.bingo.template.domain.TemplateType;
 import com.threefour.bingo.template.dto.TemplateDTO;
 import com.threefour.bingo.template.dto.request.TemplateGetRequest;
 import com.threefour.bingo.template.service.TemplateService;
-import com.threefour.bingo.test.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -89,5 +92,14 @@ public class RetrospectService {
 
 
         return ResponseDto.setFailed("Successfully updated the SubQuestions");
+    }
+
+    public Map<TeamEvaluation, Long> getTeamEvaluationCount() {
+        List<Object[]> results = retrospectRepository.countByTeamEvaluation();
+        Map<TeamEvaluation, Long> countMap = new HashMap<>();
+        for (Object[] result : results) {
+            countMap.put((TeamEvaluation) result[0], (Long) result[1]);
+        }
+        return countMap;
     }
 }

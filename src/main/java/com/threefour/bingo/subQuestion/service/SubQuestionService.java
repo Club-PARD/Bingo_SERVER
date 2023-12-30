@@ -1,12 +1,12 @@
 package com.threefour.bingo.subQuestion.service;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.domain.QuestionRepository;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import com.threefour.bingo.subQuestion.domain.SubQuestionRepository;
 import com.threefour.bingo.subQuestion.dto.SubQuestionDTO;
 import com.threefour.bingo.subQuestion.dto.request.SubQuestionRequest;
-import com.threefour.bingo.test.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

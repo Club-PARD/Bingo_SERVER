@@ -1,5 +1,6 @@
 package com.threefour.bingo.project.service;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.enrollment.domain.Role;
 import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.enrollment.domain.EnrollmentRepository;
@@ -8,7 +9,6 @@ import com.threefour.bingo.project.dto.request.ProjectRequest;
 import com.threefour.bingo.project.dto.response.ProjectInfoResponse;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
-import com.threefour.bingo.test.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

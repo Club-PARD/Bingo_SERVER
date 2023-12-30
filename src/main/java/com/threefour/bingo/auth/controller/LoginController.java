@@ -1,9 +1,9 @@
 package com.threefour.bingo.auth.controller;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.auth.dto.request.SignInRequest;
 import com.threefour.bingo.auth.dto.response.SignInResponse;
 import com.threefour.bingo.auth.dto.response.SignOutResponse;
-import com.threefour.bingo.test.ResponseDto;
 import com.threefour.bingo.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

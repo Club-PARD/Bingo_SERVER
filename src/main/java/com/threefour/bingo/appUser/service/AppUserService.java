@@ -1,9 +1,9 @@
 package com.threefour.bingo.appUser.service;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
-import com.threefour.bingo.test.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

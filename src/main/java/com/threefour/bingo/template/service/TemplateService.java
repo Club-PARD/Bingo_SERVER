@@ -1,5 +1,6 @@
 package com.threefour.bingo.template.service;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
 import com.threefour.bingo.enrollment.domain.Role;
@@ -9,7 +10,6 @@ import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.dto.QuestionDTO;
 import com.threefour.bingo.question.dto.request.QuestionRequest;
 import com.threefour.bingo.question.service.QuestionService;
-import com.threefour.bingo.retrospect.dto.request.RetrospectPostRequest;
 import com.threefour.bingo.template.domain.TemplateType;
 import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.domain.TemplateRepository;
@@ -17,7 +17,6 @@ import com.threefour.bingo.template.dto.TemplateDTO;
 import com.threefour.bingo.template.dto.request.TemplateGetAllRequest;
 import com.threefour.bingo.template.dto.request.TemplateGetRequest;
 import com.threefour.bingo.template.dto.request.TemplatePostRequest;
-import com.threefour.bingo.test.ResponseDto;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
 import jakarta.transaction.Transactional;

@@ -1,5 +1,6 @@
 package com.threefour.bingo.enrollment.service;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
 import com.threefour.bingo.enrollment.dto.request.EnrollmentRequest;
@@ -7,7 +8,6 @@ import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.enrollment.domain.EnrollmentRepository;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
-import com.threefour.bingo.test.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

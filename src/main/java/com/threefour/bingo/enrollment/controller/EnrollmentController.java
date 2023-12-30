@@ -1,11 +1,10 @@
 package com.threefour.bingo.enrollment.controller;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.enrollment.dto.request.EnrollmentRequest;
 import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.enrollment.service.EnrollmentService;
-import com.threefour.bingo.test.ResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

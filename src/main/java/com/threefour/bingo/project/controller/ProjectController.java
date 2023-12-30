@@ -1,13 +1,12 @@
 package com.threefour.bingo.project.controller;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.project.dto.request.ProjectCreateRequest;
 import com.threefour.bingo.project.dto.request.ProjectRequest;
 import com.threefour.bingo.project.dto.response.ProjectInfoResponse;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.service.ProjectService;
-import com.threefour.bingo.test.ResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

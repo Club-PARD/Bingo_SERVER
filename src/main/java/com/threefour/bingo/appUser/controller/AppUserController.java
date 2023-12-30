@@ -1,8 +1,8 @@
 package com.threefour.bingo.appUser.controller;
 
+import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
 import com.threefour.bingo.appUser.service.AppUserService;
-import com.threefour.bingo.test.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

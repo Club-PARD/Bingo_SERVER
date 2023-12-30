@@ -71,17 +71,15 @@ public class ProjectService {
     }
 
     @Transactional
-    public ResponseDto<ProjectInfoResponse> getProject(ProjectRequest request) {
+    public ResponseDto<ProjectInfoResponse> getProject(Long userId, Long projectId) {
 
         Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId
-                (request.getUserId(), request.getProjectId());
+                (userId, projectId);
 
-        //검색한 프로젝트가 없는 경우
-        if (enrollment == null) {
+        if (enrollment == null) { //검색한 프로젝트가 없는 경우
             return ResponseDto.setFailed("Workspace Not Found");
         }
 
-        Long projectId = enrollment.getProject().getId();
         String name = enrollment.getProject().getName();
         String description = enrollment.getProject().getDescription();
         Role role = enrollment.getRole();
@@ -90,4 +88,5 @@ public class ProjectService {
 
         return ResponseDto.setSuccess("Project", response);
     }
+
 }

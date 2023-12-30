@@ -35,10 +35,11 @@ public class ProjectController {
         return projectInfoResponseList;
     }
 
-    @GetMapping("")
-    public ResponseDto<ProjectInfoResponse> getProject(@RequestBody final ProjectRequest request) {
+    @GetMapping("/user/{userId}/projects/{projectId}")
+    public ResponseDto<ProjectInfoResponse> getProject(@PathVariable final Long userId
+            , @PathVariable Long projectId) {
 
-        ResponseDto<ProjectInfoResponse> response = projectService.getProject(request);
+        ResponseDto<ProjectInfoResponse> response = projectService.getProject(userId, projectId);
 
         return response;
     }

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AppUserInfoResponse {
 
+    private Long id;
+
     private String name;
 
     private String email;

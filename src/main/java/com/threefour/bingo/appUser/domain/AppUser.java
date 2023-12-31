@@ -42,6 +42,17 @@ public class AppUser {
         this.token = token;
     }
 
+    public AppUser(Long id, String name, String email, String token) {
+
+        this.id = id;
+
+        this.name = name;
+
+        this.email = email;
+
+        this.token = token;
+    }
+
     @Builder
     public AppUser(String name, String email) {
         this.name = name;

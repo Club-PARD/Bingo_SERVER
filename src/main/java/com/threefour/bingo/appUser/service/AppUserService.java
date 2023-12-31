@@ -15,16 +15,13 @@ public class AppUserService {
 
     private final AppUserRepository appUserRepository;
 
-    public ResponseDto<AppUserInfoResponse> getUserInfo(Long id) {
+    public AppUserInfoResponse getUserInfo(Long id) {
 
-        Optional<AppUser> appUser = appUserRepository.findById(id);
+        AppUser appUser = appUserRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
-        if (appUser.isEmpty()) {
-            return ResponseDto.setFailed("User Not Found");
-        }
+        AppUserInfoResponse response = new AppUserInfoResponse(appUser.getId(), appUser.getName(), appUser.getEmail());
 
-        AppUserInfoResponse response = new AppUserInfoResponse(appUser.get().getName(), appUser.get().getEmail());
-
-        return ResponseDto.setSuccess("User Info: ", response);
+        return response;
     }
 }

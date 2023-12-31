@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignInResponse {
 
-    private String jwtToken;
-
     private Integer exprTime;
 
     private AppUser appUser;

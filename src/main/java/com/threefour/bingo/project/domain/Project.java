@@ -1,6 +1,6 @@
 package com.threefour.bingo.project.domain;
 
-import com.threefour.bingo.enrollment.domain.Enrollment;
+import com.threefour.bingo.tag.domain.Tag;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +26,7 @@ public class Project {
     private String code;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<Enrollment> enrollmentList = new ArrayList<>();
+    private List<Tag> tagList = new ArrayList<>();
 
     @Builder
     public Project(String name, String description, String code) {
@@ -34,4 +34,9 @@ public class Project {
         this.description = description;
         this.code = code;
     }
+
+    public List<Tag> updateList(List<Tag> tagList) {
+        return this.tagList = tagList;
+    }
+
 }

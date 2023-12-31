@@ -1,9 +1,9 @@
 package com.threefour.bingo.appUser.controller;
 
-import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
 import com.threefour.bingo.appUser.service.AppUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,10 +15,12 @@ public class AppUserController {
     private final AppUserService appUserService;
 
     @GetMapping("/{id}")
-    public ResponseDto<AppUserInfoResponse> getUserInfo(@PathVariable final Long id) {
+    public ResponseEntity<AppUserInfoResponse> getUserInfo(@PathVariable final Long id) {
 
-        ResponseDto<AppUserInfoResponse> response = appUserService.getUserInfo(id);
+        final AppUserInfoResponse response = appUserService.getUserInfo(id);
 
-        return response;
+        return ResponseEntity.ok()
+                .body(response);
+
     }
 }

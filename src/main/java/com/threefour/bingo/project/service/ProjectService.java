@@ -24,7 +24,7 @@ public class ProjectService {
     private final EnrollmentRepository enrollmentRepository;
 
     @Transactional
-    public ResponseDto<Project> createProject(ProjectCreateRequest request) {
+    public ProjectInfoResponse createProject(ProjectCreateRequest request) {
 
         // 이름이 없는 경우
         if (request.getName() == null || request.getName().isEmpty()) {
@@ -41,20 +41,25 @@ public class ProjectService {
             ResponseDto.setFailed("Code can not be empty");
         }
 
-        projectRepository.save(request.toEntity());
+        final Project project = request.toEntity();
+        projectRepository.save(project);
 
-        return ResponseDto.setSuccess("Project created", request.toEntity());
+        final ProjectInfoResponse response = new ProjectInfoResponse(project.getId(), project.getName(),
+                project.getDescription());
+
+        return response;
+
     }
 
     @Transactional
-    public ResponseDto<List<ProjectInfoResponse>> getAllProjectsByUser(Long id) {
+    public List<ProjectInfoResponse> getAllProjectsByUser(Long id) {
 
-        List<ProjectInfoResponse> projectInfoResponses = new ArrayList<>();
+        final List<ProjectInfoResponse> projectInfoResponses = new ArrayList<>();
 
-        List<Enrollment> enrollmentList = enrollmentRepository.findByAppUserId(id);
+        final List<Enrollment> enrollmentList = enrollmentRepository.findByAppUserId(id);
 
         if (enrollmentList.isEmpty()) {
-            return ResponseDto.setFailed("No Workspaces");
+            return null;
         }
 
         for (Enrollment enrollment : enrollmentList) {
@@ -67,26 +72,26 @@ public class ProjectService {
             projectInfoResponses.add(temp);
         }
 
-        return ResponseDto.setSuccess("Project List", projectInfoResponses);
+        return projectInfoResponses;
     }
 
     @Transactional
-    public ResponseDto<ProjectInfoResponse> getProject(Long userId, Long projectId) {
+    public ProjectInfoResponse getProject(Long userId, Long projectId) {
 
-        Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId
+        final Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId
                 (userId, projectId);
 
         if (enrollment == null) { //검색한 프로젝트가 없는 경우
-            return ResponseDto.setFailed("Workspace Not Found");
+            return null;
         }
 
         String name = enrollment.getProject().getName();
         String description = enrollment.getProject().getDescription();
         Role role = enrollment.getRole();
 
-        ProjectInfoResponse response = new ProjectInfoResponse(projectId, name, description, role);
+        final ProjectInfoResponse response = new ProjectInfoResponse(projectId, name, description, role);
 
-        return ResponseDto.setSuccess("Project", response);
+        return response;
     }
 
 }

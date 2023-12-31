@@ -22,13 +22,13 @@ public class AuthService {
 
     //왜 토큰 값이 똑같지
     @Transactional
-    public ResponseDto<SignInResponse> signIn(SignInRequest request) {
+    public SignInResponse signIn(SignInRequest request) {
 
         log.info("Email: " + request.getEmail());
         AppUser appUser = appUserRepository.findByEmail(request.getEmail());
 
         if (!request.isEmailVerified()) { // 이메일이 인증되지 않은 경우
-            return ResponseDto.setFailed("Unverified Account");
+            return null;
         }
 
         String token = tokenProvider.create(request.getEmail());
@@ -44,21 +44,23 @@ public class AuthService {
 
         appUserRepository.save(appUser);
 
-        log.info("existing user");
-        SignInResponse response = new SignInResponse(token, exprTime, appUser);
+        AppUser responseUser = new AppUser(appUser.getId(), appUser.getName(), appUser.getEmail(), appUser.getToken());
 
-        return ResponseDto.setSuccess("SignIn Success", response);
+        log.info("existing user");
+        SignInResponse response = new SignInResponse(exprTime, responseUser);
+
+        return response;
     }
 
     @Transactional
-    public ResponseDto<SignOutResponse> signOut(Long id) {
+    public SignOutResponse signOut(Long id) {
 
         AppUser appUser = appUserRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
 
         if (appUser.getToken() == null) { // 토큰이 null 인 경우
-            return ResponseDto.setFailed("Token Expired");
+            return null;
         }
 
         appUser.update(null);
@@ -67,6 +69,6 @@ public class AuthService {
 
         SignOutResponse response = new SignOutResponse(appUser.getEmail());
 
-        return ResponseDto.setSuccess("Success SignOut", response);
+        return response;
     }
 }

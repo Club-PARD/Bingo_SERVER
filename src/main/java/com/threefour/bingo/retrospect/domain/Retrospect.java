@@ -28,4 +28,5 @@ public class Retrospect {
 
     @Enumerated(EnumType.STRING)
     private TeamEvaluation teamEvaluation;
+
 }

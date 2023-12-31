@@ -6,6 +6,7 @@ import com.threefour.bingo.auth.dto.response.SignInResponse;
 import com.threefour.bingo.auth.dto.response.SignOutResponse;
 import com.threefour.bingo.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,18 +18,20 @@ public class LoginController {
     private final AuthService authService;
 
     @PostMapping("/signIn")
-    public ResponseDto<SignInResponse> signIn(@RequestBody final SignInRequest request) {
+    public ResponseEntity<SignInResponse> signIn(@RequestBody final SignInRequest request) {
 
-        ResponseDto<SignInResponse> response = authService.signIn(request);
+        final SignInResponse response = authService.signIn(request);
 
-        return response;
+        return ResponseEntity.ok()
+                .body(response);
     }
 
     @PostMapping("/signOut/{id}")
-    public ResponseDto<SignOutResponse> signOut(@PathVariable final Long id) {
+    public ResponseEntity<SignOutResponse> signOut(@PathVariable final Long id) {
 
-        ResponseDto<SignOutResponse> response = authService.signOut(id);
+        final SignOutResponse response = authService.signOut(id);
 
-        return response;
+        return ResponseEntity.ok()
+                .body(response);
     }
 }

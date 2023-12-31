@@ -2,6 +2,7 @@ package com.threefour.bingo.template.dto.response;
 
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.question.domain.Question;
+import com.threefour.bingo.question.dto.QuestionDTO;
 import com.threefour.bingo.template.domain.TemplateType;
 import com.threefour.bingo.project.domain.Project;
 import lombok.AllArgsConstructor;
@@ -19,12 +20,8 @@ public class TemplateResponse {
 
     private String name;
 
-    private AppUser appUser;
-
-    private Project project;
-
     private TemplateType templateType;
 
-    private List<Question> questionList;
+    private List<QuestionDTO> questionList;
 
 }

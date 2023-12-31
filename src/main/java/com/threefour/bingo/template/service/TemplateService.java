@@ -19,6 +19,7 @@ import com.threefour.bingo.template.dto.request.TemplateGetRequest;
 import com.threefour.bingo.template.dto.request.TemplatePostRequest;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
+import com.threefour.bingo.template.dto.response.TemplateResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,24 +41,24 @@ public class TemplateService {
     private final QuestionService questionService;
 
     @Transactional
-    public ResponseDto<Template> createTemplate(TemplatePostRequest request) {
+    public TemplateResponse createTemplate(TemplatePostRequest request) {
 
-        AppUser appUser = appUserRepository.findById(request.getUserId())
+        final AppUser appUser = appUserRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
-        Project project = projectRepository.findById(request.getProjectId())
+        final Project project = projectRepository.findById(request.getProjectId())
                 .orElseThrow(() -> new IllegalArgumentException("Workspace Not Found"));
 
-        Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId(request.getUserId(), request.getProjectId());
-        Role role = enrollment.getRole();
+        final Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId(request.getUserId(), request.getProjectId());
+        final Role role = enrollment.getRole();
         if (role == Role.TEAM_MEMBER) { // 작성자가 팀멤버 일 때
 
-            return ResponseDto.setFailed("Team member can not make template");
+            return null;
         }
 
-        TemplateType templateType = request.getTemplateType();
+        final TemplateType templateType = request.getTemplateType();
 
-        Template newTemplate = new Template(request.getName(), appUser, project, templateType, new ArrayList<>());
+        final Template newTemplate = new Template(request.getName(), appUser, project, templateType, new ArrayList<>());
         templateRepository.saveAndFlush(newTemplate);
         log.info("새 템플릿 아이디: " + newTemplate.getId());
 
@@ -66,51 +67,57 @@ public class TemplateService {
             questionRequest.setTemplateId(newTemplate.getId()); // 새로운 템플릿의 ID를 설정
         }
 
-        List<Question> questionList = questionService.createQuestion(questionRequestList);
+        final List<Question> questionList = questionService.createQuestion(questionRequestList);
         newTemplate.updateQuestionList(questionList);
+
 
         templateRepository.save(newTemplate);
 
-        return ResponseDto.setSuccess("Template created", newTemplate);
+        List<QuestionDTO> questionDTOList = questionService.getAllQuestion(newTemplate.getId());
+
+
+        final TemplateResponse response = new TemplateResponse(newTemplate.getId(), newTemplate.getName(),
+                newTemplate.getTemplateType(), questionDTOList);
+
+        return response;
 
     }
 
 
     @Transactional
-    public ResponseDto<List<TemplateDTO>> getAllTemplates(TemplateGetAllRequest request) {
+    public List<TemplateResponse> getAllTemplates(Long appUserId, Long projectId) {
 
-        List<Template> templateList = templateRepository.findByAppUserIdAndProjectId(request.getAppUserId(), request.getProjectId());
+        List<Template> templateList = templateRepository.findByAppUserIdAndProjectId(appUserId, projectId);
 
         if (templateList == null || templateList.isEmpty()) {
-            return ResponseDto.setFailed("Template Not Found");
+            return null;
         }
 
-        List<TemplateDTO> templateDTOList = templateList.stream().map(template -> {
+        List<TemplateResponse> templateResponseList = templateList.stream().map(template -> {
             List<QuestionDTO> questionDTOList = questionService.getAllQuestion(template.getId());
 
-            return new TemplateDTO(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
+            return new TemplateResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
         }).collect(Collectors.toList());
 
-        return ResponseDto.setSuccess("Template", templateDTOList);
+        return templateResponseList;
 
     }
 
     @Transactional
-    public TemplateDTO getTemplate(TemplateGetRequest request) {
+    public TemplateResponse getTemplate(Long appUserId, Long projectId, Long templateId) {
 
         Template template = templateRepository.findByAppUserIdAndProjectIdAndId
-                (request.getAppUserId(), request.getProjectId(), request.getTemplateId());
+                (appUserId, projectId, templateId);
 
         if (template == null) {
-            return new TemplateDTO();
+            return null;
         }
 
         List<QuestionDTO> questionDTOList = questionService.getAllQuestion(template.getId());
 
-        TemplateDTO templateDto = new TemplateDTO(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
+        TemplateResponse response = new TemplateResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
 
-        log.info("나는 윤성현");
+        return response;
 
-        return templateDto;
     }
 }

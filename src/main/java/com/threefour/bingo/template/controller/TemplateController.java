@@ -32,7 +32,7 @@ public class TemplateController {
 
     }
 
-    @GetMapping("/appUser/{id}/project/{id}")
+    @GetMapping("/appUser/{appUserId}/project/{projectId}")
     public ResponseEntity<List<TemplateResponse>> getAllTemplates(@PathVariable final Long appUserId
             , @PathVariable Long projectId) {
 
@@ -43,11 +43,11 @@ public class TemplateController {
 
     }
 
-    @GetMapping("/appUser/{id}/project/{id}/template/{id}")
-    public ResponseEntity<TemplateResponse> getTemplate(@PathVariable final Long appUsserId
+    @GetMapping("/appUser/{appUserId}/project/{projectId}/template/{templateId}")
+    public ResponseEntity<TemplateResponse> getTemplate(@PathVariable final Long appUserId
             , @PathVariable final Long projectId, @PathVariable final Long templateId) {
 
-        final TemplateResponse response = templateService.getTemplate(appUsserId, projectId, templateId);
+        final TemplateResponse response = templateService.getTemplate(appUserId, projectId, templateId);
 
         return ResponseEntity.ok()
                 .body(response);

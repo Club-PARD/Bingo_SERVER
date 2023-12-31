@@ -24,20 +24,14 @@ public class SubQuestion {
     @JoinColumn(name = "main_question_id")
     private Question question;
 
-    private String answer;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appUser_id")
     private AppUser appUser;
 
     @Builder
-    public SubQuestion(String subQuestion, String answer, Question question) {
+    public SubQuestion(String subQuestion, Question question) {
         this.subQuestion = subQuestion;
-        this.answer = answer;
         this.question = question;
     }
 
-    public void update(String answer) {
-        this.answer = answer;
-    }
 }

@@ -1,6 +1,5 @@
 package com.threefour.bingo.subQuestion.service;
 
-import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.domain.QuestionRepository;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
@@ -12,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,20 +27,12 @@ public class SubQuestionService {
         Question question = questionRepository.findById(request.getQuestionId())
                 .orElseThrow(() -> new IllegalArgumentException("Question Not Found"));
 
-        Map<String, String> subQuestions = request.getSubQnA();
+        List<String> questionList = request.getQuestion();
 
         List<SubQuestion> newSubQuestions = new ArrayList<>();
 
-        for (Map.Entry<String, String> entry : subQuestions.entrySet()) {
-            String subQuestionText = entry.getKey();
-            String answer = entry.getValue();
-
-            if (subQuestionText.isEmpty()) {
-                ResponseDto.setFailed("SubQuestion can not be empty");
-                return Collections.emptyList();
-            }
-
-            SubQuestion newSubQuestion = new SubQuestion(subQuestionText, "", question);
+        for (int i = 0; i < questionList.size(); i++) {
+            SubQuestion newSubQuestion = new SubQuestion(questionList.get(i), question);
             subQuestionRepository.save(newSubQuestion);
             newSubQuestions.add(newSubQuestion);
         }

@@ -12,7 +12,6 @@ public class QuestionRequest {
 
     private String mainQuestion;
 
-//    private List<SubQuestionDto> subQuestionList;
-
     private SubQuestionRequest subQuestionRequest;
+
 }

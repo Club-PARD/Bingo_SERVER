@@ -13,12 +13,10 @@ import lombok.Setter;
 public class SubQuestionDTO {
     private Long id;
     private String subQuestion;
-    private String answer;
 
     public SubQuestionDTO(SubQuestion subQuestion) {
         this.id = subQuestion.getId();
         this.subQuestion = subQuestion.getSubQuestion();
-        this.answer = subQuestion.getAnswer();
     }
 
 }

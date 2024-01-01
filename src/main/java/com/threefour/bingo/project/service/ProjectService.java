@@ -5,16 +5,22 @@ import com.threefour.bingo.enrollment.domain.Role;
 import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.enrollment.domain.EnrollmentRepository;
 import com.threefour.bingo.project.dto.request.ProjectCreateRequest;
-import com.threefour.bingo.project.dto.request.ProjectRequest;
-import com.threefour.bingo.project.dto.response.ProjectInfoResponse;
+import com.threefour.bingo.project.dto.response.ProjectAllResponse;
+import com.threefour.bingo.project.dto.response.ProjectOneResponse;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
+import com.threefour.bingo.tag.domain.Tag;
+import com.threefour.bingo.tag.domain.TagRepository;
+import com.threefour.bingo.tag.dto.TagDTO;
+import com.threefour.bingo.tag.dto.request.TagListProjectRequest;
+import com.threefour.bingo.tag.service.TagService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +28,11 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final EnrollmentRepository enrollmentRepository;
+    private final TagRepository tagRepository;
+    private final TagService tagService;
 
     @Transactional
-    public ProjectInfoResponse createProject(ProjectCreateRequest request) {
+    public ProjectOneResponse createProject(ProjectCreateRequest request) {
 
         // 이름이 없는 경우
         if (request.getName() == null || request.getName().isEmpty()) {
@@ -44,7 +52,14 @@ public class ProjectService {
         final Project project = request.toEntity();
         projectRepository.save(project);
 
-        final ProjectInfoResponse response = new ProjectInfoResponse(project.getId(), project.getName(),
+        TagListProjectRequest tagListProjectRequest = new TagListProjectRequest(
+                request.getProjectId(), request.getTagList()
+        );
+
+        tagService.createBingo(tagListProjectRequest);
+
+
+        final ProjectOneResponse response = new ProjectOneResponse(project.getId(), project.getName(),
                 project.getDescription());
 
         return response;
@@ -52,9 +67,9 @@ public class ProjectService {
     }
 
     @Transactional
-    public List<ProjectInfoResponse> getAllProjectsByUser(Long id) {
+    public List<ProjectAllResponse> getAllProjectsByUser(Long id) {
 
-        final List<ProjectInfoResponse> projectInfoResponses = new ArrayList<>();
+        final List<ProjectAllResponse> projectOneRespons = new ArrayList<>();
 
         final List<Enrollment> enrollmentList = enrollmentRepository.findByAppUserId(id);
 
@@ -68,15 +83,15 @@ public class ProjectService {
             String description = enrollment.getProject().getDescription();
             Role role = enrollment.getRole();
 
-            ProjectInfoResponse temp = new ProjectInfoResponse(projectId, name, description, role);
-            projectInfoResponses.add(temp);
+            ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, role);
+            projectOneRespons.add(temp);
         }
 
-        return projectInfoResponses;
+        return projectOneRespons;
     }
 
     @Transactional
-    public ProjectInfoResponse getProject(Long userId, Long projectId) {
+    public ProjectOneResponse getProject(Long userId, Long projectId) {
 
         final Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId
                 (userId, projectId);
@@ -89,7 +104,13 @@ public class ProjectService {
         String description = enrollment.getProject().getDescription();
         Role role = enrollment.getRole();
 
-        final ProjectInfoResponse response = new ProjectInfoResponse(projectId, name, description, role);
+        List<Tag> tagList = tagRepository.findByProjectId(projectId);
+        List<TagDTO> tagDTOList = tagList.stream()
+                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
+                .collect(Collectors.toList());
+
+
+        final ProjectOneResponse response = new ProjectOneResponse(projectId, name, description, role, tagDTOList);
 
         return response;
     }

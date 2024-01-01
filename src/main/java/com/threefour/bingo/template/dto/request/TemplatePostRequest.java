@@ -22,4 +22,6 @@ public class TemplatePostRequest {
     private TemplateType templateType;
 
     private List<QuestionRequest> questionRequestList;
+
+    private List<String> tagList;
 }

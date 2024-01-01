@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RetrospectRepository extends JpaRepository<Retrospect, Long> {
-    @Query("SELECT r.teamEvaluation, COUNT(r) FROM Retrospect r GROUP BY r.teamEvaluation")
-    List<Object[]> countByTeamEvaluation();
 
+    List<Retrospect> findByProjectIdAndTemplateId(Long projectId, Long templateId);
 
 }

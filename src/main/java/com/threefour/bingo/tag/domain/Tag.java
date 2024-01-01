@@ -1,6 +1,7 @@
 package com.threefour.bingo.tag.domain;
 
 import com.threefour.bingo.project.domain.Project;
+import com.threefour.bingo.retrospect.domain.Retrospect;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,10 @@ public class Tag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
+
+////    @ManyToOne(fetch = FetchType.LAZY)
+////    @JoinColumn(name = "retrospect_id")
+//    private Retrospect retrospect;
 
     @Builder
     public Tag(String name, Integer count, boolean isSelected, Project project) {

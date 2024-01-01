@@ -1,6 +1,5 @@
 package com.threefour.bingo.retrospect.service;
 
-import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.answer.domain.Answer;
 import com.threefour.bingo.answer.domain.AnswerRepository;
 import com.threefour.bingo.answer.dto.AnswerDTO;
@@ -9,18 +8,22 @@ import com.threefour.bingo.appUser.domain.AppUserRepository;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
 import com.threefour.bingo.question.domain.Question;
+import com.threefour.bingo.question.service.QuestionService;
 import com.threefour.bingo.retrospect.domain.Retrospect;
 import com.threefour.bingo.retrospect.domain.RetrospectRepository;
 import com.threefour.bingo.retrospect.dto.request.RetrospectPostRequest;
-import com.threefour.bingo.retrospect.dto.request.TeamEvaluationPostRequest;
+import com.threefour.bingo.retrospect.dto.request.TeamEvaluationRequest;
+import com.threefour.bingo.retrospect.dto.response.RetrospectGetResponse;
 import com.threefour.bingo.retrospect.dto.response.RetrospectPostResponse;
+import com.threefour.bingo.retrospect.dto.response.TeamEvaluationResponse;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import com.threefour.bingo.subQuestion.domain.SubQuestionRepository;
 import com.threefour.bingo.subQuestion.dto.SubQuestionDTO;
 import com.threefour.bingo.subQuestion.service.SubQuestionService;
 import com.threefour.bingo.tag.domain.Tag;
 import com.threefour.bingo.tag.domain.TagRepository;
-import com.threefour.bingo.tag.dto.TagDTO;
+import com.threefour.bingo.tag.dto.request.TagListProjectRequest;
+import com.threefour.bingo.tag.service.TagService;
 import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.domain.TemplateRepository;
 import com.threefour.bingo.template.service.TemplateService;
@@ -32,7 +35,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +49,9 @@ public class RetrospectService {
     private final TagRepository tagRepository;
     private final AnswerRepository answerRepository;
     private final RetrospectRepository retrospectRepository;
+    private final QuestionService questionService;
+    private final TemplateService templateService;
+    private final TagService tagService;
 
     @Transactional
     /*
@@ -118,22 +123,27 @@ public class RetrospectService {
         return answerDTOList;
     }
 
+    public List<RetrospectGetResponse> getRetrospect(Long projectId, Long templateId) {
 
-    public ResponseDto<Project> teamEvaluation(TeamEvaluationPostRequest request) {
+        List<Retrospect> retrospectList = retrospectRepository.findByProjectIdAndTemplateId(projectId, templateId);
 
-        Project project = projectRepository.findById(request.getProjectId()).orElseThrow(() -> new IllegalArgumentException("Project Not Found"));
+        List<RetrospectGetResponse> responseList = new ArrayList<>();
 
-        List<Tag> tagList = project.getTagList();
-        List<TagDTO> requestTagList = request.getTagList();
-
-        for (int i = 0; i < tagList.size(); i++) {
-            if (requestTagList.get(i).isSelected() == true) {
-                tagList.get(i).updateStatus(true);
-                log.info("업데이트 됐나용: " + tagList.get(i).getCount() + " " + tagList.get(i).isSelected());
-                tagRepository.save(tagList.get(i));
-            }
-        }
-
-        return ResponseDto.setFailed("그냥 한 거임 실패 아니야");
+        return responseList;
     }
+
+    public TeamEvaluationResponse teamEvaluation(TeamEvaluationRequest request) {
+
+        TagListProjectRequest request1 = new TagListProjectRequest(request.getProjectId(),
+                request.getName());
+
+        TeamEvaluationResponse response = new TeamEvaluationResponse();
+
+        List<Tag> temp = tagService.createBingo(request1);
+
+        return response;
+
+    }
+
+
 }

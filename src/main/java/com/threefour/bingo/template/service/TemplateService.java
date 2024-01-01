@@ -1,6 +1,5 @@
 package com.threefour.bingo.template.service;
 
-import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
 import com.threefour.bingo.enrollment.domain.Role;
@@ -10,6 +9,9 @@ import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.dto.QuestionDTO;
 import com.threefour.bingo.question.dto.request.QuestionRequest;
 import com.threefour.bingo.question.service.QuestionService;
+import com.threefour.bingo.tag.domain.Tag;
+import com.threefour.bingo.tag.dto.request.TagListProjectRequest;
+import com.threefour.bingo.tag.service.TagService;
 import com.threefour.bingo.template.domain.TemplateType;
 import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.domain.TemplateRepository;
@@ -36,7 +38,13 @@ public class TemplateService {
     private final ProjectRepository projectRepository;
     private final EnrollmentRepository enrollmentRepository;
     private final QuestionService questionService;
+    private final TagService tagService;
 
+    /*
+    1. 회고 템플릿 선택
+    2. 서브 질문 작성
+    3. 회고 임시 빙고판 생성
+    */
     @Transactional
     public TemplateResponse createTemplate(TemplatePostRequest request) {
 
@@ -49,7 +57,7 @@ public class TemplateService {
         final Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId(request.getUserId(), request.getProjectId());
         final Role role = enrollment.getRole();
         if (role == Role.TEAM_MEMBER) { // 작성자가 팀멤버 일 때
-
+            log.info("Team Member can not make template");
             return null;
         }
 
@@ -71,6 +79,9 @@ public class TemplateService {
         templateRepository.save(newTemplate);
 
         final List<QuestionDTO> questionDTOList = questionService.getAllQuestion(newTemplate.getId());
+
+        TagListProjectRequest tagListProjectRequest = new TagListProjectRequest(request.getProjectId(), request.getTagList());
+        List<Tag> tagList = tagService.createBingo(tagListProjectRequest);
 
 
         final TemplateResponse response = new TemplateResponse(newTemplate.getId(), newTemplate.getName(),

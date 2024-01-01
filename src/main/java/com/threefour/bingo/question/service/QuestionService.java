@@ -1,11 +1,15 @@
 package com.threefour.bingo.question.service;
 
+import com.threefour.bingo.answer.domain.Answer;
+import com.threefour.bingo.answer.dto.response.AnswerResponse;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.domain.QuestionRepository;
 import com.threefour.bingo.question.dto.QuestionDTO;
 import com.threefour.bingo.question.dto.request.QuestionRequest;
+import com.threefour.bingo.question.dto.response.QuestionResponse;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import com.threefour.bingo.subQuestion.dto.SubQuestionDTO;
+import com.threefour.bingo.subQuestion.dto.response.SubQuestionResponse;
 import com.threefour.bingo.subQuestion.service.SubQuestionService;
 import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.domain.TemplateRepository;
@@ -73,5 +77,23 @@ public class QuestionService {
                 }).collect(Collectors.toList());
 
         return questionDTOList;
+    }
+
+    public QuestionResponse toQuestionResponse(Question question) {
+        List<SubQuestionResponse> subQuestionResponses = question.getSubQuestionList().stream()
+                .map(this::toSubQuestionResponse)
+                .collect(Collectors.toList());
+
+        return new QuestionResponse(question.getId(), question.getMainQuestion(), subQuestionResponses);
+    }
+
+    private SubQuestionResponse toSubQuestionResponse(SubQuestion subQuestion) {
+        AnswerResponse answerResponse = toAnswerResponse(subQuestion.getAnswer());
+
+        return new SubQuestionResponse(subQuestion.getId(), subQuestion.getSubQuestion(), answerResponse);
+    }
+
+    private AnswerResponse toAnswerResponse(Answer answer) {
+        return new AnswerResponse(answer.getId(), answer.getAns());
     }
 }

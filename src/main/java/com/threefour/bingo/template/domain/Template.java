@@ -4,6 +4,7 @@ import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.retrospect.domain.Retrospect;
+import com.threefour.bingo.tag.domain.Tag;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,9 @@ public class Template {
 
     @OneToOne(mappedBy = "template", cascade = CascadeType.ALL)
     private Retrospect retrospect;
+
+//    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
+//    private List<Tag> tagList = new ArrayList<>();
 
     @Builder
     public Template(String name, AppUser appUser, Project project,

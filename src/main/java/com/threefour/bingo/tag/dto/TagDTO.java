@@ -1,9 +1,11 @@
 package com.threefour.bingo.tag.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class TagDTO {
 
@@ -13,5 +15,5 @@ public class TagDTO {
 
     private Integer count;
 
-    private boolean isSelected;
+//    private boolean isSelected;
 }

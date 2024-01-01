@@ -1,16 +1,14 @@
 package com.threefour.bingo.project.dto.response;
 
 import com.threefour.bingo.enrollment.domain.Role;
-import com.threefour.bingo.project.domain.Project;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
-public class ProjectInfoResponse {
-
+@AllArgsConstructor
+public class ProjectAllResponse {
     private Long id;
 
     private String name;
@@ -19,10 +17,8 @@ public class ProjectInfoResponse {
 
     private Role role;
 
-    public ProjectInfoResponse(Project project) {
-    }
 
-    public ProjectInfoResponse(Long id, String name, String description) {
+    public ProjectAllResponse(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

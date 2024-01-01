@@ -4,7 +4,7 @@ import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
 import com.threefour.bingo.tag.domain.Tag;
 import com.threefour.bingo.tag.domain.TagRepository;
-import com.threefour.bingo.tag.dto.request.TagListPostRequest;
+import com.threefour.bingo.tag.dto.request.TagListProjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class TagService {
     private final ProjectRepository projectRepository;
     private final TagRepository tagRepository;
 
-    public List<Tag> createBingo(TagListPostRequest request) {
+    public List<Tag> createBingo(TagListProjectRequest request) {
 
         log.info("받아온 아이디는: " + request.getProjectId());
 

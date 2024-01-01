@@ -1,5 +1,6 @@
-package com.threefour.bingo.tag.dto.request;
+package com.threefour.bingo.retrospect.dto.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -7,7 +8,8 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class TagListPostRequest {
+@AllArgsConstructor
+public class TeamEvaluationRequest {
 
     private Long projectId;
 

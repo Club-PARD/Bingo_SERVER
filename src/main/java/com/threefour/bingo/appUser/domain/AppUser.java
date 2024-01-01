@@ -33,8 +33,10 @@ public class AppUser {
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     private List<SubQuestion> subQuestionList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
-    private Answer answer;
+    //    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
+//    private Answer answer;
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    private List<Answer> answerList = new ArrayList<>();
 
     @Builder
     public AppUser(String name, String email, String token) {

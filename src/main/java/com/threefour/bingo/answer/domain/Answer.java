@@ -25,9 +25,13 @@ public class Answer {
     @JoinColumn(name = "sub_question_id")
     private SubQuestion subQuestion;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    //    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "app_user_id")
+//    private AppUser appUser;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id")
     private AppUser appUser;
+
 
     @Builder
     public Answer(String ans, SubQuestion subQuestion, AppUser appUser) {

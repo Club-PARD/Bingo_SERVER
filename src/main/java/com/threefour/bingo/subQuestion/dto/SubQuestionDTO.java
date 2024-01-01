@@ -19,6 +19,11 @@ public class SubQuestionDTO {
         this.subQuestion = subQuestion.getSubQuestion();
     }
 
+    public SubQuestion toEntity() {
+        return SubQuestion.builder()
+                .subQuestion(subQuestion)
+                .build();
+    }
 }
 
 

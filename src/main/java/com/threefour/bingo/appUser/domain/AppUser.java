@@ -1,5 +1,6 @@
 package com.threefour.bingo.appUser.domain;
 
+import com.threefour.bingo.answer.domain.Answer;
 import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import jakarta.persistence.*;
@@ -31,6 +32,9 @@ public class AppUser {
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     private List<SubQuestion> subQuestionList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
+    private Answer answer;
 
     @Builder
     public AppUser(String name, String email, String token) {

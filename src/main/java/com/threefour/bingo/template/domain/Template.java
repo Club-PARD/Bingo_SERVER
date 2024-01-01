@@ -37,8 +37,7 @@ public class Template {
     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
     private List<Question> questionList = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "retrospect_id")
+    @OneToOne(mappedBy = "template", cascade = CascadeType.ALL)
     private Retrospect retrospect;
 
     @Builder

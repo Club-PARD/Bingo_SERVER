@@ -1,5 +1,6 @@
 package com.threefour.bingo.subQuestion.domain;
 
+import com.threefour.bingo.answer.domain.Answer;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.question.domain.Question;
 import jakarta.persistence.*;
@@ -27,6 +28,9 @@ public class SubQuestion {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appUser_id")
     private AppUser appUser;
+
+    @OneToOne(mappedBy = "subQuestion", cascade = CascadeType.ALL)
+    private Answer answer;
 
     @Builder
     public SubQuestion(String subQuestion, Question question) {

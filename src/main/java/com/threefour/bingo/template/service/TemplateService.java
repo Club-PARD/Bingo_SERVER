@@ -73,7 +73,7 @@ public class TemplateService {
 
         templateRepository.save(newTemplate);
 
-        List<QuestionDTO> questionDTOList = questionService.getAllQuestion(newTemplate.getId());
+        final List<QuestionDTO> questionDTOList = questionService.getAllQuestion(newTemplate.getId());
 
 
         final TemplateResponse response = new TemplateResponse(newTemplate.getId(), newTemplate.getName(),
@@ -87,13 +87,13 @@ public class TemplateService {
     @Transactional
     public List<TemplateResponse> getAllTemplates(Long appUserId, Long projectId) {
 
-        List<Template> templateList = templateRepository.findByAppUserIdAndProjectId(appUserId, projectId);
+        final List<Template> templateList = templateRepository.findByAppUserIdAndProjectId(appUserId, projectId);
 
         if (templateList == null || templateList.isEmpty()) {
             return null;
         }
 
-        List<TemplateResponse> templateResponseList = templateList.stream().map(template -> {
+        final List<TemplateResponse> templateResponseList = templateList.stream().map(template -> {
             List<QuestionDTO> questionDTOList = questionService.getAllQuestion(template.getId());
 
             return new TemplateResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
@@ -106,16 +106,16 @@ public class TemplateService {
     @Transactional
     public TemplateResponse getTemplate(Long appUserId, Long projectId, Long templateId) {
 
-        Template template = templateRepository.findByAppUserIdAndProjectIdAndId
+        final Template template = templateRepository.findByAppUserIdAndProjectIdAndId
                 (appUserId, projectId, templateId);
 
         if (template == null) {
             return null;
         }
 
-        List<QuestionDTO> questionDTOList = questionService.getAllQuestion(template.getId());
+        final List<QuestionDTO> questionDTOList = questionService.getAllQuestion(template.getId());
 
-        TemplateResponse response = new TemplateResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
+        final TemplateResponse response = new TemplateResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
 
         return response;
 

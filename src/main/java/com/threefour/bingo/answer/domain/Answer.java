@@ -30,8 +30,9 @@ public class Answer {
     private AppUser appUser;
 
     @Builder
-    public Answer(String ans, SubQuestion subQuestion) {
+    public Answer(String ans, SubQuestion subQuestion, AppUser appUser) {
         this.ans = ans;
         this.subQuestion = subQuestion;
+        this.appUser = appUser;
     }
 }

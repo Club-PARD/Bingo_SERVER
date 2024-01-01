@@ -18,7 +18,7 @@ public class TemplateDTO {
 
     private String name;
 
-    private TemplateType templateType;
+//    private TemplateType templateType;
 
     private List<QuestionDTO> questionList = new ArrayList<>();
 

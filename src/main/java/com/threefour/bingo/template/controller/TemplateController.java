@@ -1,10 +1,5 @@
 package com.threefour.bingo.template.controller;
 
-
-import com.threefour.bingo.ResponseDto;
-import com.threefour.bingo.template.domain.Template;
-import com.threefour.bingo.template.dto.TemplateDTO;
-import com.threefour.bingo.template.dto.request.TemplateGetAllRequest;
 import com.threefour.bingo.template.dto.request.TemplatePostRequest;
 import com.threefour.bingo.template.dto.response.TemplateResponse;
 import com.threefour.bingo.template.service.TemplateService;

@@ -49,6 +49,10 @@ public class RetrospectService {
     private final RetrospectRepository retrospectRepository;
 
     @Transactional
+    /*
+    1. 템플릿으로 부터 질문 리스트 받아옴
+    2. 질문 리스트 토대로 답변 작성
+    */
     public RetrospectPostResponse writeRetrospect(RetrospectPostRequest request) {
 
         final AppUser appUser = appUserRepository.findById(request.getAppUserId())
@@ -83,36 +87,35 @@ public class RetrospectService {
             subQuestionDTOList.addAll(temp);
         }
 
+        log.info("size of List<SubQuestionDTO>: {}", subQuestionDTOList.size());
+
         return subQuestionDTOList;
     }
 
     private List<AnswerDTO> createAndSaveAnswers(List<AnswerDTO> answersDTO, List<SubQuestionDTO> subQuestionList, AppUser appUser) {
 
+        log.info("size of List<AnswerDTO>: {}", answersDTO.size());
+        log.info("size of List<SubQuestionDTO>: {}", subQuestionList.size());
         if (answersDTO.size() != subQuestionList.size()) {
             throw new IllegalArgumentException("The number of answers does not match the number of sub-questions.");
         }
 
-        List<AnswerDTO> answers = new ArrayList<>();
-        for (int i = 0; i < answersDTO.size(); i++) {
-            SubQuestionDTO subQuestion = subQuestionList.get(i);
+        List<AnswerDTO> answerDTOList = new ArrayList<>();
 
-            // 현재 서브 질문에 대한 기존 답변이 있는지 체크
-            Answer existingAnswer = answerRepository.findBySubQuestionId(subQuestion.getId());
-            if (existingAnswer != null) {
-                log.info("설마 여기,,,?");
-            } else {
-                // 기존 답변이 없다면 새로운 답변을 생성
-//                Answer newAnswer = new Answer(answersDTO.get(i).getAns(), subQuestion, appUser);
-                AnswerDTO newAnswer = new AnswerDTO(answersDTO.get(i).getAns(), subQuestion);
-                SubQuestion check = subQuestionRepository.findById(newAnswer.getSubQuestionDTO().getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Sub Q Not Found"));
-                answers.add(newAnswer);
-                answerRepository.save(newAnswer.toEntity());
-            }
+        for (int i = 0; i < subQuestionList.size(); i++) {
+            SubQuestionDTO subQuestionDTO = subQuestionList.get(i);
+
+            SubQuestion subQuestion = subQuestionRepository.findById(subQuestionDTO.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("SubQuestion Not Found"));
+
+            AnswerDTO answerDTO = answersDTO.get(i);
+            Answer answer = new Answer(answerDTO.getAns(), subQuestion, appUser);
+
+            answerRepository.save(answer);
+            answerDTOList.add(answerDTO);
         }
 
-        // 변경된 답변을 저장하고 반환
-        return answers;
+        return answerDTOList;
     }
 
 

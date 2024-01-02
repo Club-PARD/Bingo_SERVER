@@ -3,11 +3,14 @@ package com.threefour.bingo.retrospect.service;
 import com.threefour.bingo.answer.domain.Answer;
 import com.threefour.bingo.answer.domain.AnswerRepository;
 import com.threefour.bingo.answer.dto.AnswerDTO;
+import com.threefour.bingo.answer.dto.response.AnswerResponse;
+import com.threefour.bingo.answer.service.AnswerService;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
 import com.threefour.bingo.question.domain.Question;
+import com.threefour.bingo.question.dto.QuestionDTO;
 import com.threefour.bingo.question.service.QuestionService;
 import com.threefour.bingo.retrospect.domain.Retrospect;
 import com.threefour.bingo.retrospect.domain.RetrospectRepository;
@@ -15,17 +18,20 @@ import com.threefour.bingo.retrospect.dto.request.RetrospectPostRequest;
 import com.threefour.bingo.retrospect.dto.request.TeamEvaluationRequest;
 import com.threefour.bingo.retrospect.dto.response.RetrospectGetResponse;
 import com.threefour.bingo.retrospect.dto.response.RetrospectPostResponse;
-import com.threefour.bingo.retrospect.dto.response.TeamEvaluationResponse;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import com.threefour.bingo.subQuestion.domain.SubQuestionRepository;
 import com.threefour.bingo.subQuestion.dto.SubQuestionDTO;
 import com.threefour.bingo.subQuestion.service.SubQuestionService;
 import com.threefour.bingo.tag.domain.Tag;
 import com.threefour.bingo.tag.domain.TagRepository;
+import com.threefour.bingo.tag.dto.TagDTO;
 import com.threefour.bingo.tag.dto.request.TagListProjectRequest;
 import com.threefour.bingo.tag.service.TagService;
 import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.domain.TemplateRepository;
+import com.threefour.bingo.template.dto.TemplateDTO;
+import com.threefour.bingo.template.dto.response.TemplateInfoResponse;
+import com.threefour.bingo.template.dto.response.TemplateOneResponse;
 import com.threefour.bingo.template.service.TemplateService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -35,6 +41,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,15 +56,10 @@ public class RetrospectService {
     private final TagRepository tagRepository;
     private final AnswerRepository answerRepository;
     private final RetrospectRepository retrospectRepository;
-    private final QuestionService questionService;
     private final TemplateService templateService;
-    private final TagService tagService;
+    private final AnswerService answerService;
 
     @Transactional
-    /*
-    1. 템플릿으로 부터 질문 리스트 받아옴
-    2. 질문 리스트 토대로 답변 작성
-    */
     public RetrospectPostResponse writeRetrospect(RetrospectPostRequest request) {
 
         final AppUser appUser = appUserRepository.findById(request.getAppUserId())
@@ -81,7 +83,8 @@ public class RetrospectService {
         return response;
     }
 
-    private List<SubQuestionDTO> getSubQuestionsFromTemplate(Template template) {
+    @Transactional
+    public List<SubQuestionDTO> getSubQuestionsFromTemplate(Template template) {
 
         List<Question> questionList = template.getQuestionList();
         List<SubQuestionDTO> subQuestionDTOList = new ArrayList<>();
@@ -95,6 +98,7 @@ public class RetrospectService {
         log.info("size of List<SubQuestionDTO>: {}", subQuestionDTOList.size());
 
         return subQuestionDTOList;
+
     }
 
     private List<AnswerDTO> createAndSaveAnswers(List<AnswerDTO> answersDTO, List<SubQuestionDTO> subQuestionList, AppUser appUser) {
@@ -123,27 +127,49 @@ public class RetrospectService {
         return answerDTOList;
     }
 
-    public List<RetrospectGetResponse> getRetrospect(Long projectId, Long templateId) {
-
+    public RetrospectGetResponse getRetrospect(Long projectId, Long templateId) {
+        // Retrospect 조회
         List<Retrospect> retrospectList = retrospectRepository.findByProjectIdAndTemplateId(projectId, templateId);
 
-        List<RetrospectGetResponse> responseList = new ArrayList<>();
+        TemplateOneResponse template = templateService.getTemplate(projectId, templateId);
 
-        return responseList;
-    }
+        List<QuestionDTO> questionDTOList = template.getQuestionList();
 
-    public TeamEvaluationResponse teamEvaluation(TeamEvaluationRequest request) {
+        TemplateDTO templateDTO = new TemplateDTO(template.getId(), template.getName(), questionDTOList);
+        List<TagDTO> tagDTOList = teamEvaluation(projectId, templateId);
 
-        TagListProjectRequest request1 = new TagListProjectRequest(request.getProjectId(),
-                request.getName());
-
-        TeamEvaluationResponse response = new TeamEvaluationResponse();
-
-        List<Tag> temp = tagService.createBingo(request1);
+        RetrospectGetResponse response = new RetrospectGetResponse(tagDTOList, templateDTO);
 
         return response;
-
     }
 
+    public List<TagDTO> teamEvaluation(Long projectId, Long templateId) {
+
+        List<Tag> tagProjectList = tagRepository.findByProjectIdAndTemplateId(
+                projectId, null
+        );
+        List<Tag> tagTemplateList = tagRepository.findByProjectIdAndTemplateId(
+                projectId, templateId
+        );
+
+        for (int i = 0; i < tagTemplateList.size(); i++) {
+
+            Tag templateTag = tagTemplateList.get(i);
+            Tag projectTag = tagProjectList.get(i);
+            if (templateTag.isSelected() == true) {
+                templateTag.countUp();
+                projectTag.countUp();
+                tagRepository.save(templateTag);
+                tagRepository.save(projectTag);
+            }
+        }
+
+        List<TagDTO> tagDTOList = tagTemplateList.stream()
+                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
+                .collect(Collectors.toList());
+
+        return tagDTOList;
+
+    }
 
 }

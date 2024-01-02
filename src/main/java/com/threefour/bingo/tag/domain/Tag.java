@@ -51,16 +51,8 @@ public class Tag {
 
     }
 
-    public void updateStatus(boolean isSelected) {
-        this.isSelected = isSelected;
-        this.count++;
-    }
-
     public void countUp() {
         this.count++;
     }
 
-    public enum TeamEvaluation {
-        GOOD, AVERAGE, POOR // 예시 요소
-    }
 }

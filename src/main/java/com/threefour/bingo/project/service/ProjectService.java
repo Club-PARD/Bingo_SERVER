@@ -56,7 +56,7 @@ public class ProjectService {
                 request.getProjectId(), request.getTagList()
         );
 
-        tagService.createBingo(tagListProjectRequest);
+        tagService.createProjectBingo(tagListProjectRequest);
 
 
         final ProjectOneResponse response = new ProjectOneResponse(project.getId(), project.getName(),

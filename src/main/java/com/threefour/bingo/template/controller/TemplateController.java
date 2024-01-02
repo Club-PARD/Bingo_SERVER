@@ -28,22 +28,21 @@ public class TemplateController {
 
     }
 
-    @GetMapping("/appUser/{appUserId}/project/{projectId}")
-    public ResponseEntity<List<TemplateAllResponse>> getAllTemplates(@PathVariable final Long appUserId
-            , @PathVariable Long projectId) {
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<List<TemplateAllResponse>> getAllTemplates(@PathVariable Long projectId) {
 
-        final List<TemplateAllResponse> responses = templateService.getAllTemplates(appUserId, projectId);
+        final List<TemplateAllResponse> responses = templateService.getAllTemplates(projectId);
 
         return ResponseEntity.ok()
                 .body(responses);
 
     }
 
-    @GetMapping("/appUser/{appUserId}/project/{projectId}/template/{templateId}")
-    public ResponseEntity<TemplateOneResponse> getTemplate(@PathVariable final Long appUserId
-            , @PathVariable final Long projectId, @PathVariable final Long templateId) {
+    @GetMapping("/project/{projectId}/template/{templateId}")
+    public ResponseEntity<TemplateOneResponse> getTemplate(@PathVariable final Long projectId
+            , @PathVariable final Long templateId) {
 
-        final TemplateOneResponse response = templateService.getTemplate(appUserId, projectId, templateId);
+        final TemplateOneResponse response = templateService.getTemplate(projectId, templateId);
 
         return ResponseEntity.ok()
                 .body(response);

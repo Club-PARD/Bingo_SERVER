@@ -4,6 +4,8 @@ import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
 import com.threefour.bingo.tag.domain.Tag;
 import com.threefour.bingo.tag.domain.TagRepository;
+import com.threefour.bingo.tag.dto.TagDTO;
+import com.threefour.bingo.tag.dto.request.TagGetRequest;
 import com.threefour.bingo.tag.dto.request.TagListProjectRequest;
 import com.threefour.bingo.tag.dto.request.TagListTemplateRequest;
 import com.threefour.bingo.template.domain.Template;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -71,6 +74,17 @@ public class TagService {
         projectRepository.save(project);
 
         return tagList;
+    }
+
+    public List<TagDTO> getTagList(Long projectId, Long templateId) {
+        List<Tag> tagList = tagRepository.findByProjectIdAndTemplateId(projectId, templateId);
+
+        List<TagDTO> tagDTOList = tagList.stream()
+                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
+                .collect(Collectors.toList());
+
+        return tagDTOList;
+
     }
 
 }

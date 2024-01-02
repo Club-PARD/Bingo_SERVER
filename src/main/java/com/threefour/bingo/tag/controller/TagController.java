@@ -19,10 +19,10 @@ public class TagController {
 
     private final TagService tagService;
 
-    @PostMapping("")
-    public ResponseDto<List<Tag>> createBingoBoard(@RequestBody final TagListProjectRequest request) {
-        List<Tag> tagList = tagService.createBingo(request);
-
-        return ResponseDto.setSuccess("Bingo Created", tagList);
-    }
+//    @PostMapping("")
+//    public ResponseDto<List<Tag>> createBingoBoard(@RequestBody final TagListProjectRequest request) {
+//        List<Tag> tagList = tagService.createBingo(request);
+//
+//        return ResponseDto.setSuccess("Bingo Created", tagList);
+//    }
 }

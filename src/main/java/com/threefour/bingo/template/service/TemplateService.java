@@ -44,11 +44,6 @@ public class TemplateService {
     private final TagService tagService;
     private final TagRepository tagRepository;
 
-    /*
-    1. 회고 템플릿 선택
-    2. 서브 질문 작성
-    3. 회고 임시 빙고판 생성
-    */
     @Transactional
     public TemplateAllResponse createTemplate(TemplatePostRequest request) {
 
@@ -86,9 +81,7 @@ public class TemplateService {
 
         TagListTemplateRequest tagListTemplateRequest = new TagListTemplateRequest(request.getProjectId(), newTemplate.getId(), request.getTagList());
         List<Tag> tagList = tagService.createTemplateBingo(tagListTemplateRequest);
-        List<TagDTO> tagDTOList = tagList.stream()
-                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
-                .collect(Collectors.toList());
+        tagRepository.saveAll(tagList);
 
         final TemplateAllResponse response = new TemplateAllResponse(newTemplate.getId(), newTemplate.getName(),
                 newTemplate.getTemplateType(), questionDTOList);
@@ -99,9 +92,9 @@ public class TemplateService {
 
 
     @Transactional
-    public List<TemplateAllResponse> getAllTemplates(Long appUserId, Long projectId) {
+    public List<TemplateAllResponse> getAllTemplates(Long projectId) {
 
-        final List<Template> templateList = templateRepository.findByAppUserIdAndProjectId(appUserId, projectId);
+        final List<Template> templateList = templateRepository.findByProjectId(projectId);
 
         if (templateList == null || templateList.isEmpty()) {
             return null;
@@ -118,10 +111,9 @@ public class TemplateService {
     }
 
     @Transactional
-    public TemplateOneResponse getTemplate(Long appUserId, Long projectId, Long templateId) {
+    public TemplateOneResponse getTemplate(Long projectId, Long templateId) {
 
-        final Template template = templateRepository.findByAppUserIdAndProjectIdAndId
-                (appUserId, projectId, templateId);
+        final Template template = templateRepository.findByProjectIdAndId(projectId, templateId);
 
         if (template == null) {
             return null;

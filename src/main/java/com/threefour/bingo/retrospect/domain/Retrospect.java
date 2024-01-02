@@ -33,8 +33,8 @@ public class Retrospect {
     @JoinColumn(name = "template_id")
     private Template template;
 
-    @Enumerated(EnumType.STRING)
-    private Tag.TeamEvaluation teamEvaluation;
+//    @Enumerated(EnumType.STRING)
+//    private Tag.TeamEvaluation teamEvaluation;
 
 //    @OneToMany(mappedBy = "retrospect", cascade = CascadeType.ALL)
 //    private List<Tag> tagList = new ArrayList<>();

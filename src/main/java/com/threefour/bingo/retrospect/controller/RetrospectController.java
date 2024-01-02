@@ -39,13 +39,13 @@ public class RetrospectController {
     }
 
     @GetMapping("/project/{projectId}/template/{templateId}")
-    public ResponseEntity<List<RetrospectGetResponse>> getRetrospects(@PathVariable final Long projectId
+    public ResponseEntity<RetrospectGetResponse> getRetrospects(@PathVariable final Long projectId
             , @PathVariable final Long templateId) {
 
-        List<RetrospectGetResponse> responseList = retrospectService.getRetrospect(projectId, templateId);
+        RetrospectGetResponse response = retrospectService.getRetrospect(projectId, templateId);
 
         return ResponseEntity.ok()
-                .body(responseList);
+                .body(response);
 
     }
 

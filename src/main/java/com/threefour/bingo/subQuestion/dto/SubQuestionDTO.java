@@ -20,13 +20,9 @@ public class SubQuestionDTO {
     public SubQuestionDTO(SubQuestion subQuestion) {
         this.id = subQuestion.getId();
         this.subQuestion = subQuestion.getSubQuestion();
-        this.answerResponse = new AnswerResponse(subQuestion.getAnswer().getId(), subQuestion.getAnswer().getAns());
-    }
-
-    public SubQuestionDTO(SubQuestionDTO subQuestionDTO) {
-        this.id = subQuestionDTO.getId();
-        this.subQuestion = subQuestionDTO.getSubQuestion();
-        this.answerResponse = subQuestionDTO.getAnswerResponse();
+        if (subQuestion.getAnswer() != null) {
+            this.answerResponse = new AnswerResponse(subQuestion.getAnswer().getId(), subQuestion.getAnswer().getAns());
+        }
     }
 
     public SubQuestion toEntity() {

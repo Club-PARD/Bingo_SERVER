@@ -10,7 +10,9 @@ import com.threefour.bingo.question.dto.QuestionDTO;
 import com.threefour.bingo.question.dto.request.QuestionRequest;
 import com.threefour.bingo.question.service.QuestionService;
 import com.threefour.bingo.tag.domain.Tag;
-import com.threefour.bingo.tag.dto.request.TagListProjectRequest;
+import com.threefour.bingo.tag.domain.TagRepository;
+import com.threefour.bingo.tag.dto.TagDTO;
+import com.threefour.bingo.tag.dto.request.TagListTemplateRequest;
 import com.threefour.bingo.tag.service.TagService;
 import com.threefour.bingo.template.domain.TemplateType;
 import com.threefour.bingo.template.domain.Template;
@@ -18,7 +20,8 @@ import com.threefour.bingo.template.domain.TemplateRepository;
 import com.threefour.bingo.template.dto.request.TemplatePostRequest;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
-import com.threefour.bingo.template.dto.response.TemplateResponse;
+import com.threefour.bingo.template.dto.response.TemplateAllResponse;
+import com.threefour.bingo.template.dto.response.TemplateOneResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +42,7 @@ public class TemplateService {
     private final EnrollmentRepository enrollmentRepository;
     private final QuestionService questionService;
     private final TagService tagService;
+    private final TagRepository tagRepository;
 
     /*
     1. 회고 템플릿 선택
@@ -46,7 +50,7 @@ public class TemplateService {
     3. 회고 임시 빙고판 생성
     */
     @Transactional
-    public TemplateResponse createTemplate(TemplatePostRequest request) {
+    public TemplateAllResponse createTemplate(TemplatePostRequest request) {
 
         final AppUser appUser = appUserRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
@@ -80,11 +84,13 @@ public class TemplateService {
 
         final List<QuestionDTO> questionDTOList = questionService.getAllQuestion(newTemplate.getId());
 
-        TagListProjectRequest tagListProjectRequest = new TagListProjectRequest(request.getProjectId(), request.getTagList());
-        List<Tag> tagList = tagService.createBingo(tagListProjectRequest);
+        TagListTemplateRequest tagListTemplateRequest = new TagListTemplateRequest(request.getProjectId(), newTemplate.getId(), request.getTagList());
+        List<Tag> tagList = tagService.createTemplateBingo(tagListTemplateRequest);
+        List<TagDTO> tagDTOList = tagList.stream()
+                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
+                .collect(Collectors.toList());
 
-
-        final TemplateResponse response = new TemplateResponse(newTemplate.getId(), newTemplate.getName(),
+        final TemplateAllResponse response = new TemplateAllResponse(newTemplate.getId(), newTemplate.getName(),
                 newTemplate.getTemplateType(), questionDTOList);
 
         return response;
@@ -93,7 +99,7 @@ public class TemplateService {
 
 
     @Transactional
-    public List<TemplateResponse> getAllTemplates(Long appUserId, Long projectId) {
+    public List<TemplateAllResponse> getAllTemplates(Long appUserId, Long projectId) {
 
         final List<Template> templateList = templateRepository.findByAppUserIdAndProjectId(appUserId, projectId);
 
@@ -101,18 +107,18 @@ public class TemplateService {
             return null;
         }
 
-        final List<TemplateResponse> templateResponseList = templateList.stream().map(template -> {
+        final List<TemplateAllResponse> templateAllResponseList = templateList.stream().map(template -> {
             List<QuestionDTO> questionDTOList = questionService.getAllQuestion(template.getId());
 
-            return new TemplateResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
+            return new TemplateAllResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
         }).collect(Collectors.toList());
 
-        return templateResponseList;
+        return templateAllResponseList;
 
     }
 
     @Transactional
-    public TemplateResponse getTemplate(Long appUserId, Long projectId, Long templateId) {
+    public TemplateOneResponse getTemplate(Long appUserId, Long projectId, Long templateId) {
 
         final Template template = templateRepository.findByAppUserIdAndProjectIdAndId
                 (appUserId, projectId, templateId);
@@ -123,7 +129,12 @@ public class TemplateService {
 
         final List<QuestionDTO> questionDTOList = questionService.getAllQuestion(template.getId());
 
-        final TemplateResponse response = new TemplateResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
+        List<Tag> tagList = tagRepository.findByProjectIdAndTemplateId(projectId, templateId);
+        List<TagDTO> tagDTOList = tagList.stream()
+                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
+                .collect(Collectors.toList());
+
+        final TemplateOneResponse response = new TemplateOneResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList, tagDTOList);
 
         return response;
 

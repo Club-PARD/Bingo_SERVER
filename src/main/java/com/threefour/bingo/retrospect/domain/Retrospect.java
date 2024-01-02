@@ -3,7 +3,6 @@ package com.threefour.bingo.retrospect.domain;
 import com.threefour.bingo.appUser.domain.AppUser;
 
 import com.threefour.bingo.project.domain.Project;
-import com.threefour.bingo.tag.TeamEvaluation;
 import com.threefour.bingo.tag.domain.Tag;
 import com.threefour.bingo.template.domain.Template;
 import jakarta.persistence.*;
@@ -11,10 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.parameters.P;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -39,7 +34,7 @@ public class Retrospect {
     private Template template;
 
     @Enumerated(EnumType.STRING)
-    private TeamEvaluation teamEvaluation;
+    private Tag.TeamEvaluation teamEvaluation;
 
 //    @OneToMany(mappedBy = "retrospect", cascade = CascadeType.ALL)
 //    private List<Tag> tagList = new ArrayList<>();

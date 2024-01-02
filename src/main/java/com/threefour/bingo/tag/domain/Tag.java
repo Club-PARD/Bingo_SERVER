@@ -1,7 +1,7 @@
 package com.threefour.bingo.tag.domain;
 
 import com.threefour.bingo.project.domain.Project;
-import com.threefour.bingo.retrospect.domain.Retrospect;
+import com.threefour.bingo.template.domain.Template;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,9 +26,9 @@ public class Tag {
     @JoinColumn(name = "project_id")
     private Project project;
 
-////    @ManyToOne(fetch = FetchType.LAZY)
-////    @JoinColumn(name = "retrospect_id")
-//    private Retrospect retrospect;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "template_id")
+    private Template template;
 
     @Builder
     public Tag(String name, Integer count, boolean isSelected, Project project) {
@@ -37,6 +37,17 @@ public class Tag {
         this.count = count;
         this.isSelected = isSelected;
         this.project = project;
+
+    }
+
+    @Builder
+    public Tag(String name, Integer count, boolean isSelected, Project project, Template template) {
+
+        this.name = name;
+        this.count = count;
+        this.isSelected = isSelected;
+        this.project = project;
+        this.template = template;
 
     }
 
@@ -49,4 +60,7 @@ public class Tag {
         this.count++;
     }
 
+    public enum TeamEvaluation {
+        GOOD, AVERAGE, POOR // 예시 요소
+    }
 }

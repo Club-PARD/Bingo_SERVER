@@ -41,8 +41,8 @@ public class Template {
     @OneToOne(mappedBy = "template", cascade = CascadeType.ALL)
     private Retrospect retrospect;
 
-//    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
-//    private List<Tag> tagList = new ArrayList<>();
+    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
+    private List<Tag> tagList = new ArrayList<>();
 
     @Builder
     public Template(String name, AppUser appUser, Project project,

@@ -44,6 +44,7 @@ public class AWSService {
     //S3폴더 내 파일 리스트 전달
     public List<String> getFileList(String directory) {
         List<String> fileList = new ArrayList<>();
+        log.info("받아온 디렉토리는: ", directory);
 
         ListObjectsV2Request listObjectsV2Request = new ListObjectsV2Request()
                 .withBucketName(bucketName)

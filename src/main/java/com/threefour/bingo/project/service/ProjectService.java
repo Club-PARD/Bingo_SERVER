@@ -94,15 +94,8 @@ public class ProjectService {
             String picture = enrollment.getProject().getPicture();
             ProjectAllResponse projectAllResponse = new ProjectAllResponse();
 
-            for (int i = 0; i < pictures.size(); i++) {
-                if (picture != null) {
-                    log.info("db: {}", picture);
-                }
-                log.info("s3: {}", pictures.get(i));
-                if (pictures.get(i).contains(picture)) {
-                    log.info("여기야 여기 ㅠㅠ");
-                }
-            }
+            log.info("db: {}", picture);
+//            log.info("db: {}", pictures);
 
             Long projectId = enrollment.getProject().getId();
             String name = enrollment.getProject().getName();

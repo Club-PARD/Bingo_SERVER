@@ -1,6 +1,5 @@
 package com.threefour.bingo.auth.service;
 
-import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
 import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;

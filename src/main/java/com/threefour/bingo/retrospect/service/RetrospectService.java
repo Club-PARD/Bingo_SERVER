@@ -25,6 +25,7 @@ import com.threefour.bingo.tag.domain.Tag;
 import com.threefour.bingo.tag.domain.TagRepository;
 import com.threefour.bingo.tag.dto.TagDTO;
 import com.threefour.bingo.tag.dto.request.TagPostRequest;
+import com.threefour.bingo.tag.service.TagService;
 import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.domain.TemplateRepository;
 import com.threefour.bingo.template.dto.TemplateDTO;
@@ -55,6 +56,7 @@ public class RetrospectService {
     private final RetrospectRepository retrospectRepository;
     private final TemplateService templateService;
     private final AppUserService appUserService;
+    private final TagService tagService;
 
     @Transactional
     public RetrospectPostResponse writeRetrospect(RetrospectPostRequest request) {
@@ -187,8 +189,8 @@ public class RetrospectService {
         List<QuestionDTO> questionDTOList = template.getQuestionList();
 
         TemplateDTO templateDTO = new TemplateDTO(template.getId(), template.getName(), questionDTOList);
-        List<TagDTO> tagDTOList = new ArrayList<>();
-        //        List<TagDTO> tagDTOList = teamEvaluation(projectId, templateId);
+        List<Tag> tagList = tagRepository.findByProjectIdAndTemplateId(projectId, templateId);
+        List<TagDTO> tagDTOList = tagService.getTagList(projectId, templateId);
 
         RetrospectGetResponse response = new RetrospectGetResponse(tagDTOList, templateDTO);
 

@@ -19,6 +19,7 @@ import com.threefour.bingo.tag.dto.request.TagListProjectRequest;
 import com.threefour.bingo.tag.service.TagService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
@@ -77,6 +79,10 @@ public class ProjectService {
     @Transactional
     public List<ProjectAllResponse> getAllProjectsByUser(Long id) {
         final List<String> pictures = awsService.getFileList("projectList");
+        log.info("size of pictures: " + pictures.size());
+        for (int i = 0; i < pictures.size(); i++) {
+            log.info("사진 이름: " + pictures.get(i));
+        }
 
         final List<ProjectAllResponse> projectAllResponses = new ArrayList<>();
 
@@ -97,6 +103,7 @@ public class ProjectService {
             Role role = enrollment.getRole();
 
             if (pictures.contains(picture)) {
+                log.info("여기 오나");
                 ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, picture, role);
                 projectAllResponse = temp;
             } else {

@@ -1,6 +1,7 @@
 package com.threefour.bingo.aws;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -21,17 +22,23 @@ public class AWSController {
     private final AWSService awsService;
 
     @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
-//    @PostMapping("")
-//    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-//        try {
-//            String fileUrl = awsService.uploadFile(file);
-//            return ResponseEntity.ok(fileUrl);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+    @PostMapping("")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            String fileName = file.getOriginalFilename();
+            String fileUrl = "https://" + bucket + "/test/" + fileName;  // 수정: URL 경로에 슬래시 추가
+            ObjectMetadata metadata = new ObjectMetadata();  // 수정: 변수명 수정
+            metadata.setContentType(file.getContentType());
+            metadata.setContentLength(file.getSize());
+            amazonS3.putObject(bucket, fileName, file.getInputStream(), metadata);
+            return ResponseEntity.ok(fileUrl);
+        } catch (IOException e) {
+            e.printStackTrace();  // 수정: 예외 처리 개선
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     //board 이미지 전달
     @GetMapping("/cards/{category}/images")

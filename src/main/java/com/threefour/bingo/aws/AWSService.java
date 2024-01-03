@@ -9,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,18 +26,18 @@ public class AWSService {
     @Value("${cloud.aws.region.static}")
     private String region;
 
-    public String uploadFile(MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
-        String fileUrl = "https://" + bucketName + "/test/" + fileName;
-
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType(file.getContentType());
-        metadata.setContentLength(file.getSize());
-
-        amazonS3.putObject(bucketName, fileName, file.getInputStream(), metadata);
-
-        return fileUrl;
-    }
+//    public String uploadFile(MultipartFile file) throws IOException {
+//        String fileName = file.getOriginalFilename();
+//        String fileUrl = "https://" + bucketName + "/test/" + fileName;
+//
+//        ObjectMetadata metadata = new ObjectMetadata();
+//        metadata.setContentType(file.getContentType());
+//        metadata.setContentLength(file.getSize());
+//
+//        amazonS3.putObject(bucketName, fileName, file.getInputStream(), metadata);
+//
+//        return fileUrl;
+//    }
 
     //S3폴더 내 파일 리스트 전달
     public List<String> getFileList(String directory) {

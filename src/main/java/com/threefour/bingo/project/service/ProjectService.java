@@ -97,6 +97,13 @@ public class ProjectService {
             log.info("db: {}", picture);
 //            log.info("db: {}", pictures);
 
+            if(picture != null){
+                for (int i = 0; i <pictures.size(); i++) {
+                    if(pictures.get(i).contains(picture)){
+                        log.info("여깁니다 여기에요");
+                    }
+                }
+            }
             Long projectId = enrollment.getProject().getId();
             String name = enrollment.getProject().getName();
             String description = enrollment.getProject().getDescription();

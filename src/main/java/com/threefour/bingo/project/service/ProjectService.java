@@ -95,7 +95,9 @@ public class ProjectService {
             ProjectAllResponse projectAllResponse = new ProjectAllResponse();
 
             for (int i = 0; i < pictures.size(); i++) {
-                log.info("db: {}", picture);
+                if (picture != null) {
+                    log.info("db: {}", picture);
+                }
                 log.info("s3: {}", pictures.get(i));
                 if (pictures.get(i).contains(picture)) {
                     log.info("여기야 여기 ㅠㅠ");

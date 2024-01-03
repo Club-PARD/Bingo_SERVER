@@ -3,6 +3,7 @@ package com.threefour.bingo.auth.service;
 import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
+import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
 import com.threefour.bingo.auth.dto.request.SignInRequest;
 import com.threefour.bingo.auth.dto.response.SignInResponse;
 import com.threefour.bingo.auth.dto.response.SignOutResponse;
@@ -45,9 +46,9 @@ public class AuthService {
         appUserRepository.save(appUser);
 
         AppUser responseUser = new AppUser(appUser.getId(), appUser.getName(), appUser.getEmail(), appUser.getPicture(), appUser.getToken());
-
+        AppUserInfoResponse appUserInfoResponse = new AppUserInfoResponse(appUser.getId(), appUser.getName(), appUser.getEmail(), appUser.getPicture());
         log.info("existing user");
-        SignInResponse response = new SignInResponse(exprTime, responseUser);
+        SignInResponse response = new SignInResponse(exprTime, appUserInfoResponse);
 
         return response;
     }

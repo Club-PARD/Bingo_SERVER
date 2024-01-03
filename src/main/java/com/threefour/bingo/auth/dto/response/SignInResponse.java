@@ -1,6 +1,7 @@
 package com.threefour.bingo.auth.dto.response;
 
 import com.threefour.bingo.appUser.domain.AppUser;
+import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,5 +13,5 @@ public class SignInResponse {
 
     private Integer exprTime;
 
-    private AppUser appUser;
+    private AppUserInfoResponse appUser;
 }

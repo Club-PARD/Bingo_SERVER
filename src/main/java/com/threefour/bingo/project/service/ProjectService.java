@@ -4,6 +4,8 @@ import com.threefour.bingo.ResponseDto;
 import com.threefour.bingo.enrollment.domain.Role;
 import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.enrollment.domain.EnrollmentRepository;
+import com.threefour.bingo.enrollment.dto.request.EnrollmentRequest;
+import com.threefour.bingo.enrollment.service.EnrollmentService;
 import com.threefour.bingo.project.dto.request.ProjectCreateRequest;
 import com.threefour.bingo.project.dto.response.ProjectAllResponse;
 import com.threefour.bingo.project.dto.response.ProjectOneResponse;
@@ -30,6 +32,7 @@ public class ProjectService {
     private final EnrollmentRepository enrollmentRepository;
     private final TagRepository tagRepository;
     private final TagService tagService;
+    private final EnrollmentService enrollmentService;
 
     @Transactional
     public ProjectOneResponse createProject(ProjectCreateRequest request) {
@@ -50,12 +53,16 @@ public class ProjectService {
         }
 
         final Project project = request.toEntity();
-        projectRepository.save(project);
+        projectRepository.saveAndFlush(project);
 
         TagListProjectRequest tagListProjectRequest = new TagListProjectRequest(
-                request.getProjectId(), request.getTagList()
+                project.getId(), request.getTagList()
         );
 
+        EnrollmentRequest enrollmentRequest = new EnrollmentRequest(request.getUserId(),
+                project.getId(), request.getCode(), Role.TEAM_LEADER);
+
+        enrollmentService.joinProject(enrollmentRequest);
         tagService.createProjectBingo(tagListProjectRequest);
 
 

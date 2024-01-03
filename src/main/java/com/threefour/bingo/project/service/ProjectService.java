@@ -90,6 +90,7 @@ public class ProjectService {
         }
 
         for (Enrollment enrollment : enrollmentList) {
+            boolean check = false;
 //            String picture = null;
             String picture = enrollment.getProject().getPicture();
             ProjectAllResponse projectAllResponse = new ProjectAllResponse();
@@ -105,14 +106,17 @@ public class ProjectService {
                         log.info("여깁니다 여기에요");
                         ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, picture, role);
                         projectAllResponse = temp;
+                        check = true;
                         break;
                     }
                 }
             }
 
 
-            ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role);
-            projectAllResponse = temp;
+            if (!check) {
+                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role);
+                projectAllResponse = temp;
+            }
 
 
             projectAllResponses.add(projectAllResponse);

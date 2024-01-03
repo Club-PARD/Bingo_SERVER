@@ -64,6 +64,7 @@ public class TagService {
 
         List<String> nameList = request.getName();
 
+
         for (String tagName : nameList) {
             Tag tag = new Tag(tagName, 0, false, project, template);
             tagRepository.save(tag);

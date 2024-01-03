@@ -90,7 +90,6 @@ public class TemplateService {
 
     }
 
-
     @Transactional
     public List<TemplateAllResponse> getAllTemplates(Long projectId) {
 

@@ -28,7 +28,7 @@ public class AWSController {
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             String fileName = file.getOriginalFilename();
-            String fileUrl = "https://" + bucket + "/test/" + fileName;  // 수정: URL 경로에 슬래시 추가
+            String fileUrl = "https://" + bucket + "/projectList/" + fileName;  // 수정: URL 경로에 슬래시 추가
             ObjectMetadata metadata = new ObjectMetadata();  // 수정: 변수명 수정
             metadata.setContentType(file.getContentType());
             metadata.setContentLength(file.getSize());

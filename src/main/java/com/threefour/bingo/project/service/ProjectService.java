@@ -87,17 +87,24 @@ public class ProjectService {
         }
 
         for (Enrollment enrollment : enrollmentList) {
+//            String picture = null;
             String picture = enrollment.getProject().getPicture();
+            ProjectAllResponse projectAllResponse = new ProjectAllResponse();
+
+            Long projectId = enrollment.getProject().getId();
+            String name = enrollment.getProject().getName();
+            String description = enrollment.getProject().getDescription();
+            Role role = enrollment.getRole();
 
             if (pictures.contains(picture)) {
-                Long projectId = enrollment.getProject().getId();
-                String name = enrollment.getProject().getName();
-                String description = enrollment.getProject().getDescription();
-                Role role = enrollment.getRole();
-
                 ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, picture, role);
-                projectAllResponses.add(temp);
+                projectAllResponse = temp;
+            } else {
+                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role);
+                projectAllResponse = temp;
             }
+
+            projectAllResponses.add(projectAllResponse);
         }
 
         return projectAllResponses;

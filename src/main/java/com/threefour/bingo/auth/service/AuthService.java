@@ -48,7 +48,7 @@ public class AuthService {
         AppUser responseUser = new AppUser(appUser.getId(), appUser.getName(), appUser.getEmail(), appUser.getPicture(), appUser.getToken());
         AppUserInfoResponse appUserInfoResponse = new AppUserInfoResponse(appUser.getId(), appUser.getName(), appUser.getEmail(), appUser.getPicture());
         log.info("existing user");
-        SignInResponse response = new SignInResponse(exprTime, appUserInfoResponse);
+        SignInResponse response = new SignInResponse(exprTime, appUserInfoResponse, token);
 
         return response;
     }

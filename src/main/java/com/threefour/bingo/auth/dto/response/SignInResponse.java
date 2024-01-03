@@ -14,4 +14,6 @@ public class SignInResponse {
     private Integer exprTime;
 
     private AppUserInfoResponse appUser;
+
+    private String token;
 }

@@ -111,7 +111,6 @@ public class ProjectService {
 
     }
 
-
     @Transactional
     public ProjectOneResponse getProject(Long userId, Long projectId) {
 

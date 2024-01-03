@@ -77,7 +77,6 @@ public class RetrospectService {
         AppUserInfoResponse appUserInfoResponse = appUserService.getUserInfo(request.getAppUserId());
 
         RetrospectPostResponse response = new RetrospectPostResponse(appUserInfoResponse, answerList);
-//        RetrospectPostResponse response = new RetrospectPostResponse(answerList);
 
         return response;
     }

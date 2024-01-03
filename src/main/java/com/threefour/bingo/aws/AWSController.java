@@ -37,7 +37,7 @@ public class AWSController {
     @GetMapping("/cards/{category}/images")
     public List<String> getBoardImages(@PathVariable final String category) {
 
-        List<String> boardImageList = awsService.getFileList(category + "/"); //보드는 카테고리 디렉토리가 하나 더있어서
+        List<String> boardImageList = awsService.getFileList("projectList" + "/"); //보드는 카테고리 디렉토리가 하나 더있어서
 
         return boardImageList;
     }

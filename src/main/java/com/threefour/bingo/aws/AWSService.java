@@ -48,14 +48,14 @@ public class AWSService {
 
         ListObjectsV2Request listObjectsV2Request = new ListObjectsV2Request()
                 .withBucketName(bucketName)
-                .withPrefix(directory + "/");  //폴더 경로 지정
+                .withPrefix("projectList" + "/");  //폴더 경로 지정
 
         ListObjectsV2Result result = amazonS3.listObjectsV2(listObjectsV2Request);
         List<S3ObjectSummary> objectSummaries = result.getObjectSummaries();
 
         for (S3ObjectSummary objectSummary : objectSummaries) {
             String key = objectSummary.getKey();
-            if (!key.equals(directory + "/")) {
+            if (!key.equals("projectList" + "/")) {
                 fileList.add("https://" + bucketName + ".s3." + region + ".amazonaws.com/" + key);
             }
         }

@@ -3,19 +3,18 @@ package com.threefour.bingo.retrospect.service;
 import com.threefour.bingo.answer.domain.Answer;
 import com.threefour.bingo.answer.domain.AnswerRepository;
 import com.threefour.bingo.answer.dto.AnswerDTO;
-import com.threefour.bingo.answer.dto.response.AnswerResponse;
 import com.threefour.bingo.answer.service.AnswerService;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
+import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
+import com.threefour.bingo.appUser.service.AppUserService;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.dto.QuestionDTO;
-import com.threefour.bingo.question.service.QuestionService;
 import com.threefour.bingo.retrospect.domain.Retrospect;
 import com.threefour.bingo.retrospect.domain.RetrospectRepository;
 import com.threefour.bingo.retrospect.dto.request.RetrospectPostRequest;
-import com.threefour.bingo.retrospect.dto.request.TeamEvaluationRequest;
 import com.threefour.bingo.retrospect.dto.response.RetrospectGetResponse;
 import com.threefour.bingo.retrospect.dto.response.RetrospectPostResponse;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
@@ -25,12 +24,9 @@ import com.threefour.bingo.subQuestion.service.SubQuestionService;
 import com.threefour.bingo.tag.domain.Tag;
 import com.threefour.bingo.tag.domain.TagRepository;
 import com.threefour.bingo.tag.dto.TagDTO;
-import com.threefour.bingo.tag.dto.request.TagListProjectRequest;
-import com.threefour.bingo.tag.service.TagService;
 import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.domain.TemplateRepository;
 import com.threefour.bingo.template.dto.TemplateDTO;
-import com.threefour.bingo.template.dto.response.TemplateInfoResponse;
 import com.threefour.bingo.template.dto.response.TemplateOneResponse;
 import com.threefour.bingo.template.service.TemplateService;
 import jakarta.persistence.EntityNotFoundException;
@@ -57,7 +53,7 @@ public class RetrospectService {
     private final AnswerRepository answerRepository;
     private final RetrospectRepository retrospectRepository;
     private final TemplateService templateService;
-    private final AnswerService answerService;
+    private final AppUserService appUserService;
 
     @Transactional
     public RetrospectPostResponse writeRetrospect(RetrospectPostRequest request) {
@@ -78,7 +74,10 @@ public class RetrospectService {
         Retrospect retrospect = new Retrospect(appUser, project, template);
         retrospectRepository.save(retrospect);
 
-        RetrospectPostResponse response = new RetrospectPostResponse(appUser, answerList);
+        AppUserInfoResponse appUserInfoResponse = appUserService.getUserInfo(request.getAppUserId());
+
+        RetrospectPostResponse response = new RetrospectPostResponse(appUserInfoResponse, answerList);
+//        RetrospectPostResponse response = new RetrospectPostResponse(answerList);
 
         return response;
     }

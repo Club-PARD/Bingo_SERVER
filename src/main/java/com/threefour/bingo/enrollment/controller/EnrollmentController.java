@@ -1,9 +1,5 @@
 package com.threefour.bingo.enrollment.controller;
 
-import com.threefour.bingo.ResponseDto;
-import com.threefour.bingo.enrollment.dto.request.EnrollmentRequest;
-import com.threefour.bingo.enrollment.domain.Enrollment;
-import com.threefour.bingo.enrollment.dto.response.EnrollmentResponse;
 import com.threefour.bingo.enrollment.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 public class EnrollmentController {
     public final EnrollmentService enrollmentService;
 
-    @PostMapping("")
-    public EnrollmentResponse joinProject(@RequestBody final EnrollmentRequest request) {
-
-        final EnrollmentResponse response = enrollmentService.joinProject(request);
-
-        return response;
-    }
+//    @PostMapping("")
+//    public EnrollmentResponse joinProject(@RequestBody final EnrollmentRequest request) {
+//
+//        final EnrollmentResponse response = enrollmentService.joinProject(request);
+//
+//        return response;
+//    }
 }

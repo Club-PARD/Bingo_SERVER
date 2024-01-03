@@ -17,19 +17,19 @@ public class AnswerDTO {
 
 //    private AppUser appUser;
 
-    private SubQuestionDTO subQuestionDTO;
+//    private SubQuestionDTO subQuestionDTO;
 
     private String ans;
 
     public AnswerDTO(String ans, SubQuestionDTO subQuestion) {
         this.ans = ans;
-        this.subQuestionDTO = subQuestion;
+//        this.subQuestionDTO = subQuestion;
     }
 
     public Answer toEntity() {
         return Answer.builder()
                 .ans(ans)
-                .subQuestion(subQuestionDTO.toEntity())
+//                .subQuestion(subQuestionDTO.toEntity())
                 .build();
     }
 }

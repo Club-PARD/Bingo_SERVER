@@ -93,29 +93,33 @@ public class ProjectService {
         }
 
         for (Enrollment enrollment : enrollmentList) {
-//            String picture = null;
             String picture = enrollment.getProject().getPicture();
-            ProjectAllResponse projectAllResponse = new ProjectAllResponse();
+            ProjectAllResponse projectAllResponse;
+
+            log.info("s3: {}", picture);
+            log.info("db: {}", pictures);
 
             Long projectId = enrollment.getProject().getId();
             String name = enrollment.getProject().getName();
             String description = enrollment.getProject().getDescription();
             Role role = enrollment.getRole();
 
-            if (pictures.contains(picture)) {
+            // Java Stream API를 사용하여 포함되는 파일을 찾음
+            List<String> matchingFiles = pictures.stream()
+                    .filter(p -> picture.contains(p))
+                    .collect(Collectors.toList());
+
+            if (!matchingFiles.isEmpty()) {
                 log.info("여기 오나");
-                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, picture, role);
-                projectAllResponse = temp;
+                projectAllResponse = new ProjectAllResponse(projectId, name, description, picture, role);
             } else {
-                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role);
-                projectAllResponse = temp;
+                projectAllResponse = new ProjectAllResponse(projectId, name, description, null, role);
             }
 
             projectAllResponses.add(projectAllResponse);
         }
 
         return projectAllResponses;
-
     }
 
     @Transactional

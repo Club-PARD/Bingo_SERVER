@@ -112,7 +112,6 @@ public class ProjectService {
                 }
             }
 
-
             if (!check) {
                 ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role);
                 projectAllResponse = temp;

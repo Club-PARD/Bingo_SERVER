@@ -39,15 +39,15 @@ public class RetrospectController {
 
     }
 
-    @GetMapping("/project/{projectId}/template/{templateId}")
-    public ResponseEntity<RetrospectGetResponse> getRetrospects(@PathVariable final Long projectId
-            , @PathVariable final Long templateId) {
-
-        RetrospectGetResponse response = retrospectService.getRetrospect(projectId, templateId);
-
-        return ResponseEntity.ok()
-                .body(response);
-
-    }
+//    @GetMapping("/project/{projectId}/template/{templateId}")
+//    public ResponseEntity<RetrospectGetResponse> getRetrospects(@PathVariable final Long projectId
+//            , @PathVariable final Long templateId) {
+//
+//        RetrospectGetResponse response = retrospectService.getRetrospect(projectId, templateId);
+//
+//        return ResponseEntity.ok()
+//                .body(response);
+//
+//    }
 
 }

@@ -39,7 +39,7 @@ public class TagService {
         List<String> nameList = request.getName();
 
         for (String tagName : nameList) {
-            Tag tag = new Tag(tagName, 0, false, project);
+            Tag tag = new Tag(tagName, 0, 1, project);
             tagRepository.save(tag);
             tagList.add(tag);
         }
@@ -66,7 +66,7 @@ public class TagService {
 
 
         for (String tagName : nameList) {
-            Tag tag = new Tag(tagName, 0, false, project, template);
+            Tag tag = new Tag(tagName, 0, 1, project, template);
             tagRepository.save(tag);
             tagList.add(tag);
         }

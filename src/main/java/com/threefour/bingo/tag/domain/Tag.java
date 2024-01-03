@@ -20,7 +20,7 @@ public class Tag {
 
     private Integer count;
 
-    private boolean isSelected;
+    private Integer selected;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
@@ -31,21 +31,21 @@ public class Tag {
     private Template template;
 
     @Builder
-    public Tag(String name, Integer count, boolean isSelected, Project project) {
+    public Tag(String name, Integer count, Integer selected, Project project) {
 
         this.name = name;
         this.count = count;
-        this.isSelected = isSelected;
+        this.selected = selected;
         this.project = project;
 
     }
 
     @Builder
-    public Tag(String name, Integer count, boolean isSelected, Project project, Template template) {
+    public Tag(String name, Integer count, Integer selected, Project project, Template template) {
 
         this.name = name;
         this.count = count;
-        this.isSelected = isSelected;
+        this.selected = selected;
         this.project = project;
         this.template = template;
 

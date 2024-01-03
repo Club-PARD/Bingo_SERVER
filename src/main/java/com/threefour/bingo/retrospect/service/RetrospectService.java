@@ -24,6 +24,7 @@ import com.threefour.bingo.subQuestion.service.SubQuestionService;
 import com.threefour.bingo.tag.domain.Tag;
 import com.threefour.bingo.tag.domain.TagRepository;
 import com.threefour.bingo.tag.dto.TagDTO;
+import com.threefour.bingo.tag.dto.request.TagPostRequest;
 import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.domain.TemplateRepository;
 import com.threefour.bingo.template.dto.TemplateDTO;
@@ -58,6 +59,9 @@ public class RetrospectService {
     @Transactional
     public RetrospectPostResponse writeRetrospect(RetrospectPostRequest request) {
 
+        log.info("templateID in r: {}", request.getTemplateId());
+        log.info("projectID in r: {}", request.getProjectId());
+
         final AppUser appUser = appUserRepository.findById(request.getAppUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User Not Found"));
 
@@ -74,11 +78,60 @@ public class RetrospectService {
         Retrospect retrospect = new Retrospect(appUser, project, template);
         retrospectRepository.save(retrospect);
 
+        List<TagPostRequest> temp = request.getTagList();
+        log.info("너의 사이즈: {}", temp.size());
+
+        for (int i = 0; i < temp.size(); i++) {
+            log.info("너의 아이디은 무엇이냐: {}", temp.get(i).getId());
+            log.info("너의 값은 무엇이냐: {}", temp.get(i).getSelected());
+        }
+
+        List<TagPostRequest> tagDTOList = request.getTagList();
+//        List<TagDTO> tagDTOS = teamEvaluation(retrospect.getId(), request.getTemplateId());
+        List<TagDTO> tagDTOS = teamEvaluation(request.getTagList(), request.getProjectId(), request.getTemplateId());
+
         AppUserInfoResponse appUserInfoResponse = appUserService.getUserInfo(request.getAppUserId());
 
-        RetrospectPostResponse response = new RetrospectPostResponse(appUserInfoResponse, answerList);
+        RetrospectPostResponse response = new RetrospectPostResponse(appUserInfoResponse, answerList, tagDTOS);
 
         return response;
+    }
+
+    public List<TagDTO> teamEvaluation(List<TagPostRequest> tagPostRequests, Long projectId, Long templateId) {
+        log.info("하이 나는 팀 평가");
+        List<Tag> tagProjectList = tagRepository.findByProjectIdAndTemplateId(
+                projectId, null
+        );
+        log.info("templateID in team: {}", templateId);
+        log.info("projectID in team: {}", projectId);
+        List<Tag> tagTemplateList = tagRepository.findByProjectIdAndTemplateId(
+                projectId, templateId
+        );
+
+        log.info("size of template: {}", tagTemplateList.size());
+        log.info("size of project: {}", tagProjectList.size());
+        log.info("size of request: {}", tagPostRequests.size());
+
+        for (int i = 0; i < tagPostRequests.size(); i++) {
+
+            Tag templateTag = tagTemplateList.get(i);
+            Tag projectTag = tagProjectList.get(i);
+            log.info("너의 값은? {}", tagPostRequests.get(i).getSelected());
+            if (tagPostRequests.get(i).getSelected() == 1) {
+                log.info("하이 나는 트루임");
+                templateTag.countUp();
+                projectTag.countUp();
+                tagRepository.save(templateTag);
+                tagRepository.save(projectTag);
+            }
+        }
+
+        List<TagDTO> tagDTOList = tagTemplateList.stream()
+                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
+                .collect(Collectors.toList());
+
+        return tagDTOList;
+
     }
 
     @Transactional
@@ -125,49 +178,20 @@ public class RetrospectService {
         return answerDTOList;
     }
 
-    public RetrospectGetResponse getRetrospect(Long projectId, Long templateId) {
-        // Retrospect 조회
-        List<Retrospect> retrospectList = retrospectRepository.findByProjectIdAndTemplateId(projectId, templateId);
-
-        TemplateOneResponse template = templateService.getTemplate(projectId, templateId);
-
-        List<QuestionDTO> questionDTOList = template.getQuestionList();
-
-        TemplateDTO templateDTO = new TemplateDTO(template.getId(), template.getName(), questionDTOList);
-        List<TagDTO> tagDTOList = teamEvaluation(projectId, templateId);
-
-        RetrospectGetResponse response = new RetrospectGetResponse(tagDTOList, templateDTO);
-
-        return response;
-    }
-
-    public List<TagDTO> teamEvaluation(Long projectId, Long templateId) {
-
-        List<Tag> tagProjectList = tagRepository.findByProjectIdAndTemplateId(
-                projectId, null
-        );
-        List<Tag> tagTemplateList = tagRepository.findByProjectIdAndTemplateId(
-                projectId, templateId
-        );
-
-        for (int i = 0; i < tagTemplateList.size(); i++) {
-
-            Tag templateTag = tagTemplateList.get(i);
-            Tag projectTag = tagProjectList.get(i);
-            if (templateTag.isSelected() == true) {
-                templateTag.countUp();
-                projectTag.countUp();
-                tagRepository.save(templateTag);
-                tagRepository.save(projectTag);
-            }
-        }
-
-        List<TagDTO> tagDTOList = tagTemplateList.stream()
-                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
-                .collect(Collectors.toList());
-
-        return tagDTOList;
-
-    }
+//    public RetrospectGetResponse getRetrospect(Long projectId, Long templateId) {
+//        // Retrospect 조회
+//        List<Retrospect> retrospectList = retrospectRepository.findByProjectIdAndTemplateId(projectId, templateId);
+//
+//        TemplateOneResponse template = templateService.getTemplate(projectId, templateId);
+//
+//        List<QuestionDTO> questionDTOList = template.getQuestionList();
+//
+//        TemplateDTO templateDTO = new TemplateDTO(template.getId(), template.getName(), questionDTOList);
+//        List<TagDTO> tagDTOList = teamEvaluation(projectId, templateId);
+//
+//        RetrospectGetResponse response = new RetrospectGetResponse(tagDTOList, templateDTO);
+//
+//        return response;
+//    }
 
 }

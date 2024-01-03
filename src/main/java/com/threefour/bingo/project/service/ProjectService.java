@@ -93,8 +93,9 @@ public class ProjectService {
         }
 
         for (Enrollment enrollment : enrollmentList) {
+//            String picture = null;
             String picture = enrollment.getProject().getPicture();
-            ProjectAllResponse projectAllResponse;
+            ProjectAllResponse projectAllResponse = new ProjectAllResponse();
 
             log.info("s3: {}", picture);
             log.info("db: {}", pictures);
@@ -104,22 +105,20 @@ public class ProjectService {
             String description = enrollment.getProject().getDescription();
             Role role = enrollment.getRole();
 
-            // Java Stream API를 사용하여 포함되는 파일을 찾음
-            List<String> matchingFiles = pictures.stream()
-                    .filter(p -> picture.contains(p))
-                    .collect(Collectors.toList());
-
-            if (!matchingFiles.isEmpty()) {
+            if (pictures.contains(picture)) {
                 log.info("여기 오나");
-                projectAllResponse = new ProjectAllResponse(projectId, name, description, picture, role);
+                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, picture, role);
+                projectAllResponse = temp;
             } else {
-                projectAllResponse = new ProjectAllResponse(projectId, name, description, null, role);
+                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role);
+                projectAllResponse = temp;
             }
 
             projectAllResponses.add(projectAllResponse);
         }
 
         return projectAllResponses;
+
     }
 
     @Transactional

@@ -18,6 +18,8 @@ public class ProjectCreateRequest {
 
     private String description;
 
+    private String picture;
+
     private String code;
 
     private Long projectId;
@@ -28,6 +30,7 @@ public class ProjectCreateRequest {
         return Project.builder()
                 .name(name)
                 .description(description)
+                .picture(picture)
                 .code(code)
                 .build();
     }

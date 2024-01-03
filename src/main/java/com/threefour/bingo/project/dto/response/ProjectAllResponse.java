@@ -15,6 +15,8 @@ public class ProjectAllResponse {
 
     private String description;
 
+    private String picture;
+
     private Role role;
 
 

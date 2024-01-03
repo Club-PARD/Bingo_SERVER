@@ -22,6 +22,8 @@ public class Project {
     @Column(nullable = false)
     private String description;
 
+    private String picture;
+
     @Column(nullable = false)
     private String code;
 
@@ -29,9 +31,10 @@ public class Project {
     private List<Tag> tagList = new ArrayList<>();
 
     @Builder
-    public Project(String name, String description, String code) {
+    public Project(String name, String description, String picture, String code) {
         this.name = name;
         this.description = description;
+        this.picture = picture;
         this.code = code;
     }
 

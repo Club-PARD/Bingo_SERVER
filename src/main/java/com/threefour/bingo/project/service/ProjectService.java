@@ -1,6 +1,7 @@
 package com.threefour.bingo.project.service;
 
 import com.threefour.bingo.ResponseDto;
+import com.threefour.bingo.aws.AWSService;
 import com.threefour.bingo.enrollment.domain.Role;
 import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.enrollment.domain.EnrollmentRepository;
@@ -33,6 +34,7 @@ public class ProjectService {
     private final TagRepository tagRepository;
     private final TagService tagService;
     private final EnrollmentService enrollmentService;
+    private final AWSService awsService;
 
     @Transactional
     public ProjectOneResponse createProject(ProjectCreateRequest request) {
@@ -74,8 +76,9 @@ public class ProjectService {
 
     @Transactional
     public List<ProjectAllResponse> getAllProjectsByUser(Long id) {
+        final List<String> pictures = awsService.getFileList("projectList");
 
-        final List<ProjectAllResponse> projectOneRespons = new ArrayList<>();
+        final List<ProjectAllResponse> projectAllResponses = new ArrayList<>();
 
         final List<Enrollment> enrollmentList = enrollmentRepository.findByAppUserId(id);
 
@@ -84,17 +87,22 @@ public class ProjectService {
         }
 
         for (Enrollment enrollment : enrollmentList) {
-            Long projectId = enrollment.getProject().getId();
-            String name = enrollment.getProject().getName();
-            String description = enrollment.getProject().getDescription();
-            Role role = enrollment.getRole();
+            String picture = enrollment.getProject().getPicture();
 
-            ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, role);
-            projectOneRespons.add(temp);
+            if (pictures.contains(picture)) {
+                Long projectId = enrollment.getProject().getId();
+                String name = enrollment.getProject().getName();
+                String description = enrollment.getProject().getDescription();
+                Role role = enrollment.getRole();
+
+                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, picture, role);
+                projectAllResponses.add(temp);
+            }
         }
 
-        return projectOneRespons;
+        return projectAllResponses;
     }
+
 
     @Transactional
     public ProjectOneResponse getProject(Long userId, Long projectId) {

@@ -97,8 +97,8 @@ public class ProjectService {
             for (int i = 0; i < pictures.size(); i++) {
                 log.info("s3: {}", picture);
                 log.info("db: {}", pictures.get(i));
-                if(pictures.get(i).contains(picture)){
-                    log.info("여기야 여기 ㅠㅠ햐");
+                if (pictures.get(i).contains(picture)) {
+                    log.info("여기야 여기 ㅠㅠ");
                 }
             }
 

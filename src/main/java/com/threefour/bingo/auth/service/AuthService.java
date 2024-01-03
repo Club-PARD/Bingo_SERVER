@@ -36,7 +36,7 @@ public class AuthService {
 
         if (appUser == null) {
             log.info("new user");
-            AppUser newUser = new AppUser(request.getName(), request.getEmail(), token);
+            AppUser newUser = new AppUser(request.getName(), request.getEmail(), request.getPicture(), token);
             appUser = newUser;
         }
 
@@ -44,7 +44,7 @@ public class AuthService {
 
         appUserRepository.save(appUser);
 
-        AppUser responseUser = new AppUser(appUser.getId(), appUser.getName(), appUser.getEmail(), appUser.getToken());
+        AppUser responseUser = new AppUser(appUser.getId(), appUser.getName(), appUser.getEmail(), appUser.getPicture(), appUser.getToken());
 
         log.info("existing user");
         SignInResponse response = new SignInResponse(exprTime, responseUser);

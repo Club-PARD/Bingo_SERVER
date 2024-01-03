@@ -14,4 +14,7 @@ public class AppUserInfoResponse {
     private String name;
 
     private String email;
+
+    private String picture;
+
 }

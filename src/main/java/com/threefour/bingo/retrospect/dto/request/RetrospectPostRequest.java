@@ -20,5 +20,4 @@ public class RetrospectPostRequest {
 
     private List<AnswerDTO> answerList;
 
-
 }

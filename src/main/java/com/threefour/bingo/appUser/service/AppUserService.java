@@ -20,7 +20,7 @@ public class AppUserService {
         AppUser appUser = appUserRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
-        AppUserInfoResponse response = new AppUserInfoResponse(appUser.getId(), appUser.getName(), appUser.getEmail());
+        AppUserInfoResponse response = new AppUserInfoResponse(appUser.getId(), appUser.getName(), appUser.getEmail(), appUser.getPicture());
 
         return response;
     }

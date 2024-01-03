@@ -25,6 +25,8 @@ public class AppUser {
     @Column(nullable = false)
     private String email;
 
+    private String picture;
+
     private String token;
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
@@ -33,8 +35,6 @@ public class AppUser {
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     private List<SubQuestion> subQuestionList = new ArrayList<>();
 
-    //    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
-//    private Answer answer;
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     private List<Answer> answerList = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class AppUser {
         this.token = token;
     }
 
-    public AppUser(Long id, String name, String email, String token) {
+    public AppUser(Long id, String name, String email, String picture, String token) {
 
         this.id = id;
 
@@ -56,13 +56,17 @@ public class AppUser {
 
         this.email = email;
 
+        this.picture = picture;
+
         this.token = token;
     }
 
     @Builder
-    public AppUser(String name, String email) {
+    public AppUser(String name, String email, String picture, String token) {
         this.name = name;
         this.email = email;
+        this.picture = picture;
+        this.token = token;
     }
 
     public void update(String token) {

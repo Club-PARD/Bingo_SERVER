@@ -33,7 +33,7 @@ public class AuthService {
         }
 
         String token = tokenProvider.create(request.getEmail());
-        int exprTime = 1000 * 10;
+        int exprTime = 1000 * 3600 * 3;
 
         if (appUser == null) {
             log.info("new user");

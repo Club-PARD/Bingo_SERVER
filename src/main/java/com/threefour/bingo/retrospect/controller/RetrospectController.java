@@ -30,7 +30,7 @@ public class RetrospectController {
 //    }
 
     @PostMapping("/write")
-    public ResponseEntity<RetrospectPostResponse> writeRetrospect(@RequestBody final RetrospectPostRequest request) {
+    public ResponseEntity<RetrospectPostResponse> writeRetrospect(@RequestHeader(value = "Authorization") final String token, @RequestBody final RetrospectPostRequest request) {
 
         RetrospectPostResponse response = retrospectService.writeRetrospect(request);
 
@@ -39,15 +39,15 @@ public class RetrospectController {
 
     }
 
-//    @GetMapping("/project/{projectId}/template/{templateId}")
-//    public ResponseEntity<RetrospectGetResponse> getRetrospects(@PathVariable final Long projectId
-//            , @PathVariable final Long templateId) {
-//
-//        RetrospectGetResponse response = retrospectService.getRetrospect(projectId, templateId);
-//
-//        return ResponseEntity.ok()
-//                .body(response);
-//
-//    }
+    @GetMapping("/project/{projectId}/template/{templateId}")
+    public ResponseEntity<RetrospectGetResponse> getRetrospects(@RequestHeader(value = "Authorization") final String token, @PathVariable final Long projectId
+            , @PathVariable final Long templateId) {
+
+        RetrospectGetResponse response = retrospectService.getRetrospect(projectId, templateId);
+
+        return ResponseEntity.ok()
+                .body(response);
+
+    }
 
 }

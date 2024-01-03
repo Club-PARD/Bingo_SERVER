@@ -178,20 +178,21 @@ public class RetrospectService {
         return answerDTOList;
     }
 
-//    public RetrospectGetResponse getRetrospect(Long projectId, Long templateId) {
-//        // Retrospect 조회
-//        List<Retrospect> retrospectList = retrospectRepository.findByProjectIdAndTemplateId(projectId, templateId);
-//
-//        TemplateOneResponse template = templateService.getTemplate(projectId, templateId);
-//
-//        List<QuestionDTO> questionDTOList = template.getQuestionList();
-//
-//        TemplateDTO templateDTO = new TemplateDTO(template.getId(), template.getName(), questionDTOList);
-//        List<TagDTO> tagDTOList = teamEvaluation(projectId, templateId);
-//
-//        RetrospectGetResponse response = new RetrospectGetResponse(tagDTOList, templateDTO);
-//
-//        return response;
-//    }
+    public RetrospectGetResponse getRetrospect(Long projectId, Long templateId) {
+        // Retrospect 조회
+        List<Retrospect> retrospectList = retrospectRepository.findByProjectIdAndTemplateId(projectId, templateId);
+
+        TemplateOneResponse template = templateService.getTemplate(projectId, templateId);
+
+        List<QuestionDTO> questionDTOList = template.getQuestionList();
+
+        TemplateDTO templateDTO = new TemplateDTO(template.getId(), template.getName(), questionDTOList);
+        List<TagDTO> tagDTOList = new ArrayList<>();
+        //        List<TagDTO> tagDTOList = teamEvaluation(projectId, templateId);
+
+        RetrospectGetResponse response = new RetrospectGetResponse(tagDTOList, templateDTO);
+
+        return response;
+    }
 
 }

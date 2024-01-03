@@ -19,7 +19,7 @@ public class TemplateController {
     private final TemplateService templateService;
 
     @PostMapping("")
-    public ResponseEntity<TemplateAllResponse> createTemplate(@RequestBody final TemplatePostRequest request) {
+    public ResponseEntity<TemplateAllResponse> createTemplate(@RequestHeader(value = "Authorization") final String token, @RequestBody final TemplatePostRequest request) {
 
         final TemplateAllResponse response = templateService.createTemplate(request);
 
@@ -29,7 +29,7 @@ public class TemplateController {
     }
 
     @GetMapping("/project/{projectId}")
-    public ResponseEntity<List<TemplateAllResponse>> getAllTemplates(@PathVariable Long projectId) {
+    public ResponseEntity<List<TemplateAllResponse>> getAllTemplates(@RequestHeader(value = "Authorization") final String token, @PathVariable Long projectId) {
 
         final List<TemplateAllResponse> responses = templateService.getAllTemplates(projectId);
 
@@ -39,7 +39,7 @@ public class TemplateController {
     }
 
     @GetMapping("/project/{projectId}/template/{templateId}")
-    public ResponseEntity<TemplateOneResponse> getTemplate(@PathVariable final Long projectId
+    public ResponseEntity<TemplateOneResponse> getTemplate(@RequestHeader(value = "Authorization") final String token, @PathVariable final Long projectId
             , @PathVariable final Long templateId) {
 
         final TemplateOneResponse response = templateService.getTemplate(projectId, templateId);

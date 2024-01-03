@@ -18,7 +18,7 @@ public class TokenProvider {
     private static final Key SECURITY_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
     public String create(String email) {
-        Date exprTime = Date.from(Instant.now().plus(10, ChronoUnit.SECONDS));
+        Date exprTime = Date.from(Instant.now().plus(3, ChronoUnit.HOURS));
 
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, SECURITY_KEY)

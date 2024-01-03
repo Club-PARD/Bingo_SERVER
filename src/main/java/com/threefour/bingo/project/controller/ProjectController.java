@@ -19,7 +19,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping("")
-    public ResponseEntity<ProjectOneResponse> createProject(@RequestBody final ProjectCreateRequest request) {
+    public ResponseEntity<ProjectOneResponse> createProject(@RequestHeader(value = "Authorization") final String token, @RequestBody final ProjectCreateRequest request) {
 
         final ProjectOneResponse response = projectService.createProject(request);
 
@@ -30,7 +30,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<ProjectAllResponse>> getAllProjectsByUser(@PathVariable final Long id) {
+    public ResponseEntity<List<ProjectAllResponse>> getAllProjectsByUser(@RequestHeader(value = "Authorization") final String token, @PathVariable final Long id) {
 
         final List<ProjectAllResponse> projectAllResponseList = projectService.getAllProjectsByUser(id);
 
@@ -39,7 +39,7 @@ public class ProjectController {
     }
 
     @GetMapping("/user/{userId}/projects/{projectId}")
-    public ResponseEntity<ProjectOneResponse> getProject(@PathVariable final Long userId
+    public ResponseEntity<ProjectOneResponse> getProject(@RequestHeader(value = "Authorization") final String token, @PathVariable final Long userId
             , @PathVariable Long projectId) {
 
         final ProjectOneResponse response = projectService.getProject(userId, projectId);

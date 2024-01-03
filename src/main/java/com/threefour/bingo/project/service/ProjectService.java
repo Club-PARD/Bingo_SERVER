@@ -94,25 +94,23 @@ public class ProjectService {
             String picture = enrollment.getProject().getPicture();
             ProjectAllResponse projectAllResponse = new ProjectAllResponse();
 
-            log.info("db: {}", picture);
-//            log.info("db: {}", pictures);
-
-            if(picture != null){
-                for (int i = 0; i <pictures.size(); i++) {
-                    if(pictures.get(i).contains(picture)){
-                        log.info("여깁니다 여기에요");
-                    }
-                }
-            }
             Long projectId = enrollment.getProject().getId();
             String name = enrollment.getProject().getName();
             String description = enrollment.getProject().getDescription();
             Role role = enrollment.getRole();
 
+            if (picture != null) {
+                for (int i = 0; i < pictures.size(); i++) {
+                    if (pictures.get(i).contains(picture)) {
+                        log.info("여깁니다 여기에요");
+                        ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, picture, role);
+                        projectAllResponse = temp;
+                    }
+                }
+            }
+
             if (pictures.contains(picture)) {
                 log.info("여기 오나");
-                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, picture, role);
-                projectAllResponse = temp;
             } else {
                 ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role);
                 projectAllResponse = temp;

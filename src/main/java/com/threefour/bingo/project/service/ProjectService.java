@@ -65,7 +65,6 @@ public class ProjectService {
         enrollmentService.joinProject(enrollmentRequest);
         tagService.createProjectBingo(tagListProjectRequest);
 
-
         final ProjectOneResponse response = new ProjectOneResponse(project.getId(), project.getName(),
                 project.getDescription());
 

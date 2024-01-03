@@ -22,16 +22,16 @@ public class AWSController {
 
     @Value("${cloud.aws.s3.bucket}")
 
-    @PostMapping("")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        try {
-            String fileUrl = awsService.uploadFile(file);
-            return ResponseEntity.ok(fileUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+//    @PostMapping("")
+//    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+//        try {
+//            String fileUrl = awsService.uploadFile(file);
+//            return ResponseEntity.ok(fileUrl);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
 
     //board 이미지 전달
     @GetMapping("/cards/{category}/images")

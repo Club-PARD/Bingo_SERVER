@@ -105,16 +105,15 @@ public class ProjectService {
                         log.info("여깁니다 여기에요");
                         ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, picture, role);
                         projectAllResponse = temp;
+                        break;
                     }
                 }
             }
 
-            if (pictures.contains(picture)) {
-                log.info("여기 오나");
-            } else {
-                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role);
-                projectAllResponse = temp;
-            }
+
+            ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role);
+            projectAllResponse = temp;
+
 
             projectAllResponses.add(projectAllResponse);
         }

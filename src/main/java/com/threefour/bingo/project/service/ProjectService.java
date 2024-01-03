@@ -80,9 +80,6 @@ public class ProjectService {
     public List<ProjectAllResponse> getAllProjectsByUser(Long id) {
         final List<String> pictures = awsService.getFileList("projectList");
         log.info("size of pictures: " + pictures.size());
-        for (int i = 0; i < pictures.size(); i++) {
-            log.info("사진 이름: " + pictures.get(i));
-        }
 
         final List<ProjectAllResponse> projectAllResponses = new ArrayList<>();
 
@@ -97,8 +94,10 @@ public class ProjectService {
             String picture = enrollment.getProject().getPicture();
             ProjectAllResponse projectAllResponse = new ProjectAllResponse();
 
-            log.info("s3: {}", picture);
-            log.info("db: {}", pictures);
+            for (int i = 0; i < pictures.size(); i++) {
+                log.info("s3: {}", picture);
+                log.info("db: {}", pictures.get(i));
+            }
 
             Long projectId = enrollment.getProject().getId();
             String name = enrollment.getProject().getName();

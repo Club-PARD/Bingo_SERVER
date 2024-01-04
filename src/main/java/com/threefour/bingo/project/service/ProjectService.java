@@ -40,6 +40,7 @@ public class ProjectService {
 
     @Transactional
     public ProjectOneResponse createProject(ProjectCreateRequest request) {
+        log.info("실행이 되었나요 ? ? ");
 
         // 이름이 없는 경우
         if (request.getName() == null || request.getName().isEmpty()) {

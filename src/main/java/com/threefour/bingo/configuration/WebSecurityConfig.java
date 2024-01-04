@@ -37,10 +37,10 @@ public class WebSecurityConfig {
                 authorizeHttpRequests
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/*", "/api/v1/auth/*")
                         .permitAll()
-                        .requestMatchers("/*")
-                        .permitAll()
-//                        .anyRequest()
-//                        .authenticated()
+//                        .requestMatchers("/*")
+//                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
         );
 //        httpSecurity.authorizeHttpRequests(authorizeHttpRequests ->
 //                authorizeHttpRequests.anyRequest().permitAll()

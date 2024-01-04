@@ -104,7 +104,7 @@ public class ProjectService {
             if (picture != null) {
                 for (int i = 0; i < pictures.size(); i++) {
                     if (pictures.get(i).contains(picture)) {
-                        log.info("여깁니다 여기에요");
+//                        log.info("여깁니다 여기에요");
                         ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, pictures.get(i), role);
                         projectAllResponse = temp;
                         check = true;

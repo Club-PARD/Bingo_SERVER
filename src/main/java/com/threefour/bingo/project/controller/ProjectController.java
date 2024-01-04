@@ -5,11 +5,13 @@ import com.threefour.bingo.project.dto.response.ProjectAllResponse;
 import com.threefour.bingo.project.dto.response.ProjectOneResponse;
 import com.threefour.bingo.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/project")
@@ -21,8 +23,8 @@ public class ProjectController {
     @PostMapping("")
     public ResponseEntity<ProjectOneResponse> createProject(@RequestHeader(value = "Authorization") final String token, @RequestBody final ProjectCreateRequest request) {
 
+        log.info("토큰: {}", token);
         final ProjectOneResponse response = projectService.createProject(request);
-
 
         return ResponseEntity.ok()
                 .body(response);

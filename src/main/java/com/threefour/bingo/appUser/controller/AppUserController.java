@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class AppUserController {
 
     private final AppUserService appUserService;
-    private final TokenProvider tokenProvider;
 
     @GetMapping("/{id}")
     public ResponseEntity<AppUserInfoResponse> getUserInfo(@RequestHeader(value = "Authorization") final String token, @PathVariable final Long id) {

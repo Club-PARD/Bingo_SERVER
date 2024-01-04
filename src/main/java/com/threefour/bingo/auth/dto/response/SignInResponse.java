@@ -16,4 +16,6 @@ public class SignInResponse {
     private AppUserInfoResponse appUser;
 
     private String token;
+
+    private Integer isSigned;
 }

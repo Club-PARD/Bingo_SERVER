@@ -24,6 +24,8 @@ public class AuthService {
     @Transactional
     public SignInResponse signIn(SignInRequest request) {
 
+        Integer isSigned;
+
         log.info("Email: " + request.getEmail());
         AppUser appUser = appUserRepository.findByEmail(request.getEmail());
 
@@ -36,6 +38,7 @@ public class AuthService {
 
         if (appUser == null) {
             log.info("new user");
+            isSigned = 1;
             AppUser newUser = new AppUser(request.getName(), request.getEmail(), request.getPicture(), token);
             appUser = newUser;
         }
@@ -47,7 +50,8 @@ public class AuthService {
         AppUser responseUser = new AppUser(appUser.getId(), appUser.getName(), appUser.getEmail(), appUser.getPicture(), appUser.getToken());
         AppUserInfoResponse appUserInfoResponse = new AppUserInfoResponse(appUser.getId(), appUser.getName(), appUser.getEmail(), appUser.getPicture());
         log.info("existing user");
-        SignInResponse response = new SignInResponse(exprTime, appUserInfoResponse, token);
+        isSigned = 2;
+        SignInResponse response = new SignInResponse(exprTime, appUserInfoResponse, token, isSigned);
 
         return response;
     }

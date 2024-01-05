@@ -66,7 +66,7 @@ public class SubQuestionService {
         }
 
         List<SubQuestionInfoResponse> subQuestionDTOList = subQuestionList.stream()
-                .filter(subQuestion -> subQuestion.getSubQuestion() != null || !subQuestion.getSubQuestion().isEmpty())
+                .filter(subQuestion -> subQuestion.getSubQuestion() == null || !subQuestion.getSubQuestion().isEmpty())
                 .map(SubQuestionInfoResponse::new)
                 .collect(Collectors.toList());
 

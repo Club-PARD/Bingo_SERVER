@@ -65,7 +65,7 @@ public class ProjectService {
         );
 
         EnrollmentRequest enrollmentRequest = new EnrollmentRequest(request.getUserId(),
-                project.getId(), request.getCode(), Role.TEAM_LEADER);
+                request.getCode(), Role.TEAM_LEADER);
 
         enrollmentService.joinProject(enrollmentRequest);
         tagService.createProjectBingo(tagListProjectRequest);
@@ -143,10 +143,6 @@ public class ProjectService {
         String code = enrollment.getProject().getCode();
 
         List<Tag> tagList = tagRepository.findByProjectId(projectId);
-//        List<TagDTO> tagDTOList = tagList.stream()
-//                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
-//                .collect(Collectors.toList());
-
 
         final ProjectOneResponse response = new ProjectOneResponse(projectId, name, description, role, tagDTOList
                 , code);

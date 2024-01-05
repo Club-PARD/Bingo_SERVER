@@ -12,9 +12,10 @@ public class EnrollmentRequest {
 
     private Long userId;
 
-    private Long projectId;
+//    private Long projectId;
 
     private String code;
 
     private Role role;
+
 }

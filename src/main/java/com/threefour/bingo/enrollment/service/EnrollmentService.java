@@ -30,8 +30,14 @@ public class EnrollmentService {
         final AppUser appUser = appUserRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
-        final Project project = projectRepository.findById(request.getProjectId())
-                .orElseThrow(() -> new IllegalArgumentException("Project Not Found"));
+        final Project project = projectRepository.findByCode(request.getCode());
+
+        if (project == null) {
+            throw new IllegalArgumentException("Project Not Found");
+        }
+
+//        final Project project = projectRepository.findById(request.getProjectId())
+//                .orElseThrow(() -> new IllegalArgumentException("Project Not Found"));
 
 
         //코드 틀린 경우
@@ -39,11 +45,11 @@ public class EnrollmentService {
             return null;
         }
 
-        log.info("프로젝트명: " + request.getProjectId());
-        log.info("사용자명: " + request.getUserId());
+//        log.info("프로젝트명: " + request.getProjectId());
+//        log.info("사용자명: " + request.getUserId());
 
 
-        final Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId(request.getUserId(), request.getProjectId());
+        final Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId(request.getUserId(), project.getId());
 
         if (enrollment != null) {
             throw new IllegalArgumentException("Already Joined User");

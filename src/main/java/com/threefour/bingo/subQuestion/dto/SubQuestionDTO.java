@@ -28,7 +28,7 @@ public class SubQuestionDTO {
         this.subQuestion = subQuestion.getSubQuestion();
         if (subQuestion.getAnswerList() != null) {
             this.answerResponses = subQuestion.getAnswerList().stream()
-                    .map(answer -> new AnswerResponse(answer.getId(), answer.getAns()))
+                    .map(answer -> new AnswerResponse(answer))
                     .collect(Collectors.toList());
         } else {
             this.answerResponses = new ArrayList<>();
@@ -41,6 +41,3 @@ public class SubQuestionDTO {
                 .build();
     }
 }
-
-
-

@@ -20,7 +20,7 @@ public class AnswerService {
         List<Answer> answerList = answerRepository.findBySubQuestionId(subQId);
 
         List<AnswerResponse> answerResponseList = answerList.stream()
-                .map(answer -> new AnswerResponse(answer.getId(), answer.getAns()))
+                .map(answer -> new AnswerResponse(answer))
                 .collect(Collectors.toList());
 
         return answerResponseList;

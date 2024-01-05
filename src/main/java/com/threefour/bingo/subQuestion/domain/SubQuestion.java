@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -29,8 +31,8 @@ public class SubQuestion {
     @JoinColumn(name = "appUser_id")
     private AppUser appUser;
 
-    @OneToOne(mappedBy = "subQuestion", cascade = CascadeType.ALL)
-    private Answer answer;
+    @OneToMany(mappedBy = "subQuestion", cascade = CascadeType.ALL)
+    private List<Answer> answerList;
 
     @Builder
     public SubQuestion(String subQuestion, Question question) {

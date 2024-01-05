@@ -19,18 +19,29 @@ public class AnswerService {
     public List<AnswerResponse> getAllAnswers(Long subQId) {
         List<Answer> answerList = answerRepository.findBySubQuestionId(subQId);
 
-        List<AnswerResponse> answerResponseList = new ArrayList<>();
-
-        for (int i = 0; i < answerList.size(); i++) {
-            List<AnswerResponse> answerResponses = answerList.stream()
-                    .map(answer -> new AnswerResponse(answer.getId(), answer.getAns())) // Assuming AnswerDTO has a constructor that takes an Answer as a parameter
-                    .collect(Collectors.toList());
-
-            answerResponseList.addAll(answerResponses);
-
-        }
+        List<AnswerResponse> answerResponseList = answerList.stream()
+                .map(answer -> new AnswerResponse(answer.getId(), answer.getAns()))
+                .collect(Collectors.toList());
 
         return answerResponseList;
-
     }
+
+
+//    public List<AnswerResponse> getAllAnswers(Long subQId) {
+//        List<Answer> answerList = answerRepository.findBySubQuestionId(subQId);
+//
+//        List<AnswerResponse> answerResponseList = new ArrayList<>();
+//
+//        for (int i = 0; i < answerList.size(); i++) {
+//            List<AnswerResponse> answerResponses = answerList.stream()
+//                    .map(answer -> new AnswerResponse(answer.getId(), answer.getAns())) // Assuming AnswerDTO has a constructor that takes an Answer as a parameter
+//                    .collect(Collectors.toList());
+//
+//            answerResponseList.addAll(answerResponses);
+//
+//        }
+//
+//        return answerResponseList;
+//
+//    }
 }

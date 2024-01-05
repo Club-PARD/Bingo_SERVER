@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -17,13 +21,17 @@ public class SubQuestionDTO {
 
     private String subQuestion;
 
-    private AnswerResponse answerResponse;
+    private List<AnswerResponse> answerResponses;
 
     public SubQuestionDTO(SubQuestion subQuestion) {
         this.id = subQuestion.getId();
         this.subQuestion = subQuestion.getSubQuestion();
-        if (subQuestion.getAnswer() != null) {
-            this.answerResponse = new AnswerResponse(subQuestion.getAnswer().getId(), subQuestion.getAnswer().getAns());
+        if (subQuestion.getAnswerList() != null) {
+            this.answerResponses = subQuestion.getAnswerList().stream()
+                    .map(answer -> new AnswerResponse(answer.getId(), answer.getAns()))
+                    .collect(Collectors.toList());
+        } else {
+            this.answerResponses = new ArrayList<>();
         }
     }
 
@@ -33,5 +41,6 @@ public class SubQuestionDTO {
                 .build();
     }
 }
+
 
 

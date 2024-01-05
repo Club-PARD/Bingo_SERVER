@@ -15,10 +15,14 @@ public class AnswerResponse {
 
     private String ams;
 
-    private AppUserInfoResponse appUserInfoResponse;
+    private String writer;
+
+//    private AppUserInfoResponse appUserInfoResponse;
 
     public AnswerResponse(Answer answer) {
         this.id = answer.getId();
         this.ams = answer.getAns();
+        this.writer = answer.getAppUser().getName();
     }
+
 }

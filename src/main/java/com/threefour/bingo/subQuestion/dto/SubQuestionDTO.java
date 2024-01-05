@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Getter
 @Setter
+@Slf4j
 public class SubQuestionDTO {
 
     private Long id;
@@ -30,7 +32,7 @@ public class SubQuestionDTO {
             this.answerResponses = subQuestion.getAnswerList().stream()
                     .map(answer -> new AnswerResponse(answer))
                     .collect(Collectors.toList());
-        } else {
+         } else {
             this.answerResponses = new ArrayList<>();
         }
     }

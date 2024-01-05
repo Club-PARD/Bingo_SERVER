@@ -92,7 +92,6 @@ public class ProjectService {
 
         for (Enrollment enrollment : enrollmentList) {
             boolean check = false;
-//            String picture = null;
             String picture = enrollment.getProject().getPicture();
             ProjectAllResponse projectAllResponse = new ProjectAllResponse();
 
@@ -104,7 +103,6 @@ public class ProjectService {
             if (picture != null) {
                 for (int i = 0; i < pictures.size(); i++) {
                     if (pictures.get(i).contains(picture)) {
-//                        log.info("여깁니다 여기에요");
                         ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, pictures.get(i), role);
                         projectAllResponse = temp;
                         check = true;
@@ -132,6 +130,8 @@ public class ProjectService {
         final Enrollment enrollment = enrollmentRepository.findByAppUserIdAndProjectId
                 (userId, projectId);
 
+        final List<TagDTO> tagDTOList = tagService.getTagList(projectId, null);
+
         if (enrollment == null) { //검색한 프로젝트가 없는 경우
             return null;
         }
@@ -141,9 +141,9 @@ public class ProjectService {
         Role role = enrollment.getRole();
 
         List<Tag> tagList = tagRepository.findByProjectId(projectId);
-        List<TagDTO> tagDTOList = tagList.stream()
-                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
-                .collect(Collectors.toList());
+//        List<TagDTO> tagDTOList = tagList.stream()
+//                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
+//                .collect(Collectors.toList());
 
 
         final ProjectOneResponse response = new ProjectOneResponse(projectId, name, description, role, tagDTOList);

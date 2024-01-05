@@ -66,10 +66,10 @@ public class SubQuestionService {
         }
 
         List<SubQuestionInfoResponse> subQuestionDTOList = subQuestionList.stream()
-                .filter(Objects::nonNull) // null이 아닌 요소만 선택
-                .filter(subQuestion -> !subQuestion.toString().trim().isEmpty()) // 빈 문자열이 아닌 요소만 선택
+                .filter(subQuestion -> subQuestion.getSubQuestion() != null && !subQuestion.getSubQuestion().isEmpty())
                 .map(SubQuestionInfoResponse::new)
                 .collect(Collectors.toList());
+
 
         return subQuestionDTOList;
     }

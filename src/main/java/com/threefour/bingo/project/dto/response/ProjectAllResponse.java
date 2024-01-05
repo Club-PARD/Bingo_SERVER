@@ -19,6 +19,8 @@ public class ProjectAllResponse {
 
     private Role role;
 
+    private String code;
+
 
     public ProjectAllResponse(Long id, String name, String description) {
         this.id = id;

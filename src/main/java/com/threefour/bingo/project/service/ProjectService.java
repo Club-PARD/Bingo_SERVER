@@ -99,11 +99,12 @@ public class ProjectService {
             String name = enrollment.getProject().getName();
             String description = enrollment.getProject().getDescription();
             Role role = enrollment.getRole();
+            String code = enrollment.getProject().getCode();
 
             if (picture != null) {
                 for (int i = 0; i < pictures.size(); i++) {
                     if (pictures.get(i).contains(picture)) {
-                        ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, pictures.get(i), role);
+                        ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, pictures.get(i), role, code);
                         projectAllResponse = temp;
                         check = true;
                         break;
@@ -112,7 +113,7 @@ public class ProjectService {
             }
 
             if (!check) {
-                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role);
+                ProjectAllResponse temp = new ProjectAllResponse(projectId, name, description, null, role, code);
                 projectAllResponse = temp;
             }
 

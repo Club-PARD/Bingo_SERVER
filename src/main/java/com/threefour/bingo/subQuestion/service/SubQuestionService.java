@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,6 +66,8 @@ public class SubQuestionService {
         }
 
         List<SubQuestionInfoResponse> subQuestionDTOList = subQuestionList.stream()
+                .filter(Objects::nonNull) // null이 아닌 요소만 선택
+                .filter(subQuestion -> !subQuestion.toString().trim().isEmpty()) // 빈 문자열이 아닌 요소만 선택
                 .map(SubQuestionInfoResponse::new)
                 .collect(Collectors.toList());
 

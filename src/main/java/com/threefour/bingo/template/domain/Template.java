@@ -38,8 +38,8 @@ public class Template {
     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
     private List<Question> questionList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "template", cascade = CascadeType.ALL)
-    private Retrospect retrospect;
+    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
+    private List<Retrospect> retrospect;
 
     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
     private List<Tag> tagList = new ArrayList<>();

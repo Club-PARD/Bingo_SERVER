@@ -78,6 +78,7 @@ public class TagService {
     }
 
     public List<TagDTO> getTagList(Long projectId, Long templateId) {
+
         List<Tag> tagList = tagRepository.findByProjectIdAndTemplateId(projectId, templateId);
 
         List<TagDTO> tagDTOList = tagList.stream()

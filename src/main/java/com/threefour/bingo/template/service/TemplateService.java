@@ -8,6 +8,7 @@ import com.threefour.bingo.enrollment.domain.EnrollmentRepository;
 import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.dto.QuestionDTO;
 import com.threefour.bingo.question.dto.request.QuestionRequest;
+import com.threefour.bingo.question.dto.response.QuestionResponse;
 import com.threefour.bingo.question.service.QuestionService;
 import com.threefour.bingo.retrospect.domain.Retrospect;
 import com.threefour.bingo.retrospect.domain.RetrospectRepository;
@@ -23,6 +24,7 @@ import com.threefour.bingo.template.dto.request.TemplatePostRequest;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
 import com.threefour.bingo.template.dto.response.TemplateAllResponse;
+import com.threefour.bingo.template.dto.response.TemplateDTOResponse;
 import com.threefour.bingo.template.dto.response.TemplateOneResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -80,7 +82,7 @@ public class TemplateService {
 
         templateRepository.save(newTemplate);
 
-        final List<QuestionDTO> questionDTOList = questionService.getAllQuestion(newTemplate.getId());
+        final List<QuestionResponse> questionDTOList = questionService.getAllQuestionResponse(newTemplate.getId());
 
         TagListTemplateRequest tagListTemplateRequest = new TagListTemplateRequest(request.getProjectId(), newTemplate.getId(), request.getTagList());
         List<Tag> tagList = tagService.createTemplateBingo(tagListTemplateRequest);
@@ -124,7 +126,7 @@ public class TemplateService {
         }
 
         final List<TemplateAllResponse> templateAllResponseList = templateList.stream().map(template -> {
-            List<QuestionDTO> questionDTOList = questionService.getAllQuestion(template.getId());
+            List<QuestionResponse> questionDTOList = questionService.getAllQuestionResponse(template.getId());
 
             return new TemplateAllResponse(template.getId(), template.getName(), isWritedList, template.getTemplateType(), questionDTOList);
         }).collect(Collectors.toList());
@@ -142,7 +144,7 @@ public class TemplateService {
             return null;
         }
 
-        final List<QuestionDTO> questionDTOList = questionService.getAllQuestion(template.getId());
+        final List<QuestionResponse> questionDTOList = questionService.getAllQuestionResponse(template.getId());
 
         List<Tag> tagList = tagRepository.findByProjectIdAndTemplateId(projectId, templateId);
         List<TagDTO> tagDTOList = tagList.stream()
@@ -150,6 +152,28 @@ public class TemplateService {
                 .collect(Collectors.toList());
 
         final TemplateOneResponse response = new TemplateOneResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList, tagDTOList);
+
+        return response;
+
+    }
+
+    @Transactional
+    public TemplateDTOResponse getTemplateDTO(Long projectId, Long templateId) {
+
+        final Template template = templateRepository.findByProjectIdAndId(projectId, templateId);
+
+        if (template == null) {
+            return null;
+        }
+
+        final List<QuestionDTO> questionDTOList = questionService.getAllQuestionDTO(template.getId());
+
+        List<Tag> tagList = tagRepository.findByProjectIdAndTemplateId(projectId, templateId);
+        List<TagDTO> tagDTOList = tagList.stream()
+                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getCount()))
+                .collect(Collectors.toList());
+
+        final TemplateDTOResponse response = new TemplateDTOResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList, tagDTOList);
 
         return response;
 

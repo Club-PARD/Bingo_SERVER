@@ -11,19 +11,18 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class TemplateAllResponse {
+@AllArgsConstructor
+public class TemplateDTOResponse {
 
     private Long id;
 
     private String name;
 
-    private List<Integer> isWritedList;
-
     private TemplateType templateType;
 
-    private List<QuestionResponse> questionList;
+    private List<QuestionDTO> questionList;
 
+    private List<TagDTO> tagList;
 
 }

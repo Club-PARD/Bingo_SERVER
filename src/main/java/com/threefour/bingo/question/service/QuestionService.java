@@ -9,6 +9,7 @@ import com.threefour.bingo.question.dto.request.QuestionRequest;
 import com.threefour.bingo.question.dto.response.QuestionResponse;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import com.threefour.bingo.subQuestion.dto.SubQuestionDTO;
+import com.threefour.bingo.subQuestion.dto.response.SubQuestionInfoResponse;
 import com.threefour.bingo.subQuestion.dto.response.SubQuestionResponse;
 import com.threefour.bingo.subQuestion.service.SubQuestionService;
 import com.threefour.bingo.template.domain.Template;
@@ -62,7 +63,7 @@ public class QuestionService {
         return questionList;
     }
 
-    public List<QuestionDTO> getAllQuestion(Long templateId) {
+    public List<QuestionDTO> getAllQuestionDTO(Long templateId) {
         List<Question> questionList = questionRepository.findByTemplateId(templateId);
 
         if (questionList == null || questionList.isEmpty()) {
@@ -71,11 +72,30 @@ public class QuestionService {
 
         List<QuestionDTO> questionDTOList =
                 questionList.stream().map(question -> {
-                    List<SubQuestionDTO> subQuestionDTOList = subQuestionService.getAllSubQuestion(question.getId());
+                    List<SubQuestionDTO> subQuestionDTOList = subQuestionService.getAllSubQuestionDTO(question.getId());
 
                     return new QuestionDTO(question.getId(), question.getMainQuestion(), subQuestionDTOList);
                 }).collect(Collectors.toList());
 
         return questionDTOList;
     }
+
+    public List<QuestionResponse> getAllQuestionResponse(Long templateId) {
+
+        List<Question> questionList = questionRepository.findByTemplateId(templateId);
+
+        if (questionList == null || questionList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<QuestionResponse> questionDTOList =
+                questionList.stream().map(question -> {
+                    List<SubQuestionInfoResponse> subQuestionDTOList = subQuestionService.getAllSubQuestionResponse(question.getId());
+
+                    return new QuestionResponse(question.getId(), question.getMainQuestion(), subQuestionDTOList);
+                }).collect(Collectors.toList());
+
+        return questionDTOList;
+    }
+
 }

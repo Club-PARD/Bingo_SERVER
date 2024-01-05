@@ -6,6 +6,7 @@ import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import com.threefour.bingo.subQuestion.domain.SubQuestionRepository;
 import com.threefour.bingo.subQuestion.dto.SubQuestionDTO;
 import com.threefour.bingo.subQuestion.dto.request.SubQuestionRequest;
+import com.threefour.bingo.subQuestion.dto.response.SubQuestionInfoResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class SubQuestionService {
         return newSubQuestions;
     }
 
-    public List<SubQuestionDTO> getAllSubQuestion(Long questionId) {
+    public List<SubQuestionDTO> getAllSubQuestionDTO(Long questionId) {
 
         List<SubQuestion> subQuestionList = subQuestionRepository.findByQuestionId(questionId);
 
@@ -54,4 +55,20 @@ public class SubQuestionService {
 
         return subQuestionDTOList;
     }
+
+    public List<SubQuestionInfoResponse> getAllSubQuestionResponse(Long questionId) {
+
+        List<SubQuestion> subQuestionList = subQuestionRepository.findByQuestionId(questionId);
+
+        if (subQuestionList == null || subQuestionList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<SubQuestionInfoResponse> subQuestionDTOList = subQuestionList.stream()
+                .map(SubQuestionInfoResponse::new)
+                .collect(Collectors.toList());
+
+        return subQuestionDTOList;
+    }
+
 }

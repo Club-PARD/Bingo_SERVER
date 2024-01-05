@@ -29,6 +29,7 @@ import com.threefour.bingo.tag.service.TagService;
 import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.domain.TemplateRepository;
 import com.threefour.bingo.template.dto.TemplateDTO;
+import com.threefour.bingo.template.dto.response.TemplateDTOResponse;
 import com.threefour.bingo.template.dto.response.TemplateOneResponse;
 import com.threefour.bingo.template.service.TemplateService;
 import jakarta.persistence.EntityNotFoundException;
@@ -143,7 +144,7 @@ public class RetrospectService {
         List<SubQuestionDTO> subQuestionDTOList = new ArrayList<>();
 
         for (Question question : questionList) {
-            List<SubQuestionDTO> temp = subQuestionService.getAllSubQuestion(question.getId());
+            List<SubQuestionDTO> temp = subQuestionService.getAllSubQuestionDTO(question.getId());
 
             subQuestionDTOList.addAll(temp);
         }
@@ -185,7 +186,7 @@ public class RetrospectService {
         // Retrospect 조회
         List<Retrospect> retrospectList = retrospectRepository.findByProjectIdAndTemplateId(projectId, templateId);
 
-        TemplateOneResponse template = templateService.getTemplate(projectId, templateId);
+        TemplateDTOResponse template = templateService.getTemplateDTO(projectId, templateId);
 
         List<QuestionDTO> questionDTOList = template.getQuestionList();
 

@@ -1,6 +1,7 @@
 package com.threefour.bingo.template.dto.response;
 
 import com.threefour.bingo.question.dto.QuestionDTO;
+import com.threefour.bingo.question.dto.response.QuestionResponse;
 import com.threefour.bingo.tag.dto.TagDTO;
 import com.threefour.bingo.template.domain.TemplateType;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class TemplateOneResponse {
 
     private TemplateType templateType;
 
-    private List<QuestionDTO> questionList;
+    private List<QuestionResponse> questionList;
 
     private List<TagDTO> tagList;
 

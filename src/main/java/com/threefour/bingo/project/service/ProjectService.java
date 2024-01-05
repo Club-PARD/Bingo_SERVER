@@ -139,6 +139,7 @@ public class ProjectService {
         String name = enrollment.getProject().getName();
         String description = enrollment.getProject().getDescription();
         Role role = enrollment.getRole();
+        String code = enrollment.getProject().getCode();
 
         List<Tag> tagList = tagRepository.findByProjectId(projectId);
 //        List<TagDTO> tagDTOList = tagList.stream()
@@ -146,7 +147,8 @@ public class ProjectService {
 //                .collect(Collectors.toList());
 
 
-        final ProjectOneResponse response = new ProjectOneResponse(projectId, name, description, role, tagDTOList);
+        final ProjectOneResponse response = new ProjectOneResponse(projectId, name, description, role, tagDTOList
+                , code);
 
         return response;
     }

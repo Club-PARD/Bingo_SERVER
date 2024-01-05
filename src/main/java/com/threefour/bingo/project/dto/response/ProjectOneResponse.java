@@ -24,11 +24,14 @@ public class ProjectOneResponse {
 
     private List<TagDTO> tagList;
 
+    private String code;
 
-    public ProjectOneResponse(Long id, String name, String description) {
+
+    public ProjectOneResponse(Long id, String name, String description, String code) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.code = code;
     }
 
 }

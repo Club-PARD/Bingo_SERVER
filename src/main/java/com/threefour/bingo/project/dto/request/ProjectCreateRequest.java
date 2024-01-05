@@ -22,7 +22,7 @@ public class ProjectCreateRequest {
 
     private String code;
 
-    private Long projectId;
+//    private Long projectId;
 
     private List<String> tagList;
 

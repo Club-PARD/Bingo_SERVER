@@ -9,6 +9,8 @@ import com.threefour.bingo.question.domain.Question;
 import com.threefour.bingo.question.dto.QuestionDTO;
 import com.threefour.bingo.question.dto.request.QuestionRequest;
 import com.threefour.bingo.question.service.QuestionService;
+import com.threefour.bingo.retrospect.domain.Retrospect;
+import com.threefour.bingo.retrospect.domain.RetrospectRepository;
 import com.threefour.bingo.tag.domain.Tag;
 import com.threefour.bingo.tag.domain.TagRepository;
 import com.threefour.bingo.tag.dto.TagDTO;
@@ -43,6 +45,7 @@ public class TemplateService {
     private final QuestionService questionService;
     private final TagService tagService;
     private final TagRepository tagRepository;
+    private final RetrospectRepository retrospectRepository;
 
     @Transactional
     public TemplateAllResponse createTemplate(TemplatePostRequest request) {
@@ -84,16 +87,37 @@ public class TemplateService {
         tagRepository.saveAll(tagList);
 
         final TemplateAllResponse response = new TemplateAllResponse(newTemplate.getId(), newTemplate.getName(),
-                newTemplate.getTemplateType(), questionDTOList);
+                null, newTemplate.getTemplateType(), questionDTOList);
 
         return response;
 
     }
 
     @Transactional
-    public List<TemplateAllResponse> getAllTemplates(Long projectId) {
+    public List<TemplateAllResponse> getAllTemplates(Long appUserId, Long projectId) {
+        log.info("실행은 됨?");
 
-        final List<Template> templateList = templateRepository.findByProjectId(projectId);
+        List<Template> templateList = templateRepository.findByProjectId(projectId);
+
+        List<Integer> isWritedList = new ArrayList<>();
+
+//        List<Retrospect> retrospectListByUser = retrospectRepository.findByProjectIdAndTemplateId(appUserId, projectId);
+
+        for (int i = 0; i < templateList.size(); i++) {
+
+            Retrospect retrospect = retrospectRepository.findByAppUserIdAndProjectIdAndTemplateId(appUserId, projectId, templateList.get(i).getId());
+
+            if (retrospect == null) {
+                isWritedList.add(1);
+            }
+
+            if (retrospect != null) {
+                isWritedList.add(2);
+            }
+
+        }
+
+//        final List<Template> templateList = templateRepository.findByProjectId(projectId);
 
         if (templateList == null || templateList.isEmpty()) {
             return null;
@@ -102,7 +126,7 @@ public class TemplateService {
         final List<TemplateAllResponse> templateAllResponseList = templateList.stream().map(template -> {
             List<QuestionDTO> questionDTOList = questionService.getAllQuestion(template.getId());
 
-            return new TemplateAllResponse(template.getId(), template.getName(), template.getTemplateType(), questionDTOList);
+            return new TemplateAllResponse(template.getId(), template.getName(), isWritedList, template.getTemplateType(), questionDTOList);
         }).collect(Collectors.toList());
 
         return templateAllResponseList;

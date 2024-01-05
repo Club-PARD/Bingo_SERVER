@@ -181,6 +181,7 @@ public class RetrospectService {
     }
 
     public RetrospectGetResponse getRetrospect(Long projectId, Long templateId) {
+
         // Retrospect 조회
         List<Retrospect> retrospectList = retrospectRepository.findByProjectIdAndTemplateId(projectId, templateId);
 
@@ -196,5 +197,34 @@ public class RetrospectService {
 
         return response;
     }
+
+//    public RetrospectGetResponse getAllRetrospects(Long appUserId, Long projectId) {
+//
+//        List<Template> templateList = templateRepository.findByProjectId(projectId);
+//
+//        List<Retrospect> retrospectListByUser = retrospectRepository.findByProjectIdAndTemplateId(appUserId, projectId);
+//
+//        for (int i = 0; i < templateList.size(); i++) {
+//            Retrospect retrospect = retrospectRepository.findByAppUserIdAndProjectIdAAndTemplateId(appUserId, projectId, templateList.get(i).getId());
+//
+//            if (retrospect != null) {
+//
+//            }
+//
+//        }
+//
+////        TemplateOneResponse template = templateService.getTemplate(projectId, templateId);
+////
+////        List<QuestionDTO> questionDTOList = template.getQuestionList();
+////
+////        TemplateDTO templateDTO = new TemplateDTO(template.getId(), template.getName(), questionDTOList);
+////        List<Tag> tagList = tagRepository.findByProjectIdAndTemplateId(projectId, templateId);
+////        List<TagDTO> tagDTOList = tagService.getTagList(projectId, templateId);
+//
+//        RetrospectGetResponse response = new RetrospectGetResponse(tagDTOList, templateDTO);
+//
+//        return response;
+//
+//    }
 
 }

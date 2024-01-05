@@ -18,6 +18,8 @@ public class TemplateAllResponse {
 
     private String name;
 
+    private List<Integer> isWritedList;
+
     private TemplateType templateType;
 
     private List<QuestionDTO> questionList;

@@ -7,8 +7,13 @@ import java.util.List;
 
 public interface RetrospectRepository extends JpaRepository<Retrospect, Long> {
 
-//    @EntityGraph(attributePaths = {"questions", "questions.subQuestions", "questions.subQuestions.answers"})
     List<Retrospect> findByProjectIdAndTemplateId(Long projectId, Long templateId);
-//    List<Retrospect> findByProjectIdAndTemplateId(Long projectId, Long templateId);
+
+
+    List<Retrospect> findByProjectId(Long projectId);
+
+    List<Retrospect> findByAppUserIdAndProjectId(Long appUserId, Long projectId);
+
+    Retrospect findByAppUserIdAndProjectIdAndTemplateId(Long appUserId, Long projectId, Long templateId);
 
 }

@@ -28,10 +28,10 @@ public class TemplateController {
 
     }
 
-    @GetMapping("/project/{projectId}")
-    public ResponseEntity<List<TemplateAllResponse>> getAllTemplates(@RequestHeader(value = "Authorization") final String token, @PathVariable Long projectId) {
+    @GetMapping("/user/{userId}/project/{projectId}")
+    public ResponseEntity<List<TemplateAllResponse>> getAllTemplates(@RequestHeader(value = "Authorization") final String token, @PathVariable final Long userId, @PathVariable final Long projectId) {
 
-        final List<TemplateAllResponse> responses = templateService.getAllTemplates(projectId);
+        final List<TemplateAllResponse> responses = templateService.getAllTemplates(userId, projectId);
 
         return ResponseEntity.ok()
                 .body(responses);

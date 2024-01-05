@@ -30,8 +30,9 @@ public class EnrollmentService {
         final AppUser appUser = appUserRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 
+        log.info("설마");
         final Project project = projectRepository.findByCode(request.getCode());
-
+        log.info("여기?");
         if (project == null) {
             throw new IllegalArgumentException("Project Not Found");
         }

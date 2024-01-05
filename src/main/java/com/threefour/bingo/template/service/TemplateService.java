@@ -32,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,6 +119,8 @@ public class TemplateService {
             }
 
         }
+
+        Collections.reverse(isWritedList);
 
 //        final List<Template> templateList = templateRepository.findByProjectId(projectId);
 

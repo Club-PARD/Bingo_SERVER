@@ -14,13 +14,14 @@ public class CORSConfig {
 
             @Override
             public void addCorsMappings(CorsRegistry corsRegistry) {
-
-                //for develop
+                // for development
                 corsRegistry
                         .addMapping("/**")
+                        .allowedOrigins("https://bingo-1c642.web.app")
                         .allowedOriginPatterns("*")
-                        .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTION");
+                        .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS");
             }
         };
     }
 }
+

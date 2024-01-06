@@ -9,6 +9,7 @@ import com.threefour.bingo.subQuestion.dto.request.SubQuestionRequest;
 import com.threefour.bingo.subQuestion.dto.response.SubQuestionInfoResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SubQuestionService {
 
     private final SubQuestionRepository subQuestionRepository;
@@ -35,8 +37,11 @@ public class SubQuestionService {
 
         for (int i = 0; i < questionList.size(); i++) {
             SubQuestion newSubQuestion = new SubQuestion(questionList.get(i), question);
-            subQuestionRepository.save(newSubQuestion);
-            newSubQuestions.add(newSubQuestion);
+
+            if (newSubQuestion.getSubQuestion() != null && !newSubQuestion.getSubQuestion().isEmpty()) {
+                subQuestionRepository.save(newSubQuestion);
+                newSubQuestions.add(newSubQuestion);
+            }
         }
 
         return newSubQuestions;
@@ -65,17 +70,20 @@ public class SubQuestionService {
             return new ArrayList<>();
         }
 
-//        List<SubQuestionInfoResponse> subQuestionInfoResponseList = new ArrayList<>();
-//
+        List<SubQuestionInfoResponse> subQuestionInfoResponseList = new ArrayList<>();
+
 //        for (int i = 0; i < subQuestionList.size(); i++) {
-//            if (!subQuestionList.get(i).getSubQuestion().isEmpty() || subQuestionList.get(i).getSubQuestion() != null) {
+//            if (subQuestionList.get(i).getSubQuestion() != null && !subQuestionList.get(i).getSubQuestion().isEmpty()) {
+//                log.info("들어온 질문이 옳음: {}", subQuestionList.get(i).getQuestion());
 //                SubQuestionInfoResponse response = new SubQuestionInfoResponse(
 //                        subQuestionList.get(i).getId(), subQuestionList.get(i).getSubQuestion()
 //                );
-//
 //                subQuestionInfoResponseList.add(response);
+//            } else {
+//                log.info("들어온 질문이 옳지 않음: {}", subQuestionList.get(i).getQuestion());
 //            }
 //        }
+
 
         List<SubQuestionInfoResponse> subQuestionDTOList = subQuestionList.stream()
                 .filter(subQuestion -> subQuestion.getSubQuestion() != null && !subQuestion.getSubQuestion().isEmpty())
@@ -83,7 +91,7 @@ public class SubQuestionService {
                 .collect(Collectors.toList());
 
 
-        return subQuestionDTOList;
+        return subQuestionInfoResponseList;
     }
 
 }

@@ -65,13 +65,25 @@ public class SubQuestionService {
             return new ArrayList<>();
         }
 
-        List<SubQuestionInfoResponse> subQuestionDTOList = subQuestionList.stream()
-                .filter(subQuestion -> subQuestion.getSubQuestion() == null || !subQuestion.getSubQuestion().isEmpty())
-                .map(SubQuestionInfoResponse::new)
-                .collect(Collectors.toList());
+        List<SubQuestionInfoResponse> subQuestionInfoResponseList = new ArrayList<>();
+
+        for (int i = 0; i < subQuestionList.size(); i++) {
+            if (!subQuestionList.get(i).getSubQuestion().isEmpty() || subQuestionList.get(i).getSubQuestion() != null) {
+                SubQuestionInfoResponse response = new SubQuestionInfoResponse(
+                        subQuestionList.get(i).getId(), subQuestionList.get(i).getSubQuestion()
+                );
+
+                subQuestionInfoResponseList.add(response);
+            }
+        }
+
+//        List<SubQuestionInfoResponse> subQuestionDTOList = subQuestionList.stream()
+//                .filter(subQuestion -> subQuestion.getSubQuestion() == null || !subQuestion.getSubQuestion().isEmpty())
+//                .map(SubQuestionInfoResponse::new)
+//                .collect(Collectors.toList());
 
 
-        return subQuestionDTOList;
+        return subQuestionInfoResponseList;
     }
 
 }

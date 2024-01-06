@@ -19,7 +19,9 @@ public class CORSConfig {
                         .addMapping("/**")
                         .allowedOrigins("https://bingo-1c642.web.app")
                         .allowedOriginPatterns("*")
-                        .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS");
+                        .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS")
+                        .allowCredentials(true)
+                        .maxAge(3600);
             }
         };
     }

@@ -32,7 +32,7 @@ public class WebSecurityConfig {
         // 기본 HTTP 인증을 비활성화
         httpSecurity.httpBasic(httpBasic -> httpBasic.disable());
 
-//        // 요청 URL에 따른 접근 권한 설정: "/swagger-ui/index.html", "/signUp", "/signIn" 경로로 들어오는 요청은 허용하고, 그 외의 요청은 인증을 필요로 함
+//        // 요청 URL에 따른 접근 권한 설정: "/swagger-ui/index.html", "/signUp", "/signIn" 경로로 들어오는 요청은 허용, 그 외의 요청은 인증을 필요로 함
         httpSecurity.authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/api/v1/auth/*")

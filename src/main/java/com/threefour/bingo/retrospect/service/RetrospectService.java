@@ -3,10 +3,9 @@ package com.threefour.bingo.retrospect.service;
 import com.threefour.bingo.answer.domain.Answer;
 import com.threefour.bingo.answer.domain.AnswerRepository;
 import com.threefour.bingo.answer.dto.AnswerDTO;
-import com.threefour.bingo.answer.service.AnswerService;
 import com.threefour.bingo.appUser.domain.AppUser;
 import com.threefour.bingo.appUser.domain.AppUserRepository;
-import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
+import com.threefour.bingo.appUser.dto.response.AppUserResponse;
 import com.threefour.bingo.appUser.service.AppUserService;
 import com.threefour.bingo.project.domain.Project;
 import com.threefour.bingo.project.domain.ProjectRepository;
@@ -30,7 +29,6 @@ import com.threefour.bingo.template.domain.Template;
 import com.threefour.bingo.template.domain.TemplateRepository;
 import com.threefour.bingo.template.dto.TemplateDTO;
 import com.threefour.bingo.template.dto.response.TemplateDTOResponse;
-import com.threefour.bingo.template.dto.response.TemplateOneResponse;
 import com.threefour.bingo.template.service.TemplateService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -93,9 +91,9 @@ public class RetrospectService {
 //        List<TagDTO> tagDTOS = teamEvaluation(retrospect.getId(), request.getTemplateId());
         List<TagDTO> tagDTOS = teamEvaluation(request.getTagList(), request.getProjectId(), request.getTemplateId());
 
-        AppUserInfoResponse appUserInfoResponse = appUserService.getUserInfo(request.getAppUserId());
+        AppUserResponse appUserResponse = appUserService.getUserInfo(request.getAppUserId());
 
-        RetrospectPostResponse response = new RetrospectPostResponse(appUserInfoResponse, answerList, tagDTOS);
+        RetrospectPostResponse response = new RetrospectPostResponse(appUserResponse, answerList, tagDTOS);
 
         return response;
     }

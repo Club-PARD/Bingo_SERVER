@@ -1,7 +1,6 @@
 package com.threefour.bingo.auth.dto.response;
 
-import com.threefour.bingo.appUser.domain.AppUser;
-import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
+import com.threefour.bingo.appUser.dto.response.AppUserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignInResponse {
 
-    private Integer exprTime;
+    private AppUserResponse appUser;
 
-    private AppUserInfoResponse appUser;
+    private Integer isSigned;
 
     private String token;
 
-    private Integer isSigned;
+    private Integer exprTime;
 }

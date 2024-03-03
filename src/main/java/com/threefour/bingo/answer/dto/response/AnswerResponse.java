@@ -2,7 +2,6 @@ package com.threefour.bingo.answer.dto.response;
 
 import com.threefour.bingo.answer.domain.Answer;
 import com.threefour.bingo.appUser.dto.response.AppUserAnsResponse;
-import com.threefour.bingo.appUser.dto.response.AppUserInfoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

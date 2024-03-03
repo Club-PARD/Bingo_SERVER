@@ -1,6 +1,7 @@
 package com.threefour.bingo.appUser.domain;
 
 import com.threefour.bingo.answer.domain.Answer;
+import com.threefour.bingo.configuration.BaseEntity;
 import com.threefour.bingo.enrollment.domain.Enrollment;
 import com.threefour.bingo.subQuestion.domain.SubQuestion;
 import jakarta.persistence.*;
@@ -13,7 +14,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppUser {
+@Table(name = "app_user")
+public class AppUser extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,24 +42,16 @@ public class AppUser {
 
     @Builder
     public AppUser(String name, String email, String token) {
-
         this.name = name;
-
         this.email = email;
-
         this.token = token;
     }
 
     public AppUser(Long id, String name, String email, String picture, String token) {
-
         this.id = id;
-
         this.name = name;
-
         this.email = email;
-
         this.picture = picture;
-
         this.token = token;
     }
 

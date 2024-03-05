@@ -5,6 +5,8 @@ import com.threefour.bingo.appUser.domain.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AppUserSubService {
@@ -18,9 +20,8 @@ public class AppUserSubService {
     }
 
     // 사용자 이메일로 레포지토리에서 사용자를 찾아 반환
-    public AppUser findAppUserByEmail(String email) {
-        return appUserRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
+    public Optional<AppUser> findAppUserByEmail(String email) {
+        return appUserRepository.findByEmail(email);
     }
 
     // 사용자 이메일 인증여부 확인

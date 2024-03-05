@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProjectCreateRequest {
 
     private Long userId;
@@ -21,8 +21,6 @@ public class ProjectCreateRequest {
     private String picture;
 
     private String code;
-
-//    private Long projectId;
 
     private List<String> tagList;
 

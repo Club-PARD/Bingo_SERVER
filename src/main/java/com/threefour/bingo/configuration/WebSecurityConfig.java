@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -14,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
     public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
@@ -27,16 +28,16 @@ public class WebSecurityConfig {
         httpSecurity.cors(Customizer.withDefaults());
 
         // CSRF 보호 기능을 비활성화
-        httpSecurity.csrf(csrf -> csrf.disable());
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
         // 기본 HTTP 인증을 비활성화
-        httpSecurity.httpBasic(httpBasic -> httpBasic.disable());
+        httpSecurity.httpBasic(AbstractHttpConfigurer::disable);
 
 //        // 요청 URL에 따른 접근 권한 설정: "/swagger-ui/index.html", "/signUp", "/signIn" 경로로 들어오는 요청은 허용, 그 외의 요청은 인증을 필요로 함
         httpSecurity.authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
-                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/api/v1/auth/*")
-//                                .requestMatchers("/**")
+//                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/api/v1/auth/*")
+                                .requestMatchers("/**")
                                 .permitAll()
 //                        .requestMatchers("/*")
 //                        .permitAll()

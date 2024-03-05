@@ -1,5 +1,6 @@
 package com.threefour.bingo.project.domain;
 
+import com.threefour.bingo.configuration.BaseEntity;
 import com.threefour.bingo.tag.domain.Tag;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +11,8 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Project {
+@Table(name = "project")
+public class Project extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

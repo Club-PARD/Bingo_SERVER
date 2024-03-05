@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -31,18 +33,19 @@ public class AuthService {
 
         int isSigned = 2;
 
-        AppUser appUser = appUserSubService.findAppUserByEmail(request.getEmail());
+        Optional<AppUser> appUser = appUserSubService.findAppUserByEmail(request.getEmail());
         String token = tokenProvider.create(request.getEmail());
         int exprTime = 1000 * 3600 * 3;
 
-        if (appUser == null) {
+        if (appUser.isEmpty()) {
             isSigned = 1;
-            appUser = new AppUser(request.getName(), request.getEmail(), request.getPicture(), token);
+            AppUser newUser = new AppUser(request.getName(), request.getEmail(), request.getPicture(), token);
+            appUser = Optional.of(newUser);
         }
-        appUser.update(token);
-        appUserRepository.save(appUser);
+        appUser.get().update(token);
+        appUserRepository.save(appUser.get());
 
-        AppUserResponse appUserResponse = new AppUserResponse(appUser);
+        AppUserResponse appUserResponse = new AppUserResponse(appUser.get());
 
         return new SignInResponse(appUserResponse, isSigned, token, exprTime);
     }
